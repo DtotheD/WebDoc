@@ -16,6 +16,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.CL_Symptom;
+import controller.BeanFactory;
+import controller.CL_Symptom_Bean;
+import controller.IN_Symptom_Bean;
+import java.util.ArrayList;
+import java.util.List;
+import javax.ejb.EJB;
 
 /**
  *
@@ -37,51 +43,53 @@ public class CL_Controller_Servlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
-        String inhalt = "";
-        HttpSession session = request.getSession(true);
-        request.setAttribute("message","es läuft noch alles!");
         
+        String inhalt = "";
+        // Session auslesen
+        HttpSession session = request.getSession(true);
+        //Aktuelle Meldung setuen
+        session.setAttribute("message", "es läuft noch alles!");
+        
+        //Liste aller Symptome in die Session setzen, falls diese noch nicht dort gespeicehrt ist
+        List<CL_Symptom> lo_symptome = (List<CL_Symptom>) session.getAttribute("context_alle_symptome");
+        if (lo_symptome == null || lo_symptome.size() < 1){
+            IN_Symptom_Bean lo_symptom_bean = BeanFactory.sm_getSymptomBean();
+            session.setAttribute("context_alle_symptome", lo_symptom_bean.im_getAllSymptoms());  
+        } 
+        
+        //Patientenobjekt erstellen, falls dieses noch nicht vorhanden ist
         CL_Patient patient = (CL_Patient) session.getAttribute("Patient");
-        if (patient == null){
-            patient = new CL_Patient(100,100,100,1);
-        }     
+        if (patient == null) {
+            patient = new CL_Patient(100, 100, 100, 1);
+        }
         String step = request.getParameter("step");
         String from = request.getParameter("from");
-        
+
         //DTB anlegen
         String action = request.getParameter("action");
-        if (action != null && action.equalsIgnoreCase("create_dtb"))
-            im_create_dtb();
-        
-        if (step == null || step.equalsIgnoreCase("pers_data")){
+        if (action != null && action.equalsIgnoreCase("create_dtb")) {
+            IN_Symptom_Bean symp_bean = BeanFactory.sm_getSymptomBean();
+            CL_Symptom symp = symp_bean.im_create_Symptom("Symp1");
+            symp = symp_bean.im_create_Symptom("Symp2");
+            symp = symp_bean.im_create_Symptom("Symp3");
+        }
+
+        if (step == null || step.equalsIgnoreCase("pers_data")) {
             inhalt = "Inc_pers_data.jsp";
-        }
-        else if (step.equalsIgnoreCase("krankheiten")){
+        } else if (step.equalsIgnoreCase("krankheiten")) {
             inhalt = "Inc_krankheiten.jsp";
-        }
-        else if (step.equalsIgnoreCase("symptome")){
-            
+        } else if (step.equalsIgnoreCase("symptome")) {
             inhalt = "Inc_symptome.jsp";
-        }
-        else{
+        } else {
             request.setAttribute("message", "fehlerhfate URL-Parameter");
             inhalt = "Inc_pers_data.jsp";
         }
-        
-        request.setAttribute("inhalt",inhalt);
-        
+
+        request.setAttribute("inhalt", inhalt);
+
         RequestDispatcher dispatcher = request.getRequestDispatcher("Head.jsp");
         dispatcher.forward(request, response);
 
-    }
-    
-    protected void im_create_dtb() throws ServletException, IOException {
-        
-        CL_Symptom symptom = CL_Symptom_Bean.im_create_Symptom("Symptom1");
-        symptom = CL_Symptom_Bean.im_create_Symptom("Symptom2");
-        symptom = CL_Symptom_Bean.im_create_Symptom("Symptom3");
-        symptom = CL_Symptom_Bean.im_create_Symptom("Symptom4");
-        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
