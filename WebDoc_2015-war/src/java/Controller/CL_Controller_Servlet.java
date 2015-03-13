@@ -42,21 +42,19 @@ public class CL_Controller_Servlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
-        
-        String inhalt = "";
+
         // Session auslesen
         HttpSession session = request.getSession(true);
         //Aktuelle Meldung setuen
         session.setAttribute("message", "es läuft noch alles!");
-        
+
         //Liste aller Symptome in die Session setzen, falls diese noch nicht dort gespeicehrt ist
         List<CL_Symptom> lo_symptome = (List<CL_Symptom>) session.getAttribute("context_alle_symptome");
-        if (lo_symptome == null || lo_symptome.size() < 1){
+        if (lo_symptome == null || lo_symptome.size() < 1) {
             IN_Symptom_Bean lo_symptom_bean = BeanFactory.sm_getSymptomBean();
-            session.setAttribute("context_alle_symptome", lo_symptom_bean.im_getAllSymptoms());  
-        } 
-        
+            session.setAttribute("context_alle_symptome", lo_symptom_bean.im_getAllSymptoms());
+        }
+
         //Patientenobjekt erstellen, falls dieses noch nicht vorhanden ist
         CL_Patient patient = (CL_Patient) session.getAttribute("Patient");
         if (patient == null) {
@@ -73,7 +71,13 @@ public class CL_Controller_Servlet extends HttpServlet {
             symp = symp_bean.im_create_Symptom("Symp2");
             symp = symp_bean.im_create_Symptom("Symp3");
         }
-
+        else if (action != null && action.equalsIgnoreCase("add_symptom")){
+            //Prüfung
+//            if request.getAttribute("input_symptom");
+            
+        }
+        
+        String inhalt = "";
         if (step == null || step.equalsIgnoreCase("pers_data")) {
             inhalt = "Inc_pers_data.jsp";
         } else if (step.equalsIgnoreCase("krankheiten")) {
