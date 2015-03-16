@@ -32,7 +32,8 @@ public class CL_Patient {
         //falls Eingaben relevant sind, wird bmi_berechnet
             iv_pers_rel = true;
             iv_bmi = sm_berrechne_bmi(pv_groesse, pv_gewicht);
-        }       
+        }
+        io_symptome = new ArrayList<CL_Symptom>();
     }
     
     public String im_neues_symptom(CL_Symptom po_symptom){
