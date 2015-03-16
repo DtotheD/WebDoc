@@ -41,7 +41,10 @@ public class CL_Controller_Servlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
+        // Zeichensatz für Anfragedaten und empfangene Formulardaten festlegen
+        request.setCharacterEncoding("utf-8");
+        response.setContentType("utf-8");
+        response.setContentType("text/html;charset=utf-8");
 
         String inhalt = "";
 
@@ -82,10 +85,13 @@ public class CL_Controller_Servlet extends HttpServlet {
                 // Fügt neues Symptom hinzu und gibt erfolgs oder fehlermeldung zurück
                 session.setAttribute("context_message", patient.im_neues_symptom(lo_neues_Symptom));
             }
+            else
+                session.setAttribute("context_message", "Element ist nicht vorhanden");
+            ArrayList<CL_Symptom> test = patient.getIo_symptome();
             session.setAttribute("context_patient_symptome", patient.getIo_symptome());
+            session.setAttribute("Patient", patient);
 
            inhalt = im_setze_templateinhalt("Inc_symptome.jsp", inhalt);
-
         }
 
         if (step == null || step.equalsIgnoreCase("pers_data")) {
