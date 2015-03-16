@@ -24,7 +24,7 @@
             </a>
         </div>
     <div>
-        <jsp:include page="${inhalt}"></jsp:include>
+        <jsp:include page="${context_inhalt}"></jsp:include>
     </div>
 </body>
 </html>

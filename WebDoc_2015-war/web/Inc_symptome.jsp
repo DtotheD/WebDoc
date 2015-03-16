@@ -35,18 +35,7 @@
         </form>
     </p>
 
-    Hier steht Liste der Symptome</br>
-
-    <!-- Liste der schon im Patienten bestehenden Symptome -->
-
-    <a href="main?step=pers_data">
-        <!-- <img src="img/nav_edit.png" alt=""> -->
-        zurück
-    </a>
-
-    </br>
-
-    <a href="main?step=krankheiten">
+    <a href="main?step=p_step_krankheiten">
         <!-- <img src="img/nav_edit.png" alt=""> -->
         weiter
     </a>

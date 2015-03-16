@@ -5,7 +5,6 @@
  */
 package Controller;
 
-import Classes.CL_Patient;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
@@ -46,7 +45,9 @@ public class CL_Controller_Servlet extends HttpServlet {
         response.setContentType("utf-8");
         response.setContentType("text/html;charset=utf-8");
         
+      //--------------------------------------------------------------------------- 
       //Alle Contextattribute und Parameter auslesen und Voreinstellungen vornehmen
+        
         //Template Auswahl - Wenn diese Variable gesetzt ist wird wurde bereits Aktion durchgeführt
         String inhalt = "";
         //Session auslesen
@@ -61,20 +62,30 @@ public class CL_Controller_Servlet extends HttpServlet {
             session.setAttribute("context_alle_symptome", lo_symptom_bean.im_getAllSymptoms());
         }
 
-        //Patientenobjekt erstellen, falls dieses noch nicht vorhanden ist
-        CL_Patient patient = (CL_Patient) session.getAttribute("Patient");
-        if (patient == null) {
-            patient = new CL_Patient(100, 100, 100, 1);
+        //Patientenobjekt auslesen und erstellen, falls dieses noch nicht vorhanden ist
+        ArrayList<CL_Symptom> lo_patient_symptome = (ArrayList<CL_Symptom>) session.getAttribute("context_patient_symptome");
+        if (lo_patient_symptome == null) {
+            lo_patient_symptome = new ArrayList<CL_Symptom>();
         }
+        
+        //Aktuelles Template auslesen
+        String lv_bisheriger_inhalt = (String) session.getAttribute("context_inhalt");
+        
+        // URL-Parameter auslesen
         String step = request.getParameter("step");
         String from = request.getParameter("from");
-
-        //DTB anlegen
         String action = request.getParameter("action");
+        
+        
+      //--------------------------------------------------------------------------- 
+      //Useractionen bearbeiten
+        
+        //DTB anlegen action = create_dtb
         if (action != null && action.equalsIgnoreCase("create_dtb")) {
             IN_Symptom_Bean symp_bean = BeanFactory.sm_getSymptomBean();
             CL_Symptom symp = symp_bean.im_create_Symptom("Symp1");
             symp = symp_bean.im_create_Symptom("Symp2");
+            symp = symp_bean.im_create_Symptom("Symp3");
             symp = symp_bean.im_create_Symptom("Symp4");
             symp = symp_bean.im_create_Symptom("Symp5");
             symp = symp_bean.im_create_Symptom("Symp6");
@@ -83,37 +94,44 @@ public class CL_Controller_Servlet extends HttpServlet {
             symp = symp_bean.im_create_Symptom("Symp9");
             symp = symp_bean.im_create_Symptom("Symp10");
             symp = symp_bean.im_create_Symptom("Symp11");
-        } else if (action != null && action.equalsIgnoreCase("add_symptom")) {
-            //Prüfung
+            inhalt = lv_bisheriger_inhalt;
+        }
+        
+        //Symptom hinzufügen 
+        else if (action != null && action.equalsIgnoreCase("add_symptom")) {
+            // gewählten Symptomname auslesen
             String lv_gewaehltee_symptom_name = (String) request.getParameter("input_symptom");
-
+            // 
             CL_Symptom lo_neues_Symptom = im_suche_symptom_ueber_name(lv_gewaehltee_symptom_name, (List<CL_Symptom>) session.getAttribute("context_alle_symptome"));
 
             if (lo_neues_Symptom != null) {
-                // Fügt neues Symptom hinzu und gibt erfolgs oder fehlermeldung zurück
-                session.setAttribute("context_message", patient.im_neues_symptom(lo_neues_Symptom));
+                if(!lo_patient_symptome.contains(lo_neues_Symptom)){
+                    if(lo_patient_symptome.size() < 10){
+                        lo_patient_symptome.add(lo_neues_Symptom);
+                        session.setAttribute("context_message", "Symptom hinzugefügt");
+                    }
+                    session.setAttribute("context_message", "Symptom hinzugefügt");
+                }
+                else
+                    session.setAttribute("context_message", "Bereits 10 Symptome ausgewählt");
             }
             else
                 session.setAttribute("context_message", "Element ist nicht vorhanden");
-            ArrayList<CL_Symptom> test = patient.getIo_symptome();
-            session.setAttribute("context_patient_symptome", patient.getIo_symptome());
-            session.setAttribute("Patient", patient);
+            session.setAttribute("context_patient_symptome", lo_patient_symptome);
 
            inhalt = im_setze_templateinhalt("Inc_symptome.jsp", inhalt);
         }
 
-        if (step == null || step.equalsIgnoreCase("pers_data")) {
-           inhalt = im_setze_templateinhalt("Inc_pers_data.jsp", inhalt);
-        } else if (step.equalsIgnoreCase("krankheiten")) {
+        if (step == null || step.equalsIgnoreCase("p_step_symptome")) {
+           inhalt = im_setze_templateinhalt("Inc_symptome.jsp", inhalt);
+        } else if (step.equalsIgnoreCase("p_step_krankheiten")) {
            inhalt = im_setze_templateinhalt("Inc_krankheiten.jsp", inhalt);
-        } else if (step.equalsIgnoreCase("symptome")) {
-           inhalt = im_setze_templateinhalt("Inc_symptome.jsp", inhalt);
         } else if (inhalt.equalsIgnoreCase("")) {
-            request.setAttribute("message", "fehlerhfate URL-Parameter");
-           inhalt = im_setze_templateinhalt("Inc_pers_data.jsp", inhalt);
+           request.setAttribute("message", "fehlerhfate URL-Parameter");
+           inhalt = im_setze_templateinhalt("Inc_symptome.jsp", inhalt);
         }
 
-        request.setAttribute("inhalt", inhalt);
+        session.setAttribute("context_inhalt", inhalt);
 
         RequestDispatcher dispatcher = request.getRequestDispatcher("Head.jsp");
         dispatcher.forward(request, response);

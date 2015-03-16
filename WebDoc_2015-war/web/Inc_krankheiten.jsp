@@ -33,7 +33,7 @@
             </tr>
         </table>
         
-        <a href="main?step=symptome">
+        <a href="main?step=p_step_symptome">
             <!-- <img src="img/nav_edit.png" alt=""> -->
             zurück
         </a>
