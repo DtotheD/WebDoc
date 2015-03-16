@@ -45,15 +45,16 @@ public class CL_Controller_Servlet extends HttpServlet {
         request.setCharacterEncoding("utf-8");
         response.setContentType("utf-8");
         response.setContentType("text/html;charset=utf-8");
-
+        
+      //Alle Contextattribute und Parameter auslesen und Voreinstellungen vornehmen
+        //Template Auswahl - Wenn diese Variable gesetzt ist wird wurde bereits Aktion durchgeführt
         String inhalt = "";
-
-        // Session auslesen
+        //Session auslesen
         HttpSession session = request.getSession(true);
-        //Aktuelle Meldung setuen
+        //Standardmeldung Meldung setzen
         session.setAttribute("context_message", "es läuft noch alles!");
-
-        //Liste aller Symptome in die Session setzen, falls diese noch nicht dort gespeicehrt ist
+        
+        //Liste aller Symptome auslesen, falls diese noch nicht dort gespeicehrt ist
         List<CL_Symptom> lo_symptome = (List<CL_Symptom>) session.getAttribute("context_alle_symptome");
         if (lo_symptome == null || lo_symptome.size() < 1) {
             IN_Symptom_Bean lo_symptom_bean = BeanFactory.sm_getSymptomBean();
@@ -74,7 +75,14 @@ public class CL_Controller_Servlet extends HttpServlet {
             IN_Symptom_Bean symp_bean = BeanFactory.sm_getSymptomBean();
             CL_Symptom symp = symp_bean.im_create_Symptom("Symp1");
             symp = symp_bean.im_create_Symptom("Symp2");
-            symp = symp_bean.im_create_Symptom("Symp3");
+            symp = symp_bean.im_create_Symptom("Symp4");
+            symp = symp_bean.im_create_Symptom("Symp5");
+            symp = symp_bean.im_create_Symptom("Symp6");
+            symp = symp_bean.im_create_Symptom("Symp7");
+            symp = symp_bean.im_create_Symptom("Symp8");
+            symp = symp_bean.im_create_Symptom("Symp9");
+            symp = symp_bean.im_create_Symptom("Symp10");
+            symp = symp_bean.im_create_Symptom("Symp11");
         } else if (action != null && action.equalsIgnoreCase("add_symptom")) {
             //Prüfung
             String lv_gewaehltee_symptom_name = (String) request.getParameter("input_symptom");
