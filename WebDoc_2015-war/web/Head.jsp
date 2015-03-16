@@ -16,15 +16,15 @@
             <h1>This is the template</h1>
         </div>
         This is the error Message </br>
-        ${message}
+        ${context_message}
         <div>
             <a href="main?action=create_dtb">
-            <!-- <img src="img/nav_edit.png" alt=""> -->
-            create DTB
-        </a>
+                <!-- <img src="img/nav_edit.png" alt=""> -->
+                create DTB
+            </a>
         </div>
-        <div>
-            <jsp:include page="${inhalt}"></jsp:include>
-        </div>
-    </body>
+    <div>
+        <jsp:include page="${inhalt}"></jsp:include>
+    </div>
+</body>
 </html>

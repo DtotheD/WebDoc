@@ -9,13 +9,13 @@ import javax.naming.NamingException;
 public class BeanFactory
 {
     /** Aktuelle Session Fassade für die Verwaltung von User-Entities über JNDI. */
-    public static CL_Symptom_Bean sm_getSymptomBean()
+    public static IN_Symptom_Bean sm_getSymptomBean()
     {
-        CL_Symptom_Bean bean = null;
+        IN_Symptom_Bean bean = null;
         try
         {
             InitialContext ctx = new InitialContext();
-            bean = (CL_Symptom_Bean) ctx.lookup("java:global/WebDoc_2015/WebDoc_2015-ejb/CL_Symptom_Bean!controller.IN_Symptom_Bean");
+            bean = (IN_Symptom_Bean) ctx.lookup("java:global/WebDoc_2015/WebDoc_2015-ejb/CL_Symptom_Bean!controller.IN_Symptom_Bean");
         }
         catch (NamingException ex)
         {

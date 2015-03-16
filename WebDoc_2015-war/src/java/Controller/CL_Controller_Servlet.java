@@ -43,10 +43,12 @@ public class CL_Controller_Servlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
+        String inhalt = "";
+
         // Session auslesen
         HttpSession session = request.getSession(true);
         //Aktuelle Meldung setuen
-        session.setAttribute("message", "es läuft noch alles!");
+        session.setAttribute("context_message", "es läuft noch alles!");
 
         //Liste aller Symptome in die Session setzen, falls diese noch nicht dort gespeicehrt ist
         List<CL_Symptom> lo_symptome = (List<CL_Symptom>) session.getAttribute("context_alle_symptome");
@@ -70,23 +72,31 @@ public class CL_Controller_Servlet extends HttpServlet {
             CL_Symptom symp = symp_bean.im_create_Symptom("Symp1");
             symp = symp_bean.im_create_Symptom("Symp2");
             symp = symp_bean.im_create_Symptom("Symp3");
-        }
-        else if (action != null && action.equalsIgnoreCase("add_symptom")){
+        } else if (action != null && action.equalsIgnoreCase("add_symptom")) {
             //Prüfung
-//            if request.getAttribute("input_symptom");
-            
+            String lv_gewaehltee_symptom_name = (String) request.getParameter("input_symptom");
+
+            CL_Symptom lo_neues_Symptom = im_suche_symptom_ueber_name(lv_gewaehltee_symptom_name, (List<CL_Symptom>) session.getAttribute("context_alle_symptome"));
+
+            if (lo_neues_Symptom != null) {
+                // Fügt neues Symptom hinzu und gibt erfolgs oder fehlermeldung zurück
+                session.setAttribute("context_message", patient.im_neues_symptom(lo_neues_Symptom));
+            }
+            session.setAttribute("context_patient_symptome", patient.getIo_symptome());
+
+           inhalt = im_setze_templateinhalt("Inc_symptome.jsp", inhalt);
+
         }
-        
-        String inhalt = "";
+
         if (step == null || step.equalsIgnoreCase("pers_data")) {
-            inhalt = "Inc_pers_data.jsp";
+           inhalt = im_setze_templateinhalt("Inc_pers_data.jsp", inhalt);
         } else if (step.equalsIgnoreCase("krankheiten")) {
-            inhalt = "Inc_krankheiten.jsp";
+           inhalt = im_setze_templateinhalt("Inc_krankheiten.jsp", inhalt);
         } else if (step.equalsIgnoreCase("symptome")) {
-            inhalt = "Inc_symptome.jsp";
-        } else {
+           inhalt = im_setze_templateinhalt("Inc_symptome.jsp", inhalt);
+        } else if (inhalt.equalsIgnoreCase("")) {
             request.setAttribute("message", "fehlerhfate URL-Parameter");
-            inhalt = "Inc_pers_data.jsp";
+           inhalt = im_setze_templateinhalt("Inc_pers_data.jsp", inhalt);
         }
 
         request.setAttribute("inhalt", inhalt);
@@ -94,6 +104,23 @@ public class CL_Controller_Servlet extends HttpServlet {
         RequestDispatcher dispatcher = request.getRequestDispatcher("Head.jsp");
         dispatcher.forward(request, response);
 
+    }
+
+    protected CL_Symptom im_suche_symptom_ueber_name(String pv_symptom_name, List<CL_Symptom> po_symptome) {
+
+        for (CL_Symptom lv_symptom : po_symptome) {
+            if (lv_symptom.getIv_name().equalsIgnoreCase(pv_symptom_name)) {
+                return lv_symptom;
+            }
+        }
+        return null;
+    }
+
+    protected String im_setze_templateinhalt(String pv_wunsch_inhalt, String pv_inhalt) {
+        if (pv_inhalt == null || pv_inhalt == "") {
+            return pv_wunsch_inhalt;
+        }
+        return pv_inhalt;
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

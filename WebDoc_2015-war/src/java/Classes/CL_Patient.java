@@ -6,6 +6,7 @@
 package Classes;
 
 import java.util.ArrayList;
+import model.CL_Symptom;
 
 /**
  *
@@ -18,7 +19,7 @@ public class CL_Patient {
     private int iv_gewicht;
     private double iv_bmi;
     private int iv_weiblich; // 0 keine Angabe, 1 weiblich 2 männlich
-    private ArrayList<String> io_symptome;
+    private ArrayList<CL_Symptom> io_symptome;
     private boolean iv_pers_rel;
     
     public CL_Patient(int pv_groesse, int pv_alter, int pv_gewicht, int pv_weiblich){
@@ -34,10 +35,25 @@ public class CL_Patient {
         }       
     }
     
-    //berrechnet bmi
-    static double sm_berrechne_bmi(int pv_groeße, int p_gewicht){
+    public String im_neues_symptom(CL_Symptom po_symptom){
+        if (!io_symptome.contains(po_symptom))
+        {
+           if (io_symptome.size() < 10){
+            io_symptome.add(po_symptom);
+            return "Symptom erfolgreich hinzugefügt";
+        }
+        else
+            return "Es können nicht mehr Symptome eingegeben werden"; 
+        }
+        else
+            return "Symptom bereits vorhanden";
         
-        return (p_gewicht / ((pv_groeße / 100)*(pv_groeße / 100)));     
+    }
+    
+    //berrechnet bmi
+    static double sm_berrechne_bmi(int pv_groeße, int pv_gewicht){
+        
+        return (pv_gewicht / ((pv_groeße / 100)*(pv_groeße / 100)));     
     }
     
     //prüft ob Eingaben plausibel sind
@@ -79,7 +95,7 @@ public class CL_Patient {
         return iv_weiblich;
     }
 
-    public ArrayList<String> getIo_symptome() {
+    public ArrayList<CL_Symptom> getIo_symptome() {
         return io_symptome;
     }
 
@@ -107,7 +123,7 @@ public class CL_Patient {
         this.iv_weiblich = iv_weiblich;
     }
 
-    public void setIo_symptome(ArrayList<String> io_symptome) {
+    public void setIo_symptome(ArrayList<CL_Symptom> io_symptome) {
         this.io_symptome = io_symptome;
     }
 

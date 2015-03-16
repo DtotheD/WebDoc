@@ -5,6 +5,7 @@
  */
 package controller;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.FlushModeType;
@@ -15,7 +16,7 @@ import model.CL_Symptom;
  *
  * @author DEKREDAV
  */
-@Stateless(name = "Symptom_Bean")
+@Stateless(name = "CL_Symptom_Bean")
 public class CL_Symptom_Bean implements IN_Symptom_Bean {
     
     @PersistenceContext
@@ -30,6 +31,13 @@ public class CL_Symptom_Bean implements IN_Symptom_Bean {
         lo_symptom = io_em.merge(lo_symptom);
         io_em.flush();
         return lo_symptom;
+        
+    }
+    
+    public List<CL_Symptom> im_getAllSymptoms(){
+        
+        List<CL_Symptom> roles = io_em.createNamedQuery("Symptom.findAll", CL_Symptom.class).getResultList();
+        return roles;
         
     }
     

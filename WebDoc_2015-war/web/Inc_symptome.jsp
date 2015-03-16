@@ -5,38 +5,54 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
+        <script type="text/javascript">
+
+        </script>
+
     </head>
     <body>
         <h1>symptome</h1>
-        
-        <a href="main?step=same&todo=add_symptom">
-            <!-- <img src="img/nav_edit.png" alt=""> -->
-            neues Symptom
-        </a>
-        
-        </br>
-        
-        Hier steht Liste der Symptome</br>
-        
-        <!-- Liste der schon im Patienten bestehenden Symptome -->
-        
-        <a href="main?step=pers_data">
-            <!-- <img src="img/nav_edit.png" alt=""> -->
-            zurück
-        </a>
-        
-        </br>
-        
-        <a href="main?step=krankheiten">
-            <!-- <img src="img/nav_edit.png" alt=""> -->
-            weiter
-        </a>
-        
-    </body>
+        <!-- Anzeige der bisherigen Symptome -->
+
+        <!-- Auswahl eines neuen Symptoms -->
+        <p>
+        <ul>
+           <c:forEach var="symptom" items="${context_patient_symptome}">
+            <li> ${symptom.getIv_name()} </li>
+            </c:forEach> 
+        </ul>
+            <input type=text list=symptome name="input_symptom" >            
+            <datalist id=symptome >
+                <c:forEach var="symptom" items="${context_alle_symptome}" >
+                    <option> ${symptom.getIv_name()}</option>
+                </c:forEach>
+            </datalist>
+
+            <a href="main?action=add_symptom"> <!-- <img src="img/nav_edit.png" alt=""> --> add</a>
+        </p>
+
+    Hier steht Liste der Symptome</br>
+
+    <!-- Liste der schon im Patienten bestehenden Symptome -->
+
+    <a href="main?step=pers_data">
+        <!-- <img src="img/nav_edit.png" alt=""> -->
+        zurück
+    </a>
+
+    </br>
+
+    <a href="main?step=krankheiten">
+        <!-- <img src="img/nav_edit.png" alt=""> -->
+        weiter
+    </a>
+
+</body>
 </html>
 

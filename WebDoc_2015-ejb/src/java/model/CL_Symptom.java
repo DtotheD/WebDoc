@@ -23,7 +23,7 @@ import javax.persistence.NamedQuery;
 @Entity
 @NamedQueries(
 {
-   // @NamedQuery(name = "Permission.findByName", query = "SELECT p FROM AppPermission p WHERE p.name = :name"),
+   @NamedQuery(name = "Symptom.findAll", query = "SELECT r FROM CL_Symptom r")
 })
 public class CL_Symptom implements Serializable {
     
