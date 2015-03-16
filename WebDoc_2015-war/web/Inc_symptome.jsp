@@ -18,24 +18,26 @@
     </head>
     <body>
         <h1>symptome</h1>
-        <!-- Anzeige der bisherigen Symptome -->
-
-        <!-- Auswahl eines neuen Symptoms -->
         <p>
+        <form method = "PULL" action="/WebDoc_2015-war/main?step=symptome&action=add_symptom">
+            <input type="text" name ="input_test">
+        </form>
         <ul>
-           <c:forEach var="symptom" items="${context_patient_symptome}">
-            <li> ${symptom.getIv_name()} </li>
-            </c:forEach> 
+            <c:forEach var="symptom" items="${context_patient_symptome}">
+                <li> ${symptom.getIv_name()} </li>
+                </c:forEach> 
         </ul>
-            <input type=text list=symptome name="input_symptom" >            
-            <datalist id=symptome >
-                <c:forEach var="symptom" items="${context_alle_symptome}" >
-                    <option> ${symptom.getIv_name()}</option>
-                </c:forEach>
-            </datalist>
+        <form method = "PULL">
+        <input type=text list=symptome name="input_symptom" >            
+        <datalist id=symptome >
+            <c:forEach var="symptom" items="${context_alle_symptome}" >
+                <option> ${symptom.getIv_name()}</option>
+            </c:forEach>
+        </datalist>
+        </form>
 
-            <a href="main?action=add_symptom"> <!-- <img src="img/nav_edit.png" alt=""> --> add</a>
-        </p>
+        <input type="submit" value="add">
+    </p>
 
     Hier steht Liste der Symptome</br>
 
