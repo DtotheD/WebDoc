@@ -22,9 +22,9 @@ import javax.persistence.NamedQuery;
  */
 @Entity
 @NamedQueries(
-{
-   @NamedQuery(name = "Symptom.findAll", query = "SELECT r FROM CL_Bewertetes_Symptom r")
-})
+        {
+            @NamedQuery(name = "Bewertetes_Symptom.findAll", query = "SELECT r FROM CL_Bewertetes_Symptom r")
+        })
 
 public class CL_Bewertetes_Symptom implements Serializable {
 
@@ -38,14 +38,14 @@ public class CL_Bewertetes_Symptom implements Serializable {
     @ManyToMany(mappedBy = "symptome")
     private List<CL_Krankheit> cL_Krankheits;
 
-    public void CL_Bewertetes_Symptom() {
+    public CL_Bewertetes_Symptom() {
     }
 
     public CL_Bewertetes_Symptom(CL_Symptom symptom, int wert) {
         this.symptom = symptom;
         this.wert = wert;
     }
-     
+
     public Long getId() {
         return id;
     }

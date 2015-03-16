@@ -20,7 +20,7 @@ import javax.persistence.NamedQuery;
 @Entity
 @NamedQueries(
 {
-   @NamedQuery(name = "Symptom.findAll", query = "SELECT r FROM CL_Empfehlung r")
+   @NamedQuery(name = "Empfehlung.findAll", query = "SELECT r FROM CL_Empfehlung r")
 })
 public class CL_Empfehlung implements Serializable {
     private static final long serialVersionUID = 1L;
