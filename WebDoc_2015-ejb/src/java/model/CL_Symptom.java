@@ -25,6 +25,7 @@ import javax.persistence.NamedQuery;
 {
    @NamedQuery(name = "Symptom.findAll", query = "SELECT r FROM CL_Symptom r")
 })
+
 public class CL_Symptom implements Serializable {
     
     @Id
