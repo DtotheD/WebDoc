@@ -20,9 +20,15 @@
         <h1>symptome</h1>
         <p>
         <ul>
-            <c:forEach var="symptom" items="${context_patient_symptome}">
-                <li> ${symptom.getIv_name()} </li>
-                </c:forEach>
+
+            <c:forEach var="symptom" items="${context_patient_symptome}">             
+                <form method ="post" action="/WebDoc_2015-war/main?step=symptome&action=del_symptom&del_symptom=${symptom.getIv_name()}">
+                    <li> ${symptom.getIv_name()}
+                        <input type="submit" value="-">   
+                    </li>
+                </form>
+            </c:forEach>
+
         </ul>
         <form method = "post" action="/WebDoc_2015-war/main?step=symptome&action=add_symptom">
             <input type=text list=symptome name="input_symptom" >            

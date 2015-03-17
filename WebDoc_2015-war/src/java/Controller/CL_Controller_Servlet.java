@@ -21,6 +21,10 @@ import controller.IN_Symptom_Bean;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
+import model.CL_Bewertetes_Symptom;
+import model.CL_Empfehlung;
+import model.CL_Krankheit;
+import controller.CL_Krankheit_Akt_Wert;
 
 /**
  *
@@ -44,95 +48,128 @@ public class CL_Controller_Servlet extends HttpServlet {
         request.setCharacterEncoding("utf-8");
         response.setContentType("utf-8");
         response.setContentType("text/html;charset=utf-8");
-        
-      //--------------------------------------------------------------------------- 
-      //Alle Contextattribute und Parameter auslesen und Voreinstellungen vornehmen
-        
+
+        //--------------------------------------------------------------------------- 
+        //Alle Contextattribute und Parameter auslesen und Voreinstellungen vornehmen
         //Template Auswahl - Wenn diese Variable gesetzt ist wird wurde bereits Aktion durchgeführt
         String inhalt = "";
         //Session auslesen
         HttpSession session = request.getSession(true);
         //Standardmeldung Meldung setzen
-        session.setAttribute("context_message", "es läuft noch alles!");
-        
+        String lv_message = "es_läuft_noch_alles";
+
         //Liste aller Symptome auslesen, falls diese noch nicht dort gespeicehrt ist
         List<CL_Symptom> lo_symptome = (List<CL_Symptom>) session.getAttribute("context_alle_symptome");
         if (lo_symptome == null || lo_symptome.size() < 1) {
             IN_Symptom_Bean lo_symptom_bean = BeanFactory.sm_getSymptomBean();
-            session.setAttribute("context_alle_symptome", lo_symptom_bean.im_getAllSymptoms());
+            lo_symptome = lo_symptom_bean.im_getAllSymptoms();
         }
 
-        //Patientenobjekt auslesen und erstellen, falls dieses noch nicht vorhanden ist
+        //gewählte Symptome auslesen und erstellen, falls dieses noch nicht vorhanden ist
         ArrayList<CL_Symptom> lo_patient_symptome = (ArrayList<CL_Symptom>) session.getAttribute("context_patient_symptome");
         if (lo_patient_symptome == null) {
-            lo_patient_symptome = new ArrayList<CL_Symptom>();
+            lo_patient_symptome = new ArrayList<>();
         }
-        
+
         //Aktuelles Template auslesen
         String lv_bisheriger_inhalt = (String) session.getAttribute("context_inhalt");
-        
+
+        //Krankheitsliste
+        ArrayList<CL_Krankheit_Akt_Wert> lo_krankheiten = (ArrayList<CL_Krankheit_Akt_Wert>) session.getAttribute("context_krankheiten");
+        if (lo_krankheiten == null) {
+            lo_krankheiten = im_mock_get_krankheiten(lo_patient_symptome);
+        }
+
         // URL-Parameter auslesen
         String step = request.getParameter("step");
-        String from = request.getParameter("from");
         String action = request.getParameter("action");
-        
-        
-      //--------------------------------------------------------------------------- 
-      //Useractionen bearbeiten
-        
+        String lv_geloeschtes_symptom_name = request.getParameter("del_symptom");
+
+        //Inputfelder
+        String lv_gewaehlte_symptom_name = (String) request.getParameter("input_symptom");
+
+        //--------------------------------------------------------------------------- 
+        //Useractionen bearbeiten
         //DTB anlegen action = create_dtb
         if (action != null && action.equalsIgnoreCase("create_dtb")) {
-            IN_Symptom_Bean symp_bean = BeanFactory.sm_getSymptomBean();
-            CL_Symptom symp = symp_bean.im_create_Symptom("Symp1");
-            symp = symp_bean.im_create_Symptom("Symp2");
-            symp = symp_bean.im_create_Symptom("Symp3");
-            symp = symp_bean.im_create_Symptom("Symp4");
-            symp = symp_bean.im_create_Symptom("Symp5");
-            symp = symp_bean.im_create_Symptom("Symp6");
-            symp = symp_bean.im_create_Symptom("Symp7");
-            symp = symp_bean.im_create_Symptom("Symp8");
-            symp = symp_bean.im_create_Symptom("Symp9");
-            symp = symp_bean.im_create_Symptom("Symp10");
-            symp = symp_bean.im_create_Symptom("Symp11");
-            inhalt = lv_bisheriger_inhalt;
-        }
-        
-        //Symptom hinzufügen 
+            //Datenbank anlegen
+            im_create_dtb();
+            //Alle Symptome auslesen
+            IN_Symptom_Bean lo_symptom_bean = BeanFactory.sm_getSymptomBean();
+            lo_symptome = lo_symptom_bean.im_getAllSymptoms();
+            //Template auswählen
+            inhalt = im_setze_templateinhalt(lv_bisheriger_inhalt, inhalt);
+        } //Symptom hinzufügen 
         else if (action != null && action.equalsIgnoreCase("add_symptom")) {
-            // gewählten Symptomname auslesen
-            String lv_gewaehltee_symptom_name = (String) request.getParameter("input_symptom");
-            // 
-            CL_Symptom lo_neues_Symptom = im_suche_symptom_ueber_name(lv_gewaehltee_symptom_name, (List<CL_Symptom>) session.getAttribute("context_alle_symptome"));
-
+            // prüfen ob Symptomname auch in Datenbank vorliegt
+            CL_Symptom lo_neues_Symptom = im_suche_symptom_ueber_name(lv_gewaehlte_symptom_name, lo_symptome);
+            //falls Symptom gefunden wurde
             if (lo_neues_Symptom != null) {
-                if(!lo_patient_symptome.contains(lo_neues_Symptom)){
-                    if(lo_patient_symptome.size() < 10){
+                //prüfen ob Symptom vorhanden ist
+                if (!lo_patient_symptome.contains(lo_neues_Symptom)) {
+                    //prüfen ob nicht emhr als 10 Symptome vorhanden sind
+                    if (lo_patient_symptome.size() < 10) {
+                        //Symptom hinzufügen
                         lo_patient_symptome.add(lo_neues_Symptom);
-                        session.setAttribute("context_message", "Symptom hinzugefügt");
+                        //Meldung
+                        lv_message = "Symptom hinzugefügt";
+                    } else //Meldung
+                    {
+                        lv_message = "Nicht mehr als 10 Symptome wählen";
                     }
-                    session.setAttribute("context_message", "Symptom hinzugefügt");
+                } else //Meldung
+                {
+                    lv_message = "Symptom bereits gewählt";
                 }
-                else
-                    session.setAttribute("context_message", "Bereits 10 Symptome ausgewählt");
+            } else //Meldung
+            {
+                lv_message = "Element ist nicht vorhanden";
             }
-            else
-                session.setAttribute("context_message", "Element ist nicht vorhanden");
-            session.setAttribute("context_patient_symptome", lo_patient_symptome);
+            //Template auswählen
+            inhalt = im_setze_templateinhalt("Inc_symptome.jsp", inhalt);
+        } //Symptom löschen
+        else if (action != null && action.equalsIgnoreCase("del_symptom")) {
 
-           inhalt = im_setze_templateinhalt("Inc_symptome.jsp", inhalt);
-        }
+            CL_Symptom lo_del_Symptom = im_suche_symptom_ueber_name(lv_geloeschtes_symptom_name, lo_patient_symptome);
 
-        if (step == null || step.equalsIgnoreCase("p_step_symptome")) {
-           inhalt = im_setze_templateinhalt("Inc_symptome.jsp", inhalt);
+            if (lo_del_Symptom != null) {
+                lo_patient_symptome.remove(lo_del_Symptom);
+                lv_message = "Symptom gelöscht";
+            } else {
+                lv_message = "Fehler!";
+            }
+
+            inhalt = lv_bisheriger_inhalt;
+        } //Navigations-Links
+        else if (step == null || step.equalsIgnoreCase("p_step_symptome")) {
+            inhalt = im_setze_templateinhalt("Inc_symptome.jsp", inhalt);
         } else if (step.equalsIgnoreCase("p_step_krankheiten")) {
-           inhalt = im_setze_templateinhalt("Inc_krankheiten.jsp", inhalt);
+            if (lo_patient_symptome.size() > 0) {
+                inhalt = im_setze_templateinhalt("Inc_krankheiten.jsp", inhalt);
+            } else {
+                inhalt = im_setze_templateinhalt("Inc_symptome.jsp", inhalt);
+                lv_message = "Wählen sie Symptom aus, bevor sie weiter navigieren";
+            }
+            //Fehlerhafter Step
         } else if (inhalt.equalsIgnoreCase("")) {
-           request.setAttribute("message", "fehlerhfate URL-Parameter");
-           inhalt = im_setze_templateinhalt("Inc_symptome.jsp", inhalt);
+            lv_message = "fehlerhfate URL-Parameter";
+            inhalt = im_setze_templateinhalt("Inc_symptome.jsp", inhalt);
         }
 
+        //--------------------------------------------------------------------------- 
+        //Session-Attribute setzen und weiterleiten
+        //Template-Inhalt
         session.setAttribute("context_inhalt", inhalt);
+        //Symptom-Liste
+        session.setAttribute("context_patient_symptome", lo_patient_symptome);
+        // Message
+        session.setAttribute("context_message", lv_message);
+        //Alle Symptome
+        session.setAttribute("context_alle_symptome", lo_symptome);
+        //Kranheiten
+        session.setAttribute("context_krankheiten", lo_krankheiten);
 
+        //Weiterleitung
         RequestDispatcher dispatcher = request.getRequestDispatcher("Head.jsp");
         dispatcher.forward(request, response);
 
@@ -153,6 +190,35 @@ public class CL_Controller_Servlet extends HttpServlet {
             return pv_wunsch_inhalt;
         }
         return pv_inhalt;
+    }
+
+    protected ArrayList<CL_Krankheit_Akt_Wert> im_mock_get_krankheiten(List<CL_Symptom> po_gewaehlte_Symptome) {
+        ArrayList<CL_Bewertetes_Symptom> bewertete_Symptome = new ArrayList<>();
+
+        bewertete_Symptome.add(new CL_Bewertetes_Symptom(new CL_Symptom("Symp1"), 1));
+        bewertete_Symptome.add(new CL_Bewertetes_Symptom(new CL_Symptom("Symp2"), 2));
+
+        ArrayList<CL_Krankheit_Akt_Wert> back = new ArrayList<>();
+        back.add(0, new CL_Krankheit_Akt_Wert(po_gewaehlte_Symptome, new CL_Krankheit("Krankheit1", 3, new CL_Empfehlung("bla"), bewertete_Symptome), 1));
+        back.add(1, new CL_Krankheit_Akt_Wert(po_gewaehlte_Symptome, new CL_Krankheit("Krankheit2", 3, new CL_Empfehlung("bla"), bewertete_Symptome), 2));
+
+        return back;
+    }
+
+    protected void im_create_dtb() {
+        IN_Symptom_Bean symp_bean = BeanFactory.sm_getSymptomBean();
+        CL_Symptom symp = symp_bean.im_create_Symptom("Symp1");
+        symp = symp_bean.im_create_Symptom("Symp2");
+        symp = symp_bean.im_create_Symptom("Symp3");
+        symp = symp_bean.im_create_Symptom("Symp4");
+        symp = symp_bean.im_create_Symptom("Symp5");
+        symp = symp_bean.im_create_Symptom("Symp6");
+        symp = symp_bean.im_create_Symptom("Symp7");
+        symp = symp_bean.im_create_Symptom("Symp8");
+        symp = symp_bean.im_create_Symptom("Symp9");
+        symp = symp_bean.im_create_Symptom("Symp10");
+        symp = symp_bean.im_create_Symptom("Symp11");
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

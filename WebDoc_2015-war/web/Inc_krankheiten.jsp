@@ -4,6 +4,7 @@
     Author     : DEKREDAV
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -13,7 +14,7 @@
     </head>
     <body>
         <h1>illness</h1>
-        
+
         <table>
             <tr>
                 <th>
@@ -25,19 +26,38 @@
             </tr>
             <tr>
                 <td>
-                    Hier sind die Krankheiten mit % Wahrscheinlichkeit gelistet
+
+                    <table id="krankheiten">
+                        <c:forEach var="krankheit" items="${context_krankheiten}">
+                            <tr>
+                                <td> 
+                                    ${krankheit.getIo_krankheit().getName()}
+                                </td>
+                                <td>
+                                   ${krankheit.getIv_akt_wert()} 
+                                </td>
+                                <td>
+                                    <form method ="post" action="/WebDoc_2015-war/main?action=read_more&krankheit=${krankheit.getIo_krankheit().getName()}">
+                                        <input type="submit" value=">">  
+                                    </form>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                    </table>
                 </td>
                 <td>
-                    Hier kommt ein Template mit Genaueren Informationen zur Krankheit
+                    <div>
+                        <jsp:include page="${context_krankheit_view}"></jsp:include>
+                    </div>
                 </td>
             </tr>
         </table>
-        
+
         <a href="main?step=p_step_symptome">
             <!-- <img src="img/nav_edit.png" alt=""> -->
             zurück
         </a>
-        
+
     </body>
 </html>
 
