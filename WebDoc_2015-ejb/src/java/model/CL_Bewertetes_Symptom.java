@@ -31,58 +31,58 @@ public class CL_Bewertetes_Symptom implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long iv_id;
+    private Long id;
     @ManyToOne
-    private CL_Symptom io_symptom;
-    private int iv_wert;
+    private CL_Symptom symptom;
+    private int wert;
     @ManyToMany(mappedBy = "symptome")
-    private List<CL_Krankheit> io_CL_Krankheits;
+    private List<CL_Krankheit> CL_Krankheits;
 
     public CL_Bewertetes_Symptom() {
     }
 
     public CL_Bewertetes_Symptom(CL_Symptom io_symptom, int iv_wert) {
-        this.io_symptom = io_symptom;
-        this.iv_wert = iv_wert;
-        this.io_CL_Krankheits = io_CL_Krankheits;
+        this.symptom = io_symptom;
+        this.wert = iv_wert;
+        this.CL_Krankheits = CL_Krankheits;
     }
 
-    public Long getIv_id() {
-        return iv_id;
+    public Long getId() {
+        return id;
     }
 
-    public CL_Symptom getIo_symptom() {
-        return io_symptom;
+    public CL_Symptom getSymptom() {
+        return symptom;
     }
 
-    public int getIv_wert() {
-        return iv_wert;
+    public int getWert() {
+        return wert;
     }
 
-    public List<CL_Krankheit> getIo_CL_Krankheits() {
-        return io_CL_Krankheits;
+    public List<CL_Krankheit> getCL_Krankheits() {
+        return CL_Krankheits;
     }
 
-    public void setIv_id(Long iv_id) {
-        this.iv_id = iv_id;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public void setIo_symptom(CL_Symptom io_symptom) {
-        this.io_symptom = io_symptom;
+    public void setSymptom(CL_Symptom io_symptom) {
+        this.symptom = io_symptom;
     }
 
     public void setIv_wert(int iv_wert) {
-        this.iv_wert = iv_wert;
+        this.wert = iv_wert;
     }
 
-    public void setIo_CL_Krankheits(List<CL_Krankheit> io_CL_Krankheits) {
-        this.io_CL_Krankheits = io_CL_Krankheits;
+    public void setCL_Krankheits(List<CL_Krankheit> io_CL_Krankheits) {
+        this.CL_Krankheits = io_CL_Krankheits;
     }
  
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (iv_id != null ? iv_id.hashCode() : 0);
+        hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
@@ -93,7 +93,7 @@ public class CL_Bewertetes_Symptom implements Serializable {
             return false;
         }
         CL_Bewertetes_Symptom other = (CL_Bewertetes_Symptom) object;
-        if ((this.iv_id == null && other.iv_id != null) || (this.iv_id != null && !this.iv_id.equals(other.iv_id))) {
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
         return true;
@@ -101,7 +101,7 @@ public class CL_Bewertetes_Symptom implements Serializable {
 
     @Override
     public String toString() {
-        return "model.CL_Bewertetes_Symptom[ id=" + iv_id + " ]";
+        return "model.CL_Bewertetes_Symptom[ id=" + id + " ]";
     }
 
 }
