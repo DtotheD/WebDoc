@@ -23,7 +23,7 @@ import javax.persistence.NamedQuery;
 @Entity
 @NamedQueries(
         {
-            @NamedQuery(name = "Bewertetes_Symptom.findBySymptomList", query = "SELECT r FROM CL_Bewertetes_Symptom r")
+            @NamedQuery(name = "Bewertetes_Symptom.findBySymptomList", query = "SELECT r FROM CL_Bewertetes_Symptom r WHERE r.symptom IN (:po_Symptome) ")
         })
 
 public class CL_Bewertetes_Symptom implements Serializable {
@@ -41,7 +41,7 @@ public class CL_Bewertetes_Symptom implements Serializable {
     public CL_Bewertetes_Symptom() {
     }
 
-    public CL_Bewertetes_Symptom(CL_Symptom io_symptom, int iv_wert, List<CL_Krankheit> io_CL_Krankheits) {
+    public CL_Bewertetes_Symptom(CL_Symptom io_symptom, int iv_wert) {
         this.io_symptom = io_symptom;
         this.iv_wert = iv_wert;
         this.io_CL_Krankheits = io_CL_Krankheits;
