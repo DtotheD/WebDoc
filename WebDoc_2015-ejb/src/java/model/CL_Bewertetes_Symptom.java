@@ -23,7 +23,7 @@ import javax.persistence.NamedQuery;
 @Entity
 @NamedQueries(
         {
-            @NamedQuery(name = "Bewertetes_Symptom.findBySymptomList", query = "SELECT r FROM CL_Bewertetes_Symptom r")
+            @NamedQuery(name = "Bewertetes_Symptom.findBySymptomList", query = "SELECT r FROM CL_Bewertetes_Symptom r WHERE r.symptom IN (:po_Symptome) ")
         })
 
 public class CL_Bewertetes_Symptom implements Serializable {
@@ -31,49 +31,58 @@ public class CL_Bewertetes_Symptom implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Long iv_id;
     @ManyToOne
-    private CL_Symptom symptom;
-    private int wert;
+    private CL_Symptom io_symptom;
+    private int iv_wert;
     @ManyToMany(mappedBy = "symptome")
-    private List<CL_Krankheit> cL_Krankheits;
+    private List<CL_Krankheit> io_CL_Krankheits;
 
     public CL_Bewertetes_Symptom() {
     }
 
-    public CL_Bewertetes_Symptom(CL_Symptom symptom, int wert) {
-        this.symptom = symptom;
-        this.wert = wert;
+    public CL_Bewertetes_Symptom(CL_Symptom io_symptom, int iv_wert) {
+        this.io_symptom = io_symptom;
+        this.iv_wert = iv_wert;
+        this.io_CL_Krankheits = io_CL_Krankheits;
     }
 
-    public Long getId() {
-        return id;
+    public Long getIv_id() {
+        return iv_id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public CL_Symptom getIo_symptom() {
+        return io_symptom;
     }
 
-    public CL_Symptom getSymptom() {
-        return this.symptom;
+    public int getIv_wert() {
+        return iv_wert;
     }
 
-    public void setSymptom(CL_Symptom sympton) {
-        this.symptom = symptom;
+    public List<CL_Krankheit> getIo_CL_Krankheits() {
+        return io_CL_Krankheits;
     }
 
-    public int getWert() {
-        return this.wert;
+    public void setIv_id(Long iv_id) {
+        this.iv_id = iv_id;
     }
 
-    public void setWert(int wert) {
-        this.wert = wert;
+    public void setIo_symptom(CL_Symptom io_symptom) {
+        this.io_symptom = io_symptom;
     }
 
+    public void setIv_wert(int iv_wert) {
+        this.iv_wert = iv_wert;
+    }
+
+    public void setIo_CL_Krankheits(List<CL_Krankheit> io_CL_Krankheits) {
+        this.io_CL_Krankheits = io_CL_Krankheits;
+    }
+ 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (iv_id != null ? iv_id.hashCode() : 0);
         return hash;
     }
 
@@ -84,7 +93,7 @@ public class CL_Bewertetes_Symptom implements Serializable {
             return false;
         }
         CL_Bewertetes_Symptom other = (CL_Bewertetes_Symptom) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.iv_id == null && other.iv_id != null) || (this.iv_id != null && !this.iv_id.equals(other.iv_id))) {
             return false;
         }
         return true;
@@ -92,7 +101,7 @@ public class CL_Bewertetes_Symptom implements Serializable {
 
     @Override
     public String toString() {
-        return "model.CL_Bewertetes_Symptom[ id=" + id + " ]";
+        return "model.CL_Bewertetes_Symptom[ id=" + iv_id + " ]";
     }
 
 }
