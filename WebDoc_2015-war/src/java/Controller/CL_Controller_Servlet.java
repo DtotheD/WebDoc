@@ -6,7 +6,6 @@
 package Controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,11 +15,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.CL_Symptom;
 import controller.BeanFactory;
-import controller.CL_Symptom_Bean;
 import controller.IN_Symptom_Bean;
 import java.util.ArrayList;
 import java.util.List;
-import javax.ejb.EJB;
 import model.CL_Bewertetes_Symptom;
 import model.CL_Empfehlung;
 import model.CL_Krankheit;
@@ -79,11 +76,15 @@ public class CL_Controller_Servlet extends HttpServlet {
         if (lo_krankheiten == null) {
             lo_krankheiten = im_mock_get_krankheiten(lo_patient_symptome);
         }
+        
+        //genauere Krankheit
+        CL_Krankheit_Akt_Wert lo_genauere_krankheit = (CL_Krankheit_Akt_Wert) session.getAttribute("context_genauere_krankheit");
 
         // URL-Parameter auslesen
         String step = request.getParameter("step");
         String action = request.getParameter("action");
         String lv_geloeschtes_symptom_name = request.getParameter("del_symptom");
+        String iv_gewaehltee_kranheit_name = request.getParameter("krankheit");
 
         //Inputfelder
         String lv_gewaehlte_symptom_name = (String) request.getParameter("input_symptom");
@@ -127,7 +128,8 @@ public class CL_Controller_Servlet extends HttpServlet {
             }
             //Template auswählen
             inhalt = im_setze_templateinhalt("Inc_symptome.jsp", inhalt);
-        } //Symptom löschen
+        }
+        //Symptom löschen
         else if (action != null && action.equalsIgnoreCase("del_symptom")) {
 
             CL_Symptom lo_del_Symptom = im_suche_symptom_ueber_name(lv_geloeschtes_symptom_name, lo_patient_symptome);
@@ -140,7 +142,18 @@ public class CL_Controller_Servlet extends HttpServlet {
             }
 
             inhalt = lv_bisheriger_inhalt;
-        } //Navigations-Links
+        }
+        //Kranheit genauer getrachten
+        else if (action != null && action.equalsIgnoreCase("read_more")){
+            CL_Krankheit_Akt_Wert lo_gewaehlte_Krankheit = im_krankheit_ueber_name(iv_gewaehltee_kranheit_name, lo_krankheiten);
+            if (lo_gewaehlte_Krankheit != null){
+                lo_genauere_krankheit = lo_gewaehlte_Krankheit;
+            }
+            else
+                lv_message = "Fehler!";
+            inhalt = im_setze_templateinhalt("Inc_krankheiten.jsp", inhalt);
+        }
+        //Navigations-Links
         else if (step == null || step.equalsIgnoreCase("p_step_symptome")) {
             inhalt = im_setze_templateinhalt("Inc_symptome.jsp", inhalt);
         } else if (step.equalsIgnoreCase("p_step_krankheiten")) {
@@ -168,6 +181,8 @@ public class CL_Controller_Servlet extends HttpServlet {
         session.setAttribute("context_alle_symptome", lo_symptome);
         //Kranheiten
         session.setAttribute("context_krankheiten", lo_krankheiten);
+        //genauere Krankheit
+        session.setAttribute("context_genauere_krankheit", lo_genauere_krankheit);
 
         //Weiterleitung
         RequestDispatcher dispatcher = request.getRequestDispatcher("Head.jsp");
@@ -177,10 +192,19 @@ public class CL_Controller_Servlet extends HttpServlet {
 
     protected CL_Symptom im_suche_symptom_ueber_name(String pv_symptom_name, List<CL_Symptom> po_symptome) {
 
-        for (CL_Symptom lv_symptom : po_symptome) {
-            if (lv_symptom.getIv_name().equalsIgnoreCase(pv_symptom_name)) {
-                return lv_symptom;
+        for (CL_Symptom lo_symptom : po_symptome) {
+            if (lo_symptom.getIv_name().equalsIgnoreCase(pv_symptom_name)) {
+                return lo_symptom;
             }
+        }
+        return null;
+    }
+    
+    protected CL_Krankheit_Akt_Wert im_krankheit_ueber_name (String pv_krankheit_name, List<CL_Krankheit_Akt_Wert> po_krankheitsliste){
+        
+        for (CL_Krankheit_Akt_Wert lo_krankheit : po_krankheitsliste) {
+            if (lo_krankheit.getIo_krankheit().getName().equalsIgnoreCase(pv_krankheit_name))
+                return lo_krankheit;
         }
         return null;
     }
@@ -199,8 +223,8 @@ public class CL_Controller_Servlet extends HttpServlet {
         bewertete_Symptome.add(new CL_Bewertetes_Symptom(new CL_Symptom("Symp2"), 2));
 
         ArrayList<CL_Krankheit_Akt_Wert> back = new ArrayList<>();
-        back.add(0, new CL_Krankheit_Akt_Wert(po_gewaehlte_Symptome, new CL_Krankheit("Krankheit1", 3, new CL_Empfehlung("bla"), bewertete_Symptome), 1));
-        back.add(1, new CL_Krankheit_Akt_Wert(po_gewaehlte_Symptome, new CL_Krankheit("Krankheit2", 3, new CL_Empfehlung("bla"), bewertete_Symptome), 2));
+        back.add(0, new CL_Krankheit_Akt_Wert(po_gewaehlte_Symptome, new CL_Krankheit("Krankheit0", 3, new CL_Empfehlung("tue 0"), bewertete_Symptome, "Beschreibungstext 0"), 1));
+        back.add(1, new CL_Krankheit_Akt_Wert(po_gewaehlte_Symptome, new CL_Krankheit("Krankheit1", 3, new CL_Empfehlung("tue 1"), bewertete_Symptome, "Beschreibungstext 1"), 2));
 
         return back;
     }

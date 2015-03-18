@@ -4,6 +4,7 @@
     Author     : DEKREDAV
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -12,7 +13,17 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>View</h1>
+        <c:if test="${not empty context_genauere_krankheit}">
+            <h1>${context_genauere_krankheit.getIo_krankheit().getName()}</h1>
+            
+            <div>
+                ${context_genauere_krankheit.getIo_krankheit().getIv_beschreibung()}
+            </div>
+            
+            <div>
+               ${context_genauere_krankheit.getIo_krankheit().getEmpfehlung().getText()}
+            </div>
+        </c:if>
     </body>
 </html>
 

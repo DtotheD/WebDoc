@@ -32,6 +32,7 @@ public class CL_Krankheit implements Serializable {
     private Long id;
     private String name;
     private int max_wert;
+    private String iv_beschreibung;
     @ManyToOne
     private CL_Empfehlung empfehlung;
     @ManyToMany
@@ -40,15 +41,22 @@ public class CL_Krankheit implements Serializable {
     public CL_Krankheit() {
     
     }
-
-    public CL_Krankheit(String name, int max_wert, CL_Empfehlung empfehlung, ArrayList<CL_Bewertetes_Symptom> symptome) {
+    
+    public CL_Krankheit(String name, int max_wert, CL_Empfehlung empfehlung, ArrayList<CL_Bewertetes_Symptom> symptome, String pv_beschreibung) {
         this.name = name;
         this.max_wert = max_wert;
         this.empfehlung = empfehlung;
         this.symptome = symptome;
+        iv_beschreibung = pv_beschreibung;
     }
-    
-    
+
+    public void setIv_beschreibung(String iv_beschreibung) {
+        this.iv_beschreibung = iv_beschreibung;
+    }
+
+    public String getIv_beschreibung() {
+        return iv_beschreibung;
+    }
     
     public CL_Empfehlung getEmpfehlung() {
         return empfehlung;

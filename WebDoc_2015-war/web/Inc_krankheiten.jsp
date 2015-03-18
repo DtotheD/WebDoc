@@ -47,7 +47,7 @@
                 </td>
                 <td>
                     <div>
-                        <jsp:include page="${context_krankheit_view}"></jsp:include>
+                        <jsp:include page="Inc_view.jsp"></jsp:include>
                     </div>
                 </td>
             </tr>
