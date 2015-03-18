@@ -21,6 +21,9 @@ import model.CL_Empfehlung;
 import model.CL_Krankheit;
 import controller.CL_Krankheit_Akt_Wert;
 import controller.CL_Symptom_Bean;
+import controller.CL_Krankheit_Bean;
+import controller.CL_Empfehlung_Bean;
+import controller.CL_Bewertetes_Symptom_Bean;
 import javax.annotation.ManagedBean;
 import javax.ejb.EJB;
 
@@ -35,6 +38,12 @@ public class CL_Controller_Servlet extends HttpServlet {
     
     @EJB
     private CL_Symptom_Bean io_symptom_bean;
+    @EJB
+    private CL_Bewertetes_Symptom_Bean io_bewertetes_symptom_bean;
+    @EJB
+    private CL_Krankheit_Bean io_krankheit_bean;
+    @EJB
+    private CL_Empfehlung_Bean io_empfelung_bean;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -247,7 +256,6 @@ public class CL_Controller_Servlet extends HttpServlet {
         symp = io_symptom_bean.im_create_Symptom("Symp10");
         symp = io_symptom_bean.im_create_Symptom("Symp11");
         symp = io_symptom_bean.im_create_Symptom("Symp12");
-
 
     }
 
