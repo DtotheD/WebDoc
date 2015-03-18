@@ -14,21 +14,26 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.CL_Symptom;
-import controller.BeanFactory;
-import controller.IN_Symptom_Bean;
 import java.util.ArrayList;
 import java.util.List;
 import model.CL_Bewertetes_Symptom;
 import model.CL_Empfehlung;
 import model.CL_Krankheit;
 import controller.CL_Krankheit_Akt_Wert;
+import controller.CL_Symptom_Bean;
+import javax.annotation.ManagedBean;
+import javax.ejb.EJB;
 
 /**
  *
  * @author DEKREDAV
  */
+@ManagedBean
 @WebServlet(name = "CL_Controller_Servlet", urlPatterns = {"/main"})
 public class CL_Controller_Servlet extends HttpServlet {
+    
+    @EJB
+    private CL_Symptom_Bean io_symptom_bean;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -58,8 +63,8 @@ public class CL_Controller_Servlet extends HttpServlet {
         //Liste aller Symptome auslesen, falls diese noch nicht dort gespeicehrt ist
         List<CL_Symptom> lo_symptome = (List<CL_Symptom>) session.getAttribute("context_alle_symptome");
         if (lo_symptome == null || lo_symptome.size() < 1) {
-            IN_Symptom_Bean lo_symptom_bean = BeanFactory.sm_getSymptomBean();
-            lo_symptome = lo_symptom_bean.im_getAllSymptoms();
+
+            lo_symptome = io_symptom_bean.im_getAllSymptoms();
         }
 
         //gewählte Symptome auslesen und erstellen, falls dieses noch nicht vorhanden ist
@@ -96,8 +101,7 @@ public class CL_Controller_Servlet extends HttpServlet {
             //Datenbank anlegen
             im_create_dtb();
             //Alle Symptome auslesen
-            IN_Symptom_Bean lo_symptom_bean = BeanFactory.sm_getSymptomBean();
-            lo_symptome = lo_symptom_bean.im_getAllSymptoms();
+            lo_symptome = io_symptom_bean.im_getAllSymptoms();
             //Template auswählen
             inhalt = im_setze_templateinhalt(lv_bisheriger_inhalt, inhalt);
         } //Symptom hinzufügen 
@@ -230,18 +234,19 @@ public class CL_Controller_Servlet extends HttpServlet {
     }
 
     protected void im_create_dtb() {
-        IN_Symptom_Bean symp_bean = BeanFactory.sm_getSymptomBean();
-        CL_Symptom symp = symp_bean.im_create_Symptom("Symp1");
-        symp = symp_bean.im_create_Symptom("Symp2");
-        symp = symp_bean.im_create_Symptom("Symp3");
-        symp = symp_bean.im_create_Symptom("Symp4");
-        symp = symp_bean.im_create_Symptom("Symp5");
-        symp = symp_bean.im_create_Symptom("Symp6");
-        symp = symp_bean.im_create_Symptom("Symp7");
-        symp = symp_bean.im_create_Symptom("Symp8");
-        symp = symp_bean.im_create_Symptom("Symp9");
-        symp = symp_bean.im_create_Symptom("Symp10");
-        symp = symp_bean.im_create_Symptom("Symp11");
+        CL_Symptom symp = io_symptom_bean.im_create_Symptom("Symp1");
+        symp = io_symptom_bean.im_create_Symptom("Symp2");
+        symp = io_symptom_bean.im_create_Symptom("Symp3");
+        symp = io_symptom_bean.im_create_Symptom("Symp4");
+        symp = io_symptom_bean.im_create_Symptom("Symp5");
+        symp = io_symptom_bean.im_create_Symptom("Symp6");
+        symp = io_symptom_bean.im_create_Symptom("Symp7");
+        symp = io_symptom_bean.im_create_Symptom("Symp8");
+        symp = io_symptom_bean.im_create_Symptom("Symp9");
+        symp = io_symptom_bean.im_create_Symptom("Symp10");
+        symp = io_symptom_bean.im_create_Symptom("Symp11");
+        symp = io_symptom_bean.im_create_Symptom("Symp12");
+
 
     }
 

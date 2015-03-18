@@ -6,6 +6,7 @@
 package controller;
 
 import java.util.List;
+import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.FlushModeType;
@@ -17,12 +18,12 @@ import model.CL_Symptom;
  * @author DEKREDAV
  */
 @Stateless(name = "CL_Symptom_Bean")
-public class CL_Symptom_Bean implements IN_Symptom_Bean {
+@LocalBean
+public class CL_Symptom_Bean{
     
     @PersistenceContext
     private EntityManager io_em;
     
-    @Override
     public CL_Symptom im_create_Symptom(String pv_name){
         
         io_em.setFlushMode(FlushModeType.AUTO);
