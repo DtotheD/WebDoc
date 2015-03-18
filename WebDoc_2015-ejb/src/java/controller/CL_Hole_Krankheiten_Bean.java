@@ -38,11 +38,11 @@ public class CL_Hole_Krankheiten_Bean {
 
         for (CL_Bewertetes_Symptom lo_bewertete_symptome : lo_passende_Symptome) {
 
-            for (CL_Krankheit lo_krankheit : lo_bewertete_symptome.getIo_CL_Krankheits()) {
+            for (CL_Krankheit lo_krankheit : lo_bewertete_symptome.getCL_Krankheits()) {
                 if (!lo_krankheiten.contains(lo_krankheit)) {
                     lo_krankheiten.add(lo_krankheit);
 
-                    lo_krankheit_akt_wert.add(new CL_Krankheit_Akt_Wert(lo_passende_Symptome, lo_krankheit));
+               //     lo_krankheit_akt_wert.add(new CL_Krankheit_Akt_Wert(lo_passende_Symptome, lo_krankheit,2));
                 }
             }
         }

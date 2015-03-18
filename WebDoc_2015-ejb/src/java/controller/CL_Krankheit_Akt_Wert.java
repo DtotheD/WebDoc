@@ -6,6 +6,7 @@
 package controller;
 
 import java.util.List;
+import model.CL_Bewertetes_Symptom;
 import model.CL_Krankheit;
 import model.CL_Symptom;
 
