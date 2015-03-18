@@ -6,8 +6,8 @@
 package controller;
 
 import java.util.List;
-import model.CL_Bewertetes_Symptom;
-import model.CL_Krankheit;
+import zwischenspeicher.CL_Bewertetes_Symptom;
+import zwischenspeicher.CL_Krankheit;
 import model.CL_Symptom;
 
 /**

@@ -12,9 +12,9 @@ import javax.ejb.LocalBean;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-import model.CL_Bewertetes_Symptom;
+import zwischenspeicher.CL_Bewertetes_Symptom;
 import model.CL_Symptom;
-import model.CL_Krankheit;
+import zwischenspeicher.CL_Krankheit;
 
 /**
  *

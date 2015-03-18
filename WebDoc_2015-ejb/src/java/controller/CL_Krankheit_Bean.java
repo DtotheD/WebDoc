@@ -11,9 +11,9 @@ import javax.ejb.LocalBean;
 import javax.persistence.EntityManager;
 import javax.persistence.FlushModeType;
 import javax.persistence.PersistenceContext;
-import model.CL_Bewertetes_Symptom;
-import model.CL_Empfehlung;
-import model.CL_Krankheit;
+import zwischenspeicher.CL_Bewertetes_Symptom;
+import zwischenspeicher.CL_Empfehlung;
+import zwischenspeicher.CL_Krankheit;
 import model.CL_Symptom;
 
 /**

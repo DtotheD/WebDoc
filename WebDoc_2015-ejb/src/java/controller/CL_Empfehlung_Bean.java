@@ -10,7 +10,7 @@ import javax.ejb.LocalBean;
 import javax.persistence.EntityManager;
 import javax.persistence.FlushModeType;
 import javax.persistence.PersistenceContext;
-import model.CL_Empfehlung;
+import zwischenspeicher.CL_Empfehlung;
 
 /**
  *
