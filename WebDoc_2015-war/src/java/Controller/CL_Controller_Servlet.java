@@ -245,22 +245,15 @@ public class CL_Controller_Servlet extends HttpServlet {
 
         return back;
     }
+    
+    protected ArrayList<CL_Krankheit_Akt_Wert> im_get_krankheiten(List<CL_Symptom> po_gewaehlte_Symptome) {
+        
+        return null;
+    }
 
     protected void im_create_dtb() {
         
         io_create_db_data_bean.im_create_db();
-        //CL_Symptom symp = io_symptom_bean.im_create_Symptom("Symp1");
-        //symp = io_symptom_bean.im_create_Symptom("Symp2");
-        //symp = io_symptom_bean.im_create_Symptom("Symp3");
-        //symp = io_symptom_bean.im_create_Symptom("Symp4");
-        //symp = io_symptom_bean.im_create_Symptom("Symp5");
-        //symp = io_symptom_bean.im_create_Symptom("Symp6");
-        //symp = io_symptom_bean.im_create_Symptom("Symp7");
-        //symp = io_symptom_bean.im_create_Symptom("Symp8");
-        //symp = io_symptom_bean.im_create_Symptom("Symp9");
-        //symp = io_symptom_bean.im_create_Symptom("Symp10");
-        //symp = io_symptom_bean.im_create_Symptom("Symp11");
-        //symp = io_symptom_bean.im_create_Symptom("Symp12");
 
     }
 

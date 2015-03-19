@@ -14,7 +14,7 @@ import model.CL_Symptom;
  *
  * @author DEKREDAV
  */
-public class CL_Krankheit_Akt_Wert {
+public class CL_Krankheit_Akt_Wert implements Comparable<CL_Krankheit_Akt_Wert> {
     
     private CL_Krankheit io_krankheit;
     private double iv_akt_wert;
@@ -25,7 +25,14 @@ public class CL_Krankheit_Akt_Wert {
         iv_akt_wert = i;
     }
     
-    public double im_cal_akt_wert(List<CL_Symptom> po_gewaehlte_Symptome){
+    public CL_Krankheit_Akt_Wert(List<CL_Bewertetes_Symptom> po_gewaehlte_Symptome, CL_Krankheit po_krankheit){
+        io_krankheit = po_krankheit;
+        
+        iv_akt_wert = im_cal_akt_wert(po_gewaehlte_Symptome);
+    }
+    
+    
+    public double im_cal_akt_wert(List<CL_Bewertetes_Symptom> po_gewaehlte_Symptome){
         
         
         
@@ -47,6 +54,17 @@ public class CL_Krankheit_Akt_Wert {
 
     public void setIv_akt_wert(double iv_akt_wert) {
         this.iv_akt_wert = iv_akt_wert;
+    }
+    
+    @Override
+    public int compareTo(CL_Krankheit_Akt_Wert po_krankheit_akt_wert){ //prüfen ob das so geht
+        
+        if(po_krankheit_akt_wert.getIv_akt_wert() == this.iv_akt_wert)
+            return 0;
+        else if(po_krankheit_akt_wert.getIv_akt_wert() < this.iv_akt_wert)
+            return 1;
+        else
+            return - 1;
     }
     
     

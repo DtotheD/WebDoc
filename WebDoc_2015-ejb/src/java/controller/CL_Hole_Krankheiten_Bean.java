@@ -6,6 +6,7 @@
 package controller;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.ejb.LocalBean;
@@ -42,10 +43,12 @@ public class CL_Hole_Krankheiten_Bean {
                 if (!lo_krankheiten.contains(lo_krankheit)) {
                     lo_krankheiten.add(lo_krankheit);
 
-               //     lo_krankheit_akt_wert.add(new CL_Krankheit_Akt_Wert(lo_passende_Symptome, lo_krankheit,2));
+                     lo_krankheit_akt_wert.add(new CL_Krankheit_Akt_Wert(lo_passende_Symptome, lo_krankheit));
                 }
             }
         }
+        
+        Collections.sort(lo_krankheit_akt_wert); // prüfen ob das so geht
 
         return lo_krankheit_akt_wert;
     }
