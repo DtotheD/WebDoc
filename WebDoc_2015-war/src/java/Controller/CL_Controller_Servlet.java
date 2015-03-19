@@ -25,6 +25,7 @@ import controller.CL_Krankheit_Bean;
 import controller.CL_Empfehlung_Bean;
 import controller.CL_Bewertetes_Symptom_Bean;
 import controller.CL_Create_DB_Data_Bean;
+import controller.CL_Hole_Krankheiten_Bean;
 import javax.annotation.ManagedBean;
 import javax.ejb.EJB;
 
@@ -45,8 +46,10 @@ public class CL_Controller_Servlet extends HttpServlet {
     private CL_Krankheit_Bean io_krankheit_bean;
     @EJB
     private CL_Empfehlung_Bean io_empfelung_bean;
-     @EJB
+    @EJB
     private CL_Create_DB_Data_Bean io_create_db_data_bean;
+    @EJB
+    private CL_Hole_Krankheiten_Bean io_hole_krankheiten_bean;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -89,7 +92,7 @@ public class CL_Controller_Servlet extends HttpServlet {
         //Aktuelles Template auslesen
         String lv_bisheriger_inhalt = (String) session.getAttribute("context_inhalt");
 
-        //Krankheitsliste
+        //Krankheitsliste - wenn mock weg, ArrayList durch List ersetzen
         ArrayList<CL_Krankheit_Akt_Wert> lo_krankheiten = (ArrayList<CL_Krankheit_Akt_Wert>) session.getAttribute("context_krankheiten");
         if (lo_krankheiten == null) {
             lo_krankheiten = im_mock_get_krankheiten(lo_patient_symptome);
@@ -246,9 +249,9 @@ public class CL_Controller_Servlet extends HttpServlet {
         return back;
     }
     
-    protected ArrayList<CL_Krankheit_Akt_Wert> im_get_krankheiten(List<CL_Symptom> po_gewaehlte_Symptome) {
+    protected List<CL_Krankheit_Akt_Wert> im_get_krankheiten(List<CL_Symptom> po_gewaehlte_Symptome) {
         
-        return null;
+        return io_hole_krankheiten_bean.im_get_passende_Krankheiten(po_gewaehlte_Symptome);
     }
 
     protected void im_create_dtb() {
