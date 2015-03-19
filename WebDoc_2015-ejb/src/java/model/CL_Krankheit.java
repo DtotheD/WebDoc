@@ -7,12 +7,15 @@ package model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+
 
 /**
  *
@@ -26,10 +29,9 @@ public class CL_Krankheit implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long iv_id;
     private String iv_beschreibung;
-      
-    
-    
-    @ManyToMany
+     
+  
+    @ManyToMany (cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
     private ArrayList<CL_Bewertetes_Symptom> io_symptome;
     
     @ManyToOne
@@ -41,10 +43,20 @@ public class CL_Krankheit implements Serializable {
 
     public CL_Krankheit(String iv_beschreibung, CL_Empfehlung io_empfehlung, int iv_max_wert) {
         this.iv_beschreibung = iv_beschreibung;
-        //this.io_symptome = io_symptome;
+        this.io_symptome = new ArrayList<>();
         this.io_empfehlung = io_empfehlung;
         this.iv_max_wert = iv_max_wert;
     }
+    
+     public void addSymptom(CL_Bewertetes_Symptom io_symptom) {
+      if (!getIo_symptome().contains(io_symptom)) {
+          getIo_symptome().add(io_symptom);
+      }
+      if (!io_symptom.getcL_Krankheits().contains(this)) {
+          io_symptom.getcL_Krankheits().add(this);
+      }
+    }
+
     
     public Long getIv_id() {
         return iv_id;

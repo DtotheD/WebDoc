@@ -26,6 +26,9 @@ public class CL_Krankheit_Akt_Wert {
     }
     
     public double im_cal_akt_wert(List<CL_Symptom> po_gewaehlte_Symptome){
+        
+        
+        
         //  Berechnung durchführen - Tizian
         return 1.0;
     }
