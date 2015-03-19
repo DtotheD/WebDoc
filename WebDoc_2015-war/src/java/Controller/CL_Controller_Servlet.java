@@ -24,6 +24,7 @@ import controller.CL_Symptom_Bean;
 import controller.CL_Krankheit_Bean;
 import controller.CL_Empfehlung_Bean;
 import controller.CL_Bewertetes_Symptom_Bean;
+import controller.CL_Create_DB_Data_Bean;
 import javax.annotation.ManagedBean;
 import javax.ejb.EJB;
 
@@ -44,6 +45,8 @@ public class CL_Controller_Servlet extends HttpServlet {
     private CL_Krankheit_Bean io_krankheit_bean;
     @EJB
     private CL_Empfehlung_Bean io_empfelung_bean;
+     @EJB
+    private CL_Create_DB_Data_Bean io_create_db_data_bean;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -244,18 +247,20 @@ public class CL_Controller_Servlet extends HttpServlet {
     }
 
     protected void im_create_dtb() {
-        CL_Symptom symp = io_symptom_bean.im_create_Symptom("Symp1");
-        symp = io_symptom_bean.im_create_Symptom("Symp2");
-        symp = io_symptom_bean.im_create_Symptom("Symp3");
-        symp = io_symptom_bean.im_create_Symptom("Symp4");
-        symp = io_symptom_bean.im_create_Symptom("Symp5");
-        symp = io_symptom_bean.im_create_Symptom("Symp6");
-        symp = io_symptom_bean.im_create_Symptom("Symp7");
-        symp = io_symptom_bean.im_create_Symptom("Symp8");
-        symp = io_symptom_bean.im_create_Symptom("Symp9");
-        symp = io_symptom_bean.im_create_Symptom("Symp10");
-        symp = io_symptom_bean.im_create_Symptom("Symp11");
-        symp = io_symptom_bean.im_create_Symptom("Symp12");
+        
+        io_create_db_data_bean.im_create_db();
+        //CL_Symptom symp = io_symptom_bean.im_create_Symptom("Symp1");
+        //symp = io_symptom_bean.im_create_Symptom("Symp2");
+        //symp = io_symptom_bean.im_create_Symptom("Symp3");
+        //symp = io_symptom_bean.im_create_Symptom("Symp4");
+        //symp = io_symptom_bean.im_create_Symptom("Symp5");
+        //symp = io_symptom_bean.im_create_Symptom("Symp6");
+        //symp = io_symptom_bean.im_create_Symptom("Symp7");
+        //symp = io_symptom_bean.im_create_Symptom("Symp8");
+        //symp = io_symptom_bean.im_create_Symptom("Symp9");
+        //symp = io_symptom_bean.im_create_Symptom("Symp10");
+        //symp = io_symptom_bean.im_create_Symptom("Symp11");
+        //symp = io_symptom_bean.im_create_Symptom("Symp12");
 
     }
 

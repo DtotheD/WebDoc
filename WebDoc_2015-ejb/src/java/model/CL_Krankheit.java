@@ -26,8 +26,12 @@ public class CL_Krankheit implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long iv_id;
     private String iv_beschreibung;
+      
+    
+    
     @ManyToMany
     private ArrayList<CL_Bewertetes_Symptom> io_symptome;
+    
     @ManyToOne
     private CL_Empfehlung io_empfehlung;
     private int iv_max_wert;
@@ -35,12 +39,13 @@ public class CL_Krankheit implements Serializable {
     public CL_Krankheit() {
     }
 
-    public CL_Krankheit(String iv_beschreibung, CL_Empfehlung empfehlung, int iv_max_wert) {
+    public CL_Krankheit(String iv_beschreibung, CL_Empfehlung io_empfehlung, int iv_max_wert) {
         this.iv_beschreibung = iv_beschreibung;
-        this.io_empfehlung = empfehlung;
+        //this.io_symptome = io_symptome;
+        this.io_empfehlung = io_empfehlung;
         this.iv_max_wert = iv_max_wert;
     }
-
+    
     public Long getIv_id() {
         return iv_id;
     }

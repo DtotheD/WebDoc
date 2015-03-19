@@ -25,12 +25,15 @@ public class CL_Bewertetes_Symptom implements Serializable {
     @ManyToOne
     private CL_Symptom io_symptom; 
     private int iv_wert;
+          
+    
     @ManyToMany(mappedBy = "io_symptome")
     private List<CL_Krankheit> io_CL_Krankheits;
 
-    public CL_Bewertetes_Symptom(CL_Symptom symptom, int iv_wert) {
+    public CL_Bewertetes_Symptom(CL_Symptom symptom, int iv_wert, List<CL_Krankheit> io_CL_Krankheits) {
         this.io_symptom = symptom;
         this.iv_wert = iv_wert;
+        this.io_CL_Krankheits = io_CL_Krankheits;
     }
    
     public CL_Bewertetes_Symptom() {
