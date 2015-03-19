@@ -25,17 +25,25 @@ public class CL_Bewertetes_Symptom implements Serializable {
     @ManyToOne
     private CL_Symptom io_symptom; 
     private int iv_wert;
-          
     
-    @ManyToMany(mappedBy = "io_symptome")
+    @ManyToMany
     private List<CL_Krankheit> io_CL_Krankheits;
 
-    public CL_Bewertetes_Symptom(CL_Symptom symptom, int iv_wert, List<CL_Krankheit> io_CL_Krankheits) {
-        this.io_symptom = symptom;
+    public CL_Bewertetes_Symptom(CL_Symptom io_symptom, int iv_wert) {
+        this.io_symptom = io_symptom;
         this.iv_wert = iv_wert;
-        this.io_CL_Krankheits = io_CL_Krankheits;
+        this.io_CL_Krankheits = new ArrayList<>();
     }
-   
+    
+    public void addKrankheit(CL_Krankheit io_krankheit) {
+      if (!getcL_Krankheits().contains(io_krankheit)) {
+          getcL_Krankheits().add(io_krankheit);
+      }
+      if (!io_krankheit.getIo_symptome().contains(this)) {
+          io_krankheit.getIo_symptome().add(this);
+      }
+    }
+    
     public CL_Bewertetes_Symptom() {
     }
 
