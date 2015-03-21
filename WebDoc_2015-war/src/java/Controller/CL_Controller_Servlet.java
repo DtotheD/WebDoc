@@ -16,7 +16,7 @@ import javax.servlet.http.HttpSession;
 import model.CL_Symptom;
 import java.util.ArrayList;
 import java.util.List;
-import zwischenspeicher.CL_Bewertetes_Symptom;
+import model.CL_Bewertetes_Symptom;
 import zwischenspeicher.CL_Empfehlung;
 import zwischenspeicher.CL_Krankheit;
 import controller.CL_Krankheit_Akt_Wert;
@@ -223,7 +223,7 @@ public class CL_Controller_Servlet extends HttpServlet {
     protected CL_Krankheit_Akt_Wert im_krankheit_ueber_name (String pv_krankheit_name, List<CL_Krankheit_Akt_Wert> po_krankheitsliste){
         
         for (CL_Krankheit_Akt_Wert lo_krankheit : po_krankheitsliste) {
-            if (lo_krankheit.getIo_krankheit().getName().equalsIgnoreCase(pv_krankheit_name))
+            if (lo_krankheit.getIo_krankheit().getIv_name().equalsIgnoreCase(pv_krankheit_name))
                 return lo_krankheit;
         }
         return null;
