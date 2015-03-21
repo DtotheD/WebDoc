@@ -55,7 +55,7 @@ public class CL_Hole_Krankheiten_Bean {
 
     public List<CL_Bewertetes_Symptom> im_get_passende_Symptome(List<CL_Symptom> po_gewaehlte_Symptome) {
 
-        TypedQuery<CL_Bewertetes_Symptom> io_back = io_em.createNamedQuery("Bewertetes_Symptom.findBySymptomList", CL_Bewertetes_Symptom.class)
+        TypedQuery<CL_Bewertetes_Symptom> io_back = io_em.createNamedQuery("CL_Bewertetes_Symptom.findBySymptomList", CL_Bewertetes_Symptom.class)
                 .setParameter("p_Symptome", po_gewaehlte_Symptome);
 
         return io_back.getResultList();

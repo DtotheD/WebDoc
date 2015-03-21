@@ -10,12 +10,18 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 /**
  *
  * @author DEZAPTHO
  */
-@Entity
 
+@Entity
+@NamedQueries(
+{
+   @NamedQuery(name = "CL_Bewertetes_Symptom.findBySymptomList", query = "SELECT r FROM CL_Bewertetes_Symptom r WHERE r.io_symptom IN :p_Symptome ")
+})
 public class CL_Bewertetes_Symptom implements Serializable {
 
     private static final long serialVersionUID = 1L;
