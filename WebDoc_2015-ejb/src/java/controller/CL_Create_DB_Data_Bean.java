@@ -113,7 +113,7 @@ public class CL_Create_DB_Data_Bean {
         io_em.persist(lo_gewicht_2);
 
 //        Grippe
-        CL_Krankheit lo_grippe = new CL_Krankheit("Hier kommt die Beschreibung", lo_empfhelung_1, 120);
+        CL_Krankheit lo_grippe = new CL_Krankheit("Hier kommt die Beschreibung", lo_empfhelung_1, 120, "Grippe");
         lo_grippe.addSymptom(lo_husten_9);
         lo_grippe.addSymptom(lo_kopfschmerzen_8);
         lo_grippe.addSymptom(lo_halsschmerzen_7);
@@ -124,7 +124,7 @@ public class CL_Create_DB_Data_Bean {
         io_em.persist(lo_grippe);
 
         //Erkältung
-        CL_Krankheit lo_erkaeltung = new CL_Krankheit("Hier kommt die Beschreibung", lo_empfhelung_2, 120);
+        CL_Krankheit lo_erkaeltung = new CL_Krankheit("Hier kommt die Beschreibung", lo_empfhelung_2, 120,"Erkältung");
 
         lo_erkaeltung.addSymptom(lo_husten_8);
         lo_erkaeltung.addSymptom(lo_kopfschmerzen_7);
@@ -134,7 +134,7 @@ public class CL_Create_DB_Data_Bean {
         lo_erkaeltung.addSymptom(lo_glieder_4);
 
         //Schilddrüsenüberfunktion
-        CL_Krankheit lo_schild = new CL_Krankheit("Hier kommt die Beschreibung", lo_empfhelung_1, 80);
+        CL_Krankheit lo_schild = new CL_Krankheit("Hier kommt die Beschreibung", lo_empfhelung_1, 80, "Schilddrüsenüberfunktion");
 
         lo_schild.addSymptom(lo_bauchschmerzen_2);
         lo_schild.addSymptom(lo_durchfall_9);
@@ -142,7 +142,7 @@ public class CL_Create_DB_Data_Bean {
         lo_schild.addSymptom(lo_gewicht_10);
 
         //Reizdarm
-        CL_Krankheit lo_reiz = new CL_Krankheit("Hier kommt die Beschreibung", lo_empfhelung_2, 60);
+        CL_Krankheit lo_reiz = new CL_Krankheit("Hier kommt die Beschreibung", lo_empfhelung_2, 60, "Reizdarmsyndrom");
 
         lo_reiz.addSymptom(lo_bauchschmerzen_9);
         lo_reiz.addSymptom(lo_durchfall_9);
