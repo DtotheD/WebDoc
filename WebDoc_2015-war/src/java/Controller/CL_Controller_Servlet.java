@@ -29,30 +29,35 @@ import controller.CL_Hole_Krankheiten_Bean;
  * leitet die Anfrage dann an die Template-JSP weiter, wobei deren jeweiliger
  * Inhalt im context, in Form des Namens des JSP-Includes, mitgegeben wird.
  *
- * Genutzte Context-Attribute:
- * context_alle_symptome:
- *  Hier sind alle Symptome gespeichert, damit die combo-box der Symptomauswahl
- *  nicht bei jeder Eingabe erneut auf die Datenbank zugreifen muss.
- *  Durch das Speichern in der Session, muss nur einmal auf die Datenbank zugegriffen werden
- * context_patient_symptome
- *  Hier sind die Symptome, die vom Anwender ausgewählt wurden gespeichert
- *  Diese werden zur Auswahl der Krankheiten benötigt
- * context_inhalt
- *  Hier ist der Name der JSP-Seite gespeichert, die im Template angezeigt werden soll
- * context_krankheiten
- *  Hier sind die zu den Symptomen passenden Krankheiten mit ihrer aktuellen
- *  Wahrscheinlichkeit gespeichert. Sie sind nach ihrer Wahrscheinlichkeit absteigend geordnet
+ * Genutzte Context-Attribute: context_alle_symptome: Hier sind alle Symptome
+ * gespeichert, damit die combo-box der Symptomauswahl nicht bei jeder Eingabe
+ * erneut auf die Datenbank zugreifen muss. Durch das Speichern in der Session,
+ * muss nur einmal auf die Datenbank zugegriffen werden context_patient_symptome
+ * Hier sind die Symptome, die vom Anwender ausgewählt wurden gespeichert Diese
+ * werden zur Auswahl der Krankheiten benötigt context_inhalt Hier ist der Name
+ * der JSP-Seite gespeichert, die im Template angezeigt werden soll
+ * context_krankheiten Hier sind die zu den Symptomen passenden Krankheiten mit
+ * ihrer aktuellen Wahrscheinlichkeit gespeichert. Sie sind nach ihrer
+ * Wahrscheinlichkeit absteigend geordnet context_genauere_krankheit Hier ist
+ * die vom Nutzer für genauere informationen ausgewählte Krankheit gespeichert.
+ * Über diese wird auf Namen, Beschreibung und Empfehlung zugegriffen
  *
- * Abgefragte Anfrage-Parameter:
+ * Abgefragte Anfrage-Parameter: p_step Gibt an wohin navigiert werden soll
+ * (Welchen Inhalt das Template haben soll) p_action Gibt an welche Aktion
+ * ausgeführt werden soll p_del_symptom Bei User-Action, die ein Symptom aus der
+ * Liste nehmen soll steht hier der Name des Syndroms p_krankheit Bei Auswahl
+ * einer Krankheit für genauere Informationen, steht hier der Name der
+ * Krankheit, die näher betrachtet werden soll
  *
+ * Abgefragte Input-Felder: input_symptom Input-Feld für den Name des gewählten
+ * Symptoms
  *
  */
 @WebServlet(name = "CL_Controller_Servlet", urlPatterns = {"/main"})
 public class CL_Controller_Servlet extends HttpServlet {
 
     /**
-     *
-     * Beans deklerieren für den späteren Datenbankzugriff
+     * Beans-Deklaration für den Datenbankzugriff
      */
     @EJB
     private CL_Symptom_Bean io_symptom_bean;
@@ -65,32 +70,33 @@ public class CL_Controller_Servlet extends HttpServlet {
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
      *
-     * @param po_request    HTTP-Request der Anfrage
-     * @param po_response   HTTP-Antwort
+     * @param po_request HTTP-Request der Anfrage
+     * @param po_response HTTP-Antwort
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
-     * 
-     * Abarbeitung von Anfragen besteht zur Strukturierung aus 3 Schritten
-     * 1. Anfrage-Parameter auslesen, Sessioncontext-Attribute auslesen und lokale Varaiblen deklarieren und instanzieren.
-     * 2. Aktion, je nach Anfrageparametern durchführen
-     * 3. Sessioncontext-Attribute setzten und Anfrage weiterleiten
+     *
+     * Abarbeitung von Anfragen besteht zur Strukturierung aus 3 Schritten 1.
+     * Anfrage-Parameter auslesen, Eingabefelder auslesen,
+     * Sessioncontext-Attribute auslesen und lokale Varaiblen deklarieren und
+     * instanzieren. 2. Aktion, je nach Anfrageparametern durchführen 3.
+     * Sessioncontext-Attribute setzten und Anfrage weiterleiten
      */
     protected void im_processRequest(HttpServletRequest po_request, HttpServletResponse po_response)
             throws ServletException, IOException {
+
+        //--------------------------------------------------------------------------- 
+        //Alle Contextattribute, Eingabefelder und Parameter auslesen und Voreinstellungen vornehmen
         // Zeichensatz für Anfragedaten und empfangene Formulardaten festlegen
         po_request.setCharacterEncoding("utf-8");
         po_response.setContentType("utf-8");
         po_response.setContentType("text/html;charset=utf-8");
 
-        //--------------------------------------------------------------------------- 
-        //Alle Contextattribute und Parameter auslesen und Voreinstellungen vornehmen
-        
         //Session auslesen zur Speicherung der Context-Attribute
         HttpSession lo_session = po_request.getSession(true);
-        
+
         //Template Auswahl - Wenn diese Variable gesetzt ist, wurde bereits Aktion durchgeführt
         String lv_inhalt = "";
-        
+
         //Standardmeldung Meldung festlegen
         String lv_message = "";
 
@@ -125,7 +131,7 @@ public class CL_Controller_Servlet extends HttpServlet {
         String iv_gewaehltee_kranheit_name = po_request.getParameter("p_krankheit");
 
         //Inputfelder
-        String lv_gewaehlte_symptom_name = (String) po_request.getParameter("input_symptom");
+        String lv_gewaehlte_symptom_name = po_request.getParameter("input_symptom");
 
         //--------------------------------------------------------------------------- 
         //Useractionen bearbeiten
@@ -183,8 +189,7 @@ public class CL_Controller_Servlet extends HttpServlet {
             if (lo_patient_symptome.size() > 0) {
                 lo_krankheiten = im_get_krankheiten(lo_patient_symptome);
                 lv_inhalt = im_setze_templateinhalt("Inc_krankheiten.jsp", lv_inhalt);
-            }
-            else{
+            } else {
                 lv_inhalt = im_setze_templateinhalt("Inc_symptome.jsp", lv_inhalt);
                 lv_message = "Wählen sie Symptom aus, bevor sie weiter navigieren";
             }
