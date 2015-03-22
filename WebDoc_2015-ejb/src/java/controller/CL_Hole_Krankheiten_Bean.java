@@ -13,9 +13,9 @@ import javax.ejb.LocalBean;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-import zwischenspeicher.CL_Bewertetes_Symptom;
+import model.CL_Bewertetes_Symptom;
 import model.CL_Symptom;
-import zwischenspeicher.CL_Krankheit;
+import model.CL_Krankheit;
 
 /**
  *
@@ -39,7 +39,7 @@ public class CL_Hole_Krankheiten_Bean {
 
         for (CL_Bewertetes_Symptom lo_bewertete_symptome : lo_passende_Symptome) {
 
-            for (CL_Krankheit lo_krankheit : lo_bewertete_symptome.getCL_Krankheits()) {
+            for (CL_Krankheit lo_krankheit : lo_bewertete_symptome.getcL_Krankheits()) {
                 if (!lo_krankheiten.contains(lo_krankheit)) {
                     lo_krankheiten.add(lo_krankheit);
 

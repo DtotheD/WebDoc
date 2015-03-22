@@ -29,6 +29,7 @@ public class CL_Krankheit implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long iv_id;
     private String iv_beschreibung;
+    private String iv_name;
      
   
     @ManyToMany (cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
@@ -47,6 +48,15 @@ public class CL_Krankheit implements Serializable {
         this.io_empfehlung = io_empfehlung;
         this.iv_max_wert = iv_max_wert;
     }
+
+    public CL_Krankheit(String iv_beschreibung, CL_Empfehlung io_empfehlung, int iv_max_wert, String iv_name) {
+        this.iv_beschreibung = iv_beschreibung;
+        this.iv_name = iv_name;
+        this.io_empfehlung = io_empfehlung;
+        this.iv_max_wert = iv_max_wert;
+        this.io_symptome = new ArrayList<>();
+    }
+    
     
      public void addSymptom(CL_Bewertetes_Symptom io_symptom) {
       if (!getIo_symptome().contains(io_symptom)) {
@@ -55,6 +65,14 @@ public class CL_Krankheit implements Serializable {
       if (!io_symptom.getcL_Krankheits().contains(this)) {
           io_symptom.getcL_Krankheits().add(this);
       }
+    }
+
+    public String getIv_name() {
+        return iv_name;
+    }
+
+    public void setIv_name(String iv_name) {
+        this.iv_name = iv_name;
     }
 
     
