@@ -17,13 +17,10 @@ import model.CL_Symptom;
 import java.util.ArrayList;
 import java.util.List;
 import model.CL_Bewertetes_Symptom;
-import zwischenspeicher.CL_Empfehlung;
-import zwischenspeicher.CL_Krankheit;
+import model.CL_Empfehlung;
+import model.CL_Krankheit;
 import controller.CL_Krankheit_Akt_Wert;
 import controller.CL_Symptom_Bean;
-import controller.CL_Krankheit_Bean;
-import controller.CL_Empfehlung_Bean;
-import controller.CL_Bewertetes_Symptom_Bean;
 import controller.CL_Create_DB_Data_Bean;
 import controller.CL_Hole_Krankheiten_Bean;
 import javax.annotation.ManagedBean;
@@ -40,12 +37,6 @@ public class CL_Controller_Servlet extends HttpServlet {
     
     @EJB
     private CL_Symptom_Bean io_symptom_bean;
-    @EJB
-    private CL_Bewertetes_Symptom_Bean io_bewertetes_symptom_bean;
-    @EJB
-    private CL_Krankheit_Bean io_krankheit_bean;
-    @EJB
-    private CL_Empfehlung_Bean io_empfelung_bean;
     @EJB
     private CL_Create_DB_Data_Bean io_create_db_data_bean;
     @EJB
@@ -94,9 +85,6 @@ public class CL_Controller_Servlet extends HttpServlet {
 
         //Krankheitsliste - wenn mock weg, ArrayList durch List ersetzen
         ArrayList<CL_Krankheit_Akt_Wert> lo_krankheiten = (ArrayList<CL_Krankheit_Akt_Wert>) session.getAttribute("context_krankheiten");
-        if (lo_krankheiten == null) {
-            lo_krankheiten = im_mock_get_krankheiten(lo_patient_symptome);
-        }
         
         //genauere Krankheit
         CL_Krankheit_Akt_Wert lo_genauere_krankheit = (CL_Krankheit_Akt_Wert) session.getAttribute("context_genauere_krankheit");
@@ -162,6 +150,11 @@ public class CL_Controller_Servlet extends HttpServlet {
             }
 
             inhalt = lv_bisheriger_inhalt;
+        }
+        //Aus Symptomen Krankheiten finden
+        else if (action != null && action.equalsIgnoreCase("suche_krankheiten")){
+            lo_krankheiten = im_get_krankheiten(lo_patient_symptome);
+            inhalt = im_setze_templateinhalt("Inc_krankheiten.jsp", inhalt);
         }
         //Kranheit genauer getrachten
         else if (action != null && action.equalsIgnoreCase("read_more")){
@@ -237,21 +230,21 @@ public class CL_Controller_Servlet extends HttpServlet {
     }
 
     protected ArrayList<CL_Krankheit_Akt_Wert> im_mock_get_krankheiten(List<CL_Symptom> po_gewaehlte_Symptome) {
-        ArrayList<CL_Bewertetes_Symptom> bewertete_Symptome = new ArrayList<>();
-
-        bewertete_Symptome.add(new CL_Bewertetes_Symptom(new CL_Symptom("Symp1"), 1));
-        bewertete_Symptome.add(new CL_Bewertetes_Symptom(new CL_Symptom("Symp2"), 2));
-
+//        ArrayList<CL_Bewertetes_Symptom> bewertete_Symptome = new ArrayList<>();
+//
+//        bewertete_Symptome.add(new CL_Bewertetes_Symptom(new CL_Symptom("Symp1"), 1));
+//        bewertete_Symptome.add(new CL_Bewertetes_Symptom(new CL_Symptom("Symp2"), 2));
+//
         ArrayList<CL_Krankheit_Akt_Wert> back = new ArrayList<>();
-        back.add(0, new CL_Krankheit_Akt_Wert(po_gewaehlte_Symptome, new CL_Krankheit("Krankheit0", 3, new CL_Empfehlung("tue 0"), bewertete_Symptome, "Beschreibungstext 0"), 1));
-        back.add(1, new CL_Krankheit_Akt_Wert(po_gewaehlte_Symptome, new CL_Krankheit("Krankheit1", 3, new CL_Empfehlung("tue 1"), bewertete_Symptome, "Beschreibungstext 1"), 2));
+//        back.add(0, new CL_Krankheit_Akt_Wert(po_gewaehlte_Symptome, new CL_Krankheit("Krankheit0", 3, new CL_Empfehlung("tue 0"), bewertete_Symptome, "Beschreibungstext 0"), 1));
+//        back.add(1, new CL_Krankheit_Akt_Wert(po_gewaehlte_Symptome, new CL_Krankheit("Krankheit1", 3, new CL_Empfehlung("tue 1"), bewertete_Symptome, "Beschreibungstext 1"), 2));
 
         return back;
     }
     
-    protected List<CL_Krankheit_Akt_Wert> im_get_krankheiten(List<CL_Symptom> po_gewaehlte_Symptome) {
+    protected ArrayList<CL_Krankheit_Akt_Wert> im_get_krankheiten(ArrayList<CL_Symptom> po_gewaehlte_Symptome) {
         
-        return io_hole_krankheiten_bean.im_get_passende_Krankheiten(po_gewaehlte_Symptome);
+        return new ArrayList<>(io_hole_krankheiten_bean.im_get_passende_Krankheiten(po_gewaehlte_Symptome));
     }
 
     protected void im_create_dtb() {

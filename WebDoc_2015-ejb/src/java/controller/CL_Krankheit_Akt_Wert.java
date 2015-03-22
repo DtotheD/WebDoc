@@ -5,6 +5,7 @@
  */
 package controller;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import model.CL_Bewertetes_Symptom;
@@ -29,8 +30,7 @@ public class CL_Krankheit_Akt_Wert implements Comparable<CL_Krankheit_Akt_Wert> 
     
     public CL_Krankheit_Akt_Wert(List<CL_Bewertetes_Symptom> po_gewaehlte_Symptome, CL_Krankheit po_krankheit){
         io_krankheit = po_krankheit;
-        
-        //iv_akt_wert = im_cal_akt_wert(po_gewaehlte_Symptome);
+        iv_akt_wert = im_cal_akt_wert(po_gewaehlte_Symptome);
     }
     
     /**
@@ -62,6 +62,11 @@ public class CL_Krankheit_Akt_Wert implements Comparable<CL_Krankheit_Akt_Wert> 
 
     public double getIv_akt_wert() {
         return iv_akt_wert;
+    }
+    
+    public String getIv_akt_wert_string(){
+        DecimalFormat lo = new DecimalFormat("#.##");
+        return lo.format(iv_akt_wert * 100);
     }
 
     public void setIo_krankheit(CL_Krankheit io_krankheit) {

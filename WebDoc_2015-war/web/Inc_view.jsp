@@ -14,14 +14,14 @@
     </head>
     <body>
         <c:if test="${not empty context_genauere_krankheit}">
-            <h1>${context_genauere_krankheit.getIo_krankheit().getName()}</h1>
+            <h1>${context_genauere_krankheit.getIo_krankheit().getIv_name()}</h1>
             
             <div>
                 ${context_genauere_krankheit.getIo_krankheit().getIv_beschreibung()}
             </div>
             
             <div>
-               ${context_genauere_krankheit.getIo_krankheit().getEmpfehlung().getText()}
+               ${context_genauere_krankheit.getIo_krankheit().getIo_empfehlung().getIv_text()}
             </div>
         </c:if>
     </body>

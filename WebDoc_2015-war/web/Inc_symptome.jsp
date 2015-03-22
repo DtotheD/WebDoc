@@ -41,7 +41,7 @@
         </form>
     </p>
 
-    <a href="main?step=p_step_krankheiten">
+    <a href="main?step=p_step_krankheiten&action=suche_krankheiten">
         <!-- <img src="img/nav_edit.png" alt=""> -->
         weiter
     </a>

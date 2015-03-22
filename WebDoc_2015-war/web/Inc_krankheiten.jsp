@@ -31,13 +31,13 @@
                         <c:forEach var="krankheit" items="${context_krankheiten}">
                             <tr>
                                 <td> 
-                                    ${krankheit.getIo_krankheit().getName()}
+                                    ${krankheit.getIo_krankheit().getIv_name()}
                                 </td>
                                 <td>
-                                   ${krankheit.getIv_akt_wert()} 
+                                   ${krankheit.getIv_akt_wert_string()} %
                                 </td>
                                 <td>
-                                    <form method ="post" action="/WebDoc_2015-war/main?action=read_more&krankheit=${krankheit.getIo_krankheit().getName()}">
+                                    <form method ="post" action="/WebDoc_2015-war/main?action=read_more&krankheit=${krankheit.getIo_krankheit().getIv_name()}">
                                         <input type="submit" value=">">  
                                     </form>
                                 </td>
