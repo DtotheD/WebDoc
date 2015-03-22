@@ -37,7 +37,7 @@
                                    ${krankheit.getIv_akt_wert_string()} %
                                 </td>
                                 <td>
-                                    <form method ="post" action="/WebDoc_2015-war/main?action=read_more&krankheit=${krankheit.getIo_krankheit().getIv_name()}">
+                                    <form method ="post" action="/WebDoc_2015-war/main?p_action=read_more&p_krankheit=${krankheit.getIo_krankheit().getIv_name()}">
                                         <input type="submit" value=">">  
                                     </form>
                                 </td>
@@ -53,7 +53,7 @@
             </tr>
         </table>
 
-        <a href="main?step=p_step_symptome">
+        <a href="main?p_step=p_step_symptome">
             <!-- <img src="img/nav_edit.png" alt=""> -->
             zurück
         </a>

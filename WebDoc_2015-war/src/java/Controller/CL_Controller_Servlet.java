@@ -30,7 +30,18 @@ import controller.CL_Hole_Krankheiten_Bean;
  * Inhalt im context, in Form des Namens des JSP-Includes, mitgegeben wird.
  *
  * Genutzte Context-Attribute:
- *
+ * context_alle_symptome:
+ *  Hier sind alle Symptome gespeichert, damit die combo-box der Symptomauswahl
+ *  nicht bei jeder Eingabe erneut auf die Datenbank zugreifen muss.
+ *  Durch das Speichern in der Session, muss nur einmal auf die Datenbank zugegriffen werden
+ * context_patient_symptome
+ *  Hier sind die Symptome, die vom Anwender ausgewählt wurden gespeichert
+ *  Diese werden zur Auswahl der Krankheiten benötigt
+ * context_inhalt
+ *  Hier ist der Name der JSP-Seite gespeichert, die im Template angezeigt werden soll
+ * context_krankheiten
+ *  Hier sind die zu den Symptomen passenden Krankheiten mit ihrer aktuellen
+ *  Wahrscheinlichkeit gespeichert. Sie sind nach ihrer Wahrscheinlichkeit absteigend geordnet
  *
  * Abgefragte Anfrage-Parameter:
  *
@@ -39,6 +50,10 @@ import controller.CL_Hole_Krankheiten_Bean;
 @WebServlet(name = "CL_Controller_Servlet", urlPatterns = {"/main"})
 public class CL_Controller_Servlet extends HttpServlet {
 
+    /**
+     *
+     * Beans deklerieren für den späteren Datenbankzugriff
+     */
     @EJB
     private CL_Symptom_Bean io_symptom_bean;
     @EJB
@@ -50,10 +65,15 @@ public class CL_Controller_Servlet extends HttpServlet {
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
      *
-     * @param po_request
-     * @param po_response
+     * @param po_request    HTTP-Request der Anfrage
+     * @param po_response   HTTP-Antwort
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
+     * 
+     * Abarbeitung von Anfragen besteht zur Strukturierung aus 3 Schritten
+     * 1. Anfrage-Parameter auslesen, Sessioncontext-Attribute auslesen und lokale Varaiblen deklarieren und instanzieren.
+     * 2. Aktion, je nach Anfrageparametern durchführen
+     * 3. Sessioncontext-Attribute setzten und Anfrage weiterleiten
      */
     protected void im_processRequest(HttpServletRequest po_request, HttpServletResponse po_response)
             throws ServletException, IOException {
@@ -64,40 +84,45 @@ public class CL_Controller_Servlet extends HttpServlet {
 
         //--------------------------------------------------------------------------- 
         //Alle Contextattribute und Parameter auslesen und Voreinstellungen vornehmen
-        //Template Auswahl - Wenn diese Variable gesetzt ist wird wurde bereits Aktion durchgeführt
+        
+        //Session auslesen zur Speicherung der Context-Attribute
+        HttpSession lo_session = po_request.getSession(true);
+        
+        //Template Auswahl - Wenn diese Variable gesetzt ist, wurde bereits Aktion durchgeführt
         String lv_inhalt = "";
-        //Session auslesen
-        HttpSession session = po_request.getSession(true);
-        //Standardmeldung Meldung setzen
-        String lv_message = "es_läuft_noch_alles";
+        
+        //Standardmeldung Meldung festlegen
+        String lv_message = "";
 
-        //Liste aller Symptome auslesen, falls diese noch nicht dort gespeicehrt ist
-        List<CL_Symptom> lo_symptome = (List<CL_Symptom>) session.getAttribute("context_alle_symptome");
+        //Liste aller Symptome auslesen
+        List<CL_Symptom> lo_symptome = (List<CL_Symptom>) lo_session.getAttribute("context_alle_symptome");
+        //Falls sie sich noch nicht im Context befindet, wird sie neu erzeugt
         if (lo_symptome == null || lo_symptome.size() < 1) {
-
+            //Über Bean alle Symptome aus der Datenbank auslesen
             lo_symptome = io_symptom_bean.im_getAllSymptoms();
         }
 
-        //gewählte Symptome auslesen und erstellen, falls dieses noch nicht vorhanden ist
-        ArrayList<CL_Symptom> lo_patient_symptome = (ArrayList<CL_Symptom>) session.getAttribute("context_patient_symptome");
+        //Liste der gewählten Symptome auslesen
+        ArrayList<CL_Symptom> lo_patient_symptome = (ArrayList<CL_Symptom>) lo_session.getAttribute("context_patient_symptome");
+        //Falls sie sich nich nicht im Context befindet, wird neue leere Liste erzeugt
         if (lo_patient_symptome == null) {
             lo_patient_symptome = new ArrayList<>();
         }
 
-        //Aktuelles Template auslesen
-        String lv_bisheriger_inhalt = (String) session.getAttribute("context_inhalt");
+        //Aktueller Template-Inhalt auslesen
+        String lv_bisheriger_inhalt = (String) lo_session.getAttribute("context_inhalt");
 
-        //Krankheitsliste - wenn mock weg, ArrayList durch List ersetzen
-        ArrayList<CL_Krankheit_Akt_Wert> lo_krankheiten = (ArrayList<CL_Krankheit_Akt_Wert>) session.getAttribute("context_krankheiten");
+        //Krankheitsliste auslesen
+        ArrayList<CL_Krankheit_Akt_Wert> lo_krankheiten = (ArrayList<CL_Krankheit_Akt_Wert>) lo_session.getAttribute("context_krankheiten");
 
-        //genauere Krankheit
-        CL_Krankheit_Akt_Wert lo_genauere_krankheit = (CL_Krankheit_Akt_Wert) session.getAttribute("context_genauere_krankheit");
+        //Genauer zu betrachtende Krankheit auslesen
+        CL_Krankheit_Akt_Wert lo_genauere_krankheit = (CL_Krankheit_Akt_Wert) lo_session.getAttribute("context_genauere_krankheit");
 
         // URL-Parameter auslesen
-        String step = po_request.getParameter("step");
-        String action = po_request.getParameter("action");
-        String lv_geloeschtes_symptom_name = po_request.getParameter("del_symptom");
-        String iv_gewaehltee_kranheit_name = po_request.getParameter("krankheit");
+        String step = po_request.getParameter("p_step");
+        String action = po_request.getParameter("p_action");
+        String lv_geloeschtes_symptom_name = po_request.getParameter("p_del_symptom");
+        String iv_gewaehltee_kranheit_name = po_request.getParameter("p_krankheit");
 
         //Inputfelder
         String lv_gewaehlte_symptom_name = (String) po_request.getParameter("input_symptom");
@@ -107,7 +132,7 @@ public class CL_Controller_Servlet extends HttpServlet {
         //DTB anlegen action = create_dtb
         if (action != null && action.equalsIgnoreCase("create_dtb")) {
             //Datenbank anlegen
-            im_create_dtb();
+            io_create_db_data_bean.im_create_db();
             //Alle Symptome auslesen
             lo_symptome = io_symptom_bean.im_getAllSymptoms();
             //Template auswählen
@@ -155,8 +180,14 @@ public class CL_Controller_Servlet extends HttpServlet {
             lv_inhalt = lv_bisheriger_inhalt;
         } //Aus Symptomen Krankheiten finden
         else if (action != null && action.equalsIgnoreCase("suche_krankheiten")) {
-            lo_krankheiten = im_get_krankheiten(lo_patient_symptome);
-            lv_inhalt = im_setze_templateinhalt("Inc_krankheiten.jsp", lv_inhalt);
+            if (lo_patient_symptome.size() > 0) {
+                lo_krankheiten = im_get_krankheiten(lo_patient_symptome);
+                lv_inhalt = im_setze_templateinhalt("Inc_krankheiten.jsp", lv_inhalt);
+            }
+            else{
+                lv_inhalt = im_setze_templateinhalt("Inc_symptome.jsp", lv_inhalt);
+                lv_message = "Wählen sie Symptom aus, bevor sie weiter navigieren";
+            }
         } //Kranheit genauer getrachten
         else if (action != null && action.equalsIgnoreCase("read_more")) {
             CL_Krankheit_Akt_Wert lo_gewaehlte_Krankheit = im_krankheit_ueber_name(iv_gewaehltee_kranheit_name, lo_krankheiten);
@@ -185,17 +216,17 @@ public class CL_Controller_Servlet extends HttpServlet {
         //--------------------------------------------------------------------------- 
         //Session-Attribute setzen und weiterleiten
         //Template-Inhalt
-        session.setAttribute("context_inhalt", lv_inhalt);
+        lo_session.setAttribute("context_inhalt", lv_inhalt);
         //Symptom-Liste
-        session.setAttribute("context_patient_symptome", lo_patient_symptome);
+        lo_session.setAttribute("context_patient_symptome", lo_patient_symptome);
         // Message
-        session.setAttribute("context_message", lv_message);
+        lo_session.setAttribute("context_message", lv_message);
         //Alle Symptome
-        session.setAttribute("context_alle_symptome", lo_symptome);
+        lo_session.setAttribute("context_alle_symptome", lo_symptome);
         //Kranheiten
-        session.setAttribute("context_krankheiten", lo_krankheiten);
+        lo_session.setAttribute("context_krankheiten", lo_krankheiten);
         //genauere Krankheit
-        session.setAttribute("context_genauere_krankheit", lo_genauere_krankheit);
+        lo_session.setAttribute("context_genauere_krankheit", lo_genauere_krankheit);
 
         //Weiterleitung
         RequestDispatcher dispatcher = po_request.getRequestDispatcher("Head.jsp");
@@ -242,7 +273,7 @@ public class CL_Controller_Servlet extends HttpServlet {
      * @return
      */
     protected String im_setze_templateinhalt(String pv_wunsch_inhalt, String pv_inhalt) {
-        if (pv_inhalt == null || pv_inhalt == "") {
+        if (pv_inhalt == null || pv_inhalt.equalsIgnoreCase("")) {
             return pv_wunsch_inhalt;
         }
         return pv_inhalt;
@@ -253,36 +284,9 @@ public class CL_Controller_Servlet extends HttpServlet {
      * @param po_gewaehlte_Symptome
      * @return
      */
-    protected ArrayList<CL_Krankheit_Akt_Wert> im_mock_get_krankheiten(List<CL_Symptom> po_gewaehlte_Symptome) {
-//        ArrayList<CL_Bewertetes_Symptom> bewertete_Symptome = new ArrayList<>();
-//
-//        bewertete_Symptome.add(new CL_Bewertetes_Symptom(new CL_Symptom("Symp1"), 1));
-//        bewertete_Symptome.add(new CL_Bewertetes_Symptom(new CL_Symptom("Symp2"), 2));
-//
-        ArrayList<CL_Krankheit_Akt_Wert> back = new ArrayList<>();
-//        back.add(0, new CL_Krankheit_Akt_Wert(po_gewaehlte_Symptome, new CL_Krankheit("Krankheit0", 3, new CL_Empfehlung("tue 0"), bewertete_Symptome, "Beschreibungstext 0"), 1));
-//        back.add(1, new CL_Krankheit_Akt_Wert(po_gewaehlte_Symptome, new CL_Krankheit("Krankheit1", 3, new CL_Empfehlung("tue 1"), bewertete_Symptome, "Beschreibungstext 1"), 2));
-
-        return back;
-    }
-
-    /**
-     *
-     * @param po_gewaehlte_Symptome
-     * @return
-     */
     protected ArrayList<CL_Krankheit_Akt_Wert> im_get_krankheiten(ArrayList<CL_Symptom> po_gewaehlte_Symptome) {
 
         return new ArrayList<>(io_hole_krankheiten_bean.im_get_passende_Krankheiten(po_gewaehlte_Symptome));
-    }
-
-    /**
-     *
-     */
-    protected void im_create_dtb() {
-
-        io_create_db_data_bean.im_create_db();
-
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

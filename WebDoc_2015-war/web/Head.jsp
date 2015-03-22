@@ -18,7 +18,7 @@
         This is the error Message </br>
         ${context_message}
         <div>
-            <a href="main?action=create_dtb">
+            <a href="main?p_action=create_dtb">
                 <!-- <img src="img/nav_edit.png" alt=""> -->
                 create DTB
             </a>

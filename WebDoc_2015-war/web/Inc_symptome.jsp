@@ -22,7 +22,7 @@
         <ul>
 
             <c:forEach var="symptom" items="${context_patient_symptome}">             
-                <form method ="post" action="/WebDoc_2015-war/main?step=symptome&action=del_symptom&del_symptom=${symptom.getIv_name()}">
+                <form method ="post" action="/WebDoc_2015-war/main?p_step=symptome&p_action=del_symptom&p_del_symptom=${symptom.getIv_name()}">
                     <li> ${symptom.getIv_name()}
                         <input type="submit" value="-">   
                     </li>
@@ -30,7 +30,7 @@
             </c:forEach>
 
         </ul>
-        <form method = "post" action="/WebDoc_2015-war/main?step=symptome&action=add_symptom">
+        <form method = "post" action="/WebDoc_2015-war/main?p_step=symptome&p_action=add_symptom">
             <input type=text list=symptome name="input_symptom" >            
             <datalist id=symptome >
                 <c:forEach var="symptom" items="${context_alle_symptome}" >
@@ -41,7 +41,7 @@
         </form>
     </p>
 
-    <a href="main?step=p_step_krankheiten&action=suche_krankheiten">
+    <a href="main?p_step=p_step_krankheiten&p_action=suche_krankheiten">
         <!-- <img src="img/nav_edit.png" alt=""> -->
         weiter
     </a>
