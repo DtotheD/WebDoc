@@ -78,14 +78,14 @@ public class CL_Krankheit_Akt_Wert implements Comparable<CL_Krankheit_Akt_Wert> 
     }
     
     @Override
-    public int compareTo(CL_Krankheit_Akt_Wert po_krankheit_akt_wert){ //prüfen ob das so geht
+    public int compareTo(CL_Krankheit_Akt_Wert po_krankheit_akt_wert){
         
         if(po_krankheit_akt_wert.getIv_akt_wert() == this.iv_akt_wert)
             return 0;
         else if(po_krankheit_akt_wert.getIv_akt_wert() < this.iv_akt_wert)
-            return 1;
-        else
             return - 1;
+        else
+            return 1;
     }
     
     
