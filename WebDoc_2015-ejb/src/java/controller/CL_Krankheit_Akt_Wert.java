@@ -65,7 +65,7 @@ public class CL_Krankheit_Akt_Wert implements Comparable<CL_Krankheit_Akt_Wert> 
     }
     
     public String getIv_akt_wert_string(){
-        DecimalFormat lo = new DecimalFormat("#.##");
+        DecimalFormat lo = new DecimalFormat("#");
         return lo.format(iv_akt_wert * 100);
     }
 

@@ -15,6 +15,7 @@ import javax.persistence.NamedQuery;
 /**
  *
  * @author DEZAPTHO
+ * 
  */
 
 @Entity

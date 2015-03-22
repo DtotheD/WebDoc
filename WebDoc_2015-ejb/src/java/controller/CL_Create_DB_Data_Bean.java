@@ -9,7 +9,6 @@ import javax.ejb.Stateless;
 import javax.ejb.LocalBean;
 import javax.persistence.EntityManager;
 import javax.persistence.FlushModeType;
-import javax.persistence.*;
 import javax.persistence.PersistenceContext;
 import model.CL_Bewertetes_Symptom;
 import model.CL_Empfehlung;

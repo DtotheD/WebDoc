@@ -16,10 +16,9 @@ import javax.persistence.NamedQuery;
 /**
  *
  * @author DEKREDAV
+ * 
  */
-/**
- * Entity zur Speicherung von Permissions, die Berechtigung von Rollen darstellen.
- */
+
 @Entity
 @NamedQueries(
 {

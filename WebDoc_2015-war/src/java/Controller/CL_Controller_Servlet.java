@@ -5,6 +5,8 @@
  */
 package Controller;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.io.IOException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -13,28 +15,30 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.ejb.EJB;
 import model.CL_Symptom;
-import java.util.ArrayList;
-import java.util.List;
-import model.CL_Bewertetes_Symptom;
-import model.CL_Empfehlung;
-import model.CL_Krankheit;
 import controller.CL_Krankheit_Akt_Wert;
 import controller.CL_Symptom_Bean;
 import controller.CL_Create_DB_Data_Bean;
 import controller.CL_Hole_Krankheiten_Bean;
-import javax.annotation.ManagedBean;
-import javax.ejb.EJB;
 
 /**
  *
- * @author DEKREDAV
- * blablabla
+ * @author DEKREDAV Datum: CREDAT Controller-Servlet Reagiert auf Push- und
+ * Pull-Anfragen gleich. Verarbeitet Anfragen je nach Anfrageparametern und
+ * leitet die Anfrage dann an die Template-JSP weiter, wobei deren jeweiliger
+ * Inhalt im context, in Form des Namens des JSP-Includes, mitgegeben wird.
+ *
+ * Genutzte Context-Attribute:
+ *
+ *
+ * Abgefragte Anfrage-Parameter:
+ *
+ *
  */
-@ManagedBean
 @WebServlet(name = "CL_Controller_Servlet", urlPatterns = {"/main"})
 public class CL_Controller_Servlet extends HttpServlet {
-    
+
     @EJB
     private CL_Symptom_Bean io_symptom_bean;
     @EJB
@@ -46,24 +50,24 @@ public class CL_Controller_Servlet extends HttpServlet {
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
      *
-     * @param request servlet request
-     * @param response servlet response
+     * @param po_request
+     * @param po_response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+    protected void im_processRequest(HttpServletRequest po_request, HttpServletResponse po_response)
             throws ServletException, IOException {
         // Zeichensatz für Anfragedaten und empfangene Formulardaten festlegen
-        request.setCharacterEncoding("utf-8");
-        response.setContentType("utf-8");
-        response.setContentType("text/html;charset=utf-8");
+        po_request.setCharacterEncoding("utf-8");
+        po_response.setContentType("utf-8");
+        po_response.setContentType("text/html;charset=utf-8");
 
         //--------------------------------------------------------------------------- 
         //Alle Contextattribute und Parameter auslesen und Voreinstellungen vornehmen
         //Template Auswahl - Wenn diese Variable gesetzt ist wird wurde bereits Aktion durchgeführt
-        String inhalt = "";
+        String lv_inhalt = "";
         //Session auslesen
-        HttpSession session = request.getSession(true);
+        HttpSession session = po_request.getSession(true);
         //Standardmeldung Meldung setzen
         String lv_message = "es_läuft_noch_alles";
 
@@ -85,18 +89,18 @@ public class CL_Controller_Servlet extends HttpServlet {
 
         //Krankheitsliste - wenn mock weg, ArrayList durch List ersetzen
         ArrayList<CL_Krankheit_Akt_Wert> lo_krankheiten = (ArrayList<CL_Krankheit_Akt_Wert>) session.getAttribute("context_krankheiten");
-        
+
         //genauere Krankheit
         CL_Krankheit_Akt_Wert lo_genauere_krankheit = (CL_Krankheit_Akt_Wert) session.getAttribute("context_genauere_krankheit");
 
         // URL-Parameter auslesen
-        String step = request.getParameter("step");
-        String action = request.getParameter("action");
-        String lv_geloeschtes_symptom_name = request.getParameter("del_symptom");
-        String iv_gewaehltee_kranheit_name = request.getParameter("krankheit");
+        String step = po_request.getParameter("step");
+        String action = po_request.getParameter("action");
+        String lv_geloeschtes_symptom_name = po_request.getParameter("del_symptom");
+        String iv_gewaehltee_kranheit_name = po_request.getParameter("krankheit");
 
         //Inputfelder
-        String lv_gewaehlte_symptom_name = (String) request.getParameter("input_symptom");
+        String lv_gewaehlte_symptom_name = (String) po_request.getParameter("input_symptom");
 
         //--------------------------------------------------------------------------- 
         //Useractionen bearbeiten
@@ -107,7 +111,7 @@ public class CL_Controller_Servlet extends HttpServlet {
             //Alle Symptome auslesen
             lo_symptome = io_symptom_bean.im_getAllSymptoms();
             //Template auswählen
-            inhalt = im_setze_templateinhalt(lv_bisheriger_inhalt, inhalt);
+            lv_inhalt = im_setze_templateinhalt(lv_bisheriger_inhalt, lv_inhalt);
         } //Symptom hinzufügen 
         else if (action != null && action.equalsIgnoreCase("add_symptom")) {
             // prüfen ob Symptomname auch in Datenbank vorliegt
@@ -135,9 +139,8 @@ public class CL_Controller_Servlet extends HttpServlet {
                 lv_message = "Element ist nicht vorhanden";
             }
             //Template auswählen
-            inhalt = im_setze_templateinhalt("Inc_symptome.jsp", inhalt);
-        }
-        //Symptom löschen
+            lv_inhalt = im_setze_templateinhalt("Inc_symptome.jsp", lv_inhalt);
+        } //Symptom löschen
         else if (action != null && action.equalsIgnoreCase("del_symptom")) {
 
             CL_Symptom lo_del_Symptom = im_suche_symptom_ueber_name(lv_geloeschtes_symptom_name, lo_patient_symptome);
@@ -149,43 +152,40 @@ public class CL_Controller_Servlet extends HttpServlet {
                 lv_message = "Fehler!";
             }
 
-            inhalt = lv_bisheriger_inhalt;
-        }
-        //Aus Symptomen Krankheiten finden
-        else if (action != null && action.equalsIgnoreCase("suche_krankheiten")){
+            lv_inhalt = lv_bisheriger_inhalt;
+        } //Aus Symptomen Krankheiten finden
+        else if (action != null && action.equalsIgnoreCase("suche_krankheiten")) {
             lo_krankheiten = im_get_krankheiten(lo_patient_symptome);
-            inhalt = im_setze_templateinhalt("Inc_krankheiten.jsp", inhalt);
-        }
-        //Kranheit genauer getrachten
-        else if (action != null && action.equalsIgnoreCase("read_more")){
+            lv_inhalt = im_setze_templateinhalt("Inc_krankheiten.jsp", lv_inhalt);
+        } //Kranheit genauer getrachten
+        else if (action != null && action.equalsIgnoreCase("read_more")) {
             CL_Krankheit_Akt_Wert lo_gewaehlte_Krankheit = im_krankheit_ueber_name(iv_gewaehltee_kranheit_name, lo_krankheiten);
-            if (lo_gewaehlte_Krankheit != null){
+            if (lo_gewaehlte_Krankheit != null) {
                 lo_genauere_krankheit = lo_gewaehlte_Krankheit;
-            }
-            else
+            } else {
                 lv_message = "Fehler!";
-            inhalt = im_setze_templateinhalt("Inc_krankheiten.jsp", inhalt);
-        }
-        //Navigations-Links
+            }
+            lv_inhalt = im_setze_templateinhalt("Inc_krankheiten.jsp", lv_inhalt);
+        } //Navigations-Links
         else if (step == null || step.equalsIgnoreCase("p_step_symptome")) {
-            inhalt = im_setze_templateinhalt("Inc_symptome.jsp", inhalt);
+            lv_inhalt = im_setze_templateinhalt("Inc_symptome.jsp", lv_inhalt);
         } else if (step.equalsIgnoreCase("p_step_krankheiten")) {
             if (lo_patient_symptome.size() > 0) {
-                inhalt = im_setze_templateinhalt("Inc_krankheiten.jsp", inhalt);
+                lv_inhalt = im_setze_templateinhalt("Inc_krankheiten.jsp", lv_inhalt);
             } else {
-                inhalt = im_setze_templateinhalt("Inc_symptome.jsp", inhalt);
+                lv_inhalt = im_setze_templateinhalt("Inc_symptome.jsp", lv_inhalt);
                 lv_message = "Wählen sie Symptom aus, bevor sie weiter navigieren";
             }
             //Fehlerhafter Step
-        } else if (inhalt.equalsIgnoreCase("")) {
+        } else if (lv_inhalt.equalsIgnoreCase("")) {
             lv_message = "fehlerhfate URL-Parameter";
-            inhalt = im_setze_templateinhalt("Inc_symptome.jsp", inhalt);
+            lv_inhalt = im_setze_templateinhalt("Inc_symptome.jsp", lv_inhalt);
         }
 
         //--------------------------------------------------------------------------- 
         //Session-Attribute setzen und weiterleiten
         //Template-Inhalt
-        session.setAttribute("context_inhalt", inhalt);
+        session.setAttribute("context_inhalt", lv_inhalt);
         //Symptom-Liste
         session.setAttribute("context_patient_symptome", lo_patient_symptome);
         // Message
@@ -198,11 +198,17 @@ public class CL_Controller_Servlet extends HttpServlet {
         session.setAttribute("context_genauere_krankheit", lo_genauere_krankheit);
 
         //Weiterleitung
-        RequestDispatcher dispatcher = request.getRequestDispatcher("Head.jsp");
-        dispatcher.forward(request, response);
+        RequestDispatcher dispatcher = po_request.getRequestDispatcher("Head.jsp");
+        dispatcher.forward(po_request, po_response);
 
     }
 
+    /**
+     *
+     * @param pv_symptom_name
+     * @param po_symptome
+     * @return
+     */
     protected CL_Symptom im_suche_symptom_ueber_name(String pv_symptom_name, List<CL_Symptom> po_symptome) {
 
         for (CL_Symptom lo_symptom : po_symptome) {
@@ -212,16 +218,29 @@ public class CL_Controller_Servlet extends HttpServlet {
         }
         return null;
     }
-    
-    protected CL_Krankheit_Akt_Wert im_krankheit_ueber_name (String pv_krankheit_name, List<CL_Krankheit_Akt_Wert> po_krankheitsliste){
-        
+
+    /**
+     *
+     * @param pv_krankheit_name
+     * @param po_krankheitsliste
+     * @return
+     */
+    protected CL_Krankheit_Akt_Wert im_krankheit_ueber_name(String pv_krankheit_name, List<CL_Krankheit_Akt_Wert> po_krankheitsliste) {
+
         for (CL_Krankheit_Akt_Wert lo_krankheit : po_krankheitsliste) {
-            if (lo_krankheit.getIo_krankheit().getIv_name().equalsIgnoreCase(pv_krankheit_name))
+            if (lo_krankheit.getIo_krankheit().getIv_name().equalsIgnoreCase(pv_krankheit_name)) {
                 return lo_krankheit;
+            }
         }
         return null;
     }
 
+    /**
+     *
+     * @param pv_wunsch_inhalt
+     * @param pv_inhalt
+     * @return
+     */
     protected String im_setze_templateinhalt(String pv_wunsch_inhalt, String pv_inhalt) {
         if (pv_inhalt == null || pv_inhalt == "") {
             return pv_wunsch_inhalt;
@@ -229,6 +248,11 @@ public class CL_Controller_Servlet extends HttpServlet {
         return pv_inhalt;
     }
 
+    /**
+     *
+     * @param po_gewaehlte_Symptome
+     * @return
+     */
     protected ArrayList<CL_Krankheit_Akt_Wert> im_mock_get_krankheiten(List<CL_Symptom> po_gewaehlte_Symptome) {
 //        ArrayList<CL_Bewertetes_Symptom> bewertete_Symptome = new ArrayList<>();
 //
@@ -241,14 +265,22 @@ public class CL_Controller_Servlet extends HttpServlet {
 
         return back;
     }
-    
+
+    /**
+     *
+     * @param po_gewaehlte_Symptome
+     * @return
+     */
     protected ArrayList<CL_Krankheit_Akt_Wert> im_get_krankheiten(ArrayList<CL_Symptom> po_gewaehlte_Symptome) {
-        
+
         return new ArrayList<>(io_hole_krankheiten_bean.im_get_passende_Krankheiten(po_gewaehlte_Symptome));
     }
 
+    /**
+     *
+     */
     protected void im_create_dtb() {
-        
+
         io_create_db_data_bean.im_create_db();
 
     }
@@ -265,7 +297,7 @@ public class CL_Controller_Servlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        im_processRequest(request, response);
     }
 
     /**
@@ -279,7 +311,7 @@ public class CL_Controller_Servlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        im_processRequest(request, response);
     }
 
     /**
