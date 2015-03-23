@@ -23,6 +23,16 @@
             <div>
                ${context_genauere_krankheit.getIo_krankheit().getIo_empfehlung().getIv_text()}
             </div>
+            
+            <div>
+                <ul>
+                    <c:forEach var="symptom" items="${context_genauere_krankheit.getIo_krankheit().getIo_symptome()}">
+                        <li>
+                            ${symptom.getIo_Symptom().getIv_name()}
+                        </li>
+                    </c:forEach>
+                </ul>
+            </div>
         </c:if>
     </body>
 </html>

@@ -58,7 +58,7 @@ public class CL_Bewertetes_Symptom implements Serializable {
         return iv_id;
     }
 
-    public CL_Symptom getSymptom() {
+    public CL_Symptom getIo_Symptom() {
         return io_symptom;
     }
 

@@ -205,6 +205,7 @@ public class CL_Controller_Servlet extends HttpServlet {
         } //Navigations-Links
         else if (step == null || step.equalsIgnoreCase("p_step_symptome")) {
             lv_inhalt = im_setze_templateinhalt("Inc_symptome.jsp", lv_inhalt);
+            lo_genauere_krankheit = null;
         } else if (step.equalsIgnoreCase("p_step_krankheiten")) {
             if (lo_patient_symptome.size() > 0) {
                 lv_inhalt = im_setze_templateinhalt("Inc_krankheiten.jsp", lv_inhalt);
@@ -244,6 +245,9 @@ public class CL_Controller_Servlet extends HttpServlet {
      * @param pv_symptom_name
      * @param po_symptome
      * @return
+     * Methode die ein Symptom über dessen Name sucht
+     * Genutzt um bei Button(Del-Symptom), der ein Symptomname mitgibt, diese aus der Liste der gewählten Symptome zu entfernen
+     * Genutzt um bei Button(add), bei dem ein Symptomname ausgelesen wird, diesen der Liste der gewählten Symptome hinzuzufügen
      */
     protected CL_Symptom im_suche_symptom_ueber_name(String pv_symptom_name, List<CL_Symptom> po_symptome) {
 
@@ -260,6 +264,8 @@ public class CL_Controller_Servlet extends HttpServlet {
      * @param pv_krankheit_name
      * @param po_krankheitsliste
      * @return
+     * Methode, die eine Krankheit über deren Name sucht
+     * Genutzt um bei Butto(Read-More), der den Krankheitsnamen mitgibt, die gewählte Krankheit zu suchen
      */
     protected CL_Krankheit_Akt_Wert im_krankheit_ueber_name(String pv_krankheit_name, List<CL_Krankheit_Akt_Wert> po_krankheitsliste) {
 
