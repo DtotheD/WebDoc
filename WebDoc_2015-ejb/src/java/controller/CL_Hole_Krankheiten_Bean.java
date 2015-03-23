@@ -35,7 +35,7 @@ public class CL_Hole_Krankheiten_Bean {
     private EntityManager io_em;
     
     /*
-    *   Von außen aufrufbare Methode, die die passenden krankheiten mit ihrem aktuellen prozentualen Wahrscheinlichkeits-Wert zurück gibt
+    *   Von außen aufrufbare Methode, die die passenden Krankheiten mit ihrem aktuellen prozentualen Wahrscheinlichkeits-Wert zurück gibt
     */
     public List<CL_Krankheit_Akt_Wert> im_get_passende_Krankheiten(List<CL_Symptom> po_gewaehlte_Symptome) {
 
@@ -47,7 +47,7 @@ public class CL_Hole_Krankheiten_Bean {
 
         for (CL_Bewertetes_Symptom lo_bewertete_symptome : lo_passende_Symptome) {
 
-            for (CL_Krankheit lo_krankheit : lo_bewertete_symptome.getcL_Krankheits()) {
+            for (CL_Krankheit lo_krankheit : lo_bewertete_symptome.getIo_krankheiten()) {
                 if (!lo_krankheiten.contains(lo_krankheit)) {
                     lo_krankheiten.add(lo_krankheit);
 
