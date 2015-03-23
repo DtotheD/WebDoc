@@ -66,6 +66,7 @@ public class CL_Krankheit_Akt_Wert implements Comparable<CL_Krankheit_Akt_Wert> 
         DecimalFormat lo = new DecimalFormat("#");
         return lo.format(iv_akt_wahrscheinlichkeit * 100);
     }
+    
     /**
      * 
      * @param po_krankheit_akt_wert
