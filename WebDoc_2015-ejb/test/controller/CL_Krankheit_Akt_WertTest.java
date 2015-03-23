@@ -48,7 +48,7 @@ public class CL_Krankheit_Akt_WertTest {
      */
     @Test
     public void testIm_cal_akt_wert() {
-        System.out.println("im_cal_akt_wert");
+        System.out.println("im_cal_akt_wahr");
         CL_Symptom lo_symptom_1 = new CL_Symptom("Husten");
         CL_Symptom lo_symptom_2 = new CL_Symptom("Fieber");
         CL_Symptom lo_symptom_3 = new CL_Symptom("Kopfschmerzen");
@@ -100,7 +100,7 @@ public class CL_Krankheit_Akt_WertTest {
         
         double expResult = 0.9;
         
-        double result = instance.im_cal_akt_wert(lo_gewaehlte_symptome);
+        double result = instance.im_cal_akt_wahr(lo_gewaehlte_symptome);
         
         assertEquals(expResult, result, 0.0);
        
