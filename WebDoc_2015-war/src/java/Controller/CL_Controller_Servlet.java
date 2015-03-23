@@ -24,33 +24,48 @@ import controller.CL_Hole_Krankheiten_Bean;
 
 /**
  *
- * @author DEKREDAV Datum: CREDAT Controller-Servlet Reagiert auf Push- und
- * Pull-Anfragen gleich. Verarbeitet Anfragen je nach Anfrageparametern und
- * leitet die Anfrage dann an die Template-JSP weiter, wobei deren jeweiliger
- * Inhalt im context, in Form des Namens des JSP-Includes, mitgegeben wird.
+ * @author DEKREDAV
+ * Datum: CREDAT
+ * Controller-Servlet Reagiert auf Push- und Pull-Anfragen gleich.
+ * Verarbeitet Anfragen je nach Anfrageparametern und leitet die Anfrage dann an
+ * die Template-JSP weiter, wobei deren jeweiliger Inhalt im context, in Form
+ * des Namens des JSP-Includes, mitgegeben wird.
  *
- * Genutzte Context-Attribute: context_alle_symptome: Hier sind alle Symptome
- * gespeichert, damit die combo-box der Symptomauswahl nicht bei jeder Eingabe
- * erneut auf die Datenbank zugreifen muss. Durch das Speichern in der Session,
- * muss nur einmal auf die Datenbank zugegriffen werden context_patient_symptome
- * Hier sind die Symptome, die vom Anwender ausgewählt wurden gespeichert Diese
- * werden zur Auswahl der Krankheiten benötigt context_inhalt Hier ist der Name
- * der JSP-Seite gespeichert, die im Template angezeigt werden soll
- * context_krankheiten Hier sind die zu den Symptomen passenden Krankheiten mit
- * ihrer aktuellen Wahrscheinlichkeit gespeichert. Sie sind nach ihrer
- * Wahrscheinlichkeit absteigend geordnet context_genauere_krankheit Hier ist
- * die vom Nutzer für genauere informationen ausgewählte Krankheit gespeichert.
- * Über diese wird auf Namen, Beschreibung und Empfehlung zugegriffen
+ * Genutzte Context-Attribute:
+ * context_alle_symptome: 
+ *  Hier sind alle Symptome gespeichert, damit die combo-box der Symptomauswahl
+ *  nicht bei jeder Eingabe erneut auf die Datenbank zugreifen muss. 
+ *   Durch das Speichern in der Session,muss nur einmal auf die Datenbank
+ *  zugegriffen werden.
+ * context_patient_symptome:
+ *  Hier sind die Symptome, die vom Anwender ausgewählt wurden gespeichert Diese
+ *  werden zur Auswahl der Krankheiten benötigt
+ * context_inhalt:
+ *  Hier ist der Name der JSP-Seite gespeichert, die im Template angezeigt werden 
+ *  soll.
+ * context_krankheiten:
+ *  Hier sind die zu den Symptomen passenden Krankheiten mit
+ *  ihrer aktuellen Wahrscheinlichkeit gespeichert. Sie sind nach ihrer
+ *  Wahrscheinlichkeit absteigend geordnet
+ * context_genauere_krankheit:
+ *  Hier ist die vom Nutzer für genauere informationen ausgewählte Krankheit
+ *  gespeichert. Über diese wird auf Namen, Beschreibung und Empfehlung zugegriffen
  *
- * Abgefragte Anfrage-Parameter: p_step Gibt an wohin navigiert werden soll
- * (Welchen Inhalt das Template haben soll) p_action Gibt an welche Aktion
- * ausgeführt werden soll p_del_symptom Bei User-Action, die ein Symptom aus der
- * Liste nehmen soll steht hier der Name des Syndroms p_krankheit Bei Auswahl
- * einer Krankheit für genauere Informationen, steht hier der Name der
- * Krankheit, die näher betrachtet werden soll
+ * Abgefragte Anfrage-Parameter:
+ * p_step:
+ *  Gibt an wohin navigiert werden soll (Welchen Inhalt das Template haben soll).
+ * p_action:
+ *  Gibt an welche Aktion ausgeführt werden soll.
+ * p_del_symptom:
+ *  Bei User-Action, die ein Symptom aus der Liste nehmen soll,
+ *  steht hier der Name des Symptoms
+ * p_krankheit:
+ *  Bei Auswahl einer Krankheit für genauere Informationen, steht hier der Name der
+ *  Krankheit, die näher betrachtet werden soll
  *
- * Abgefragte Input-Felder: input_symptom Input-Feld für den Name des gewählten
- * Symptoms
+ * Abgefragte Input-Felder:
+ * input_symptom:
+ * Input-Feld für den Name des gewählten Symptoms
  *
  */
 @WebServlet(name = "CL_Controller_Servlet", urlPatterns = {"/main"})
@@ -75,17 +90,19 @@ public class CL_Controller_Servlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      *
-     * Abarbeitung von Anfragen besteht zur Strukturierung aus 3 Schritten 1.
-     * Anfrage-Parameter auslesen, Eingabefelder auslesen,
-     * Sessioncontext-Attribute auslesen und lokale Varaiblen deklarieren und
-     * instanzieren. 2. Aktion, je nach Anfrageparametern durchführen 3.
-     * Sessioncontext-Attribute setzten und Anfrage weiterleiten
+     * Abarbeitung von Anfragen besteht zur Strukturierung aus 3 Schritten
+     * 1. Anfrage-Parameter auslesen, Eingabefelder auslesen,
+     *    Sessioncontext-Attribute auslesen und lokale Varaiblen deklarieren und
+     *    instanzieren.
+     * 2. Je nach Anfrageparameter Aktion durchführen
+     * 3. Sessioncontext-Attribute setzten und Anfrage weiterleiten
      */
     protected void im_processRequest(HttpServletRequest po_request, HttpServletResponse po_response)
             throws ServletException, IOException {
 
         //--------------------------------------------------------------------------- 
         //Alle Contextattribute, Eingabefelder und Parameter auslesen und Voreinstellungen vornehmen
+        
         // Zeichensatz für Anfragedaten und empfangene Formulardaten festlegen
         po_request.setCharacterEncoding("utf-8");
         po_response.setContentType("utf-8");
@@ -105,6 +122,7 @@ public class CL_Controller_Servlet extends HttpServlet {
         //Falls sie sich noch nicht im Context befindet, wird sie neu erzeugt
         if (lo_symptome == null || lo_symptome.size() < 1) {
             //Über Bean alle Symptome aus der Datenbank auslesen
+            //! DTB-Zugriff
             lo_symptome = io_symptom_bean.im_getAllSymptoms();
         }
 
@@ -128,77 +146,98 @@ public class CL_Controller_Servlet extends HttpServlet {
         String step = po_request.getParameter("p_step");
         String action = po_request.getParameter("p_action");
         String lv_geloeschtes_symptom_name = po_request.getParameter("p_del_symptom");
-        String iv_gewaehltee_kranheit_name = po_request.getParameter("p_krankheit");
+        String iv_gewaehlte_kranheit_name = po_request.getParameter("p_krankheit");
 
         //Inputfelder
         String lv_gewaehlte_symptom_name = po_request.getParameter("input_symptom");
 
         //--------------------------------------------------------------------------- 
         //Useractionen bearbeiten
-        //DTB anlegen action = create_dtb
+        //DTB anlegen action = "create_dtb":
         if (action != null && action.equalsIgnoreCase("create_dtb")) {
             //Datenbank anlegen
+            //! DTB-Zugriff
             io_create_db_data_bean.im_create_db();
             //Alle Symptome auslesen
+            //! DTB-Zugriff
             lo_symptome = io_symptom_bean.im_getAllSymptoms();
             //Template auswählen
             lv_inhalt = im_setze_templateinhalt(lv_bisheriger_inhalt, lv_inhalt);
-        } //Symptom hinzufügen 
+        }
+        //Symptom hinzufügen 
         else if (action != null && action.equalsIgnoreCase("add_symptom")) {
-            // prüfen ob Symptomname auch in Datenbank vorliegt
+            // Symptom über Symptomname suchen
             CL_Symptom lo_neues_Symptom = im_suche_symptom_ueber_name(lv_gewaehlte_symptom_name, lo_symptome);
-            //falls Symptom gefunden wurde
+            //prüfen, ob Symptom gefunden wurde
             if (lo_neues_Symptom != null) {
-                //prüfen ob Symptom vorhanden ist
+                //prüfen ob Symptom bereits gewählt wurde
                 if (!lo_patient_symptome.contains(lo_neues_Symptom)) {
-                    //prüfen ob nicht emhr als 10 Symptome vorhanden sind
+                    //prüfen ob nicht mehr als 10 Symptome gewählt wurden
                     if (lo_patient_symptome.size() < 10) {
                         //Symptom hinzufügen
                         lo_patient_symptome.add(lo_neues_Symptom);
                         //Meldung
                         lv_message = "Symptom hinzugefügt";
-                    } else //Meldung
+                    } else
                     {
+                        //Meldung
                         lv_message = "Nicht mehr als 10 Symptome wählen";
                     }
-                } else //Meldung
+                } else
                 {
+                    //Meldung
                     lv_message = "Symptom bereits gewählt";
                 }
-            } else //Meldung
+            } else
             {
+                //Meldung
                 lv_message = "Element ist nicht vorhanden";
             }
             //Template auswählen
             lv_inhalt = im_setze_templateinhalt("Inc_symptome.jsp", lv_inhalt);
-        } //Symptom löschen
-        else if (action != null && action.equalsIgnoreCase("del_symptom")) {
-
-            CL_Symptom lo_del_Symptom = im_suche_symptom_ueber_name(lv_geloeschtes_symptom_name, lo_patient_symptome);
-
+        }
+        //Symptom löschen
+        else if (action != null && action.equalsIgnoreCase("del_symptom")) {   
+            //Symptom über Symptomname suchen
+            CL_Symptom lo_del_Symptom = im_suche_symptom_ueber_name(lv_geloeschtes_symptom_name, lo_patient_symptome); 
+            //prüfen ob Symptom gefunden wurde
             if (lo_del_Symptom != null) {
+                //Symptom aus der Liste entfernen
                 lo_patient_symptome.remove(lo_del_Symptom);
+                //Meldung
                 lv_message = "Symptom gelöscht";
             } else {
+                //Meldung
                 lv_message = "Fehler!";
             }
-
+            //Template auswählen
             lv_inhalt = lv_bisheriger_inhalt;
-        } //Aus Symptomen Krankheiten finden
+        }
+        //Aus Symptomen Krankheiten finden
         else if (action != null && action.equalsIgnoreCase("suche_krankheiten")) {
+            //Suche startet nur falls Symptome ausgewählt wurden
             if (lo_patient_symptome.size() > 0) {
+                //Krankheiten mit den zu den Symptomen passenden Wahrscheinlichkeiten geben lassen
+                //! DTB-Zugriff
                 lo_krankheiten = im_get_krankheiten(lo_patient_symptome);
+                //Template auf Krankheiten-Übersicht schalten
                 lv_inhalt = im_setze_templateinhalt("Inc_krankheiten.jsp", lv_inhalt);
             } else {
+                //Kein Template-Wechsel, da keine Symptome ausgewählt wurden
                 lv_inhalt = im_setze_templateinhalt("Inc_symptome.jsp", lv_inhalt);
+                //Meldung
                 lv_message = "Wählen sie Symptom aus, bevor sie weiter navigieren";
             }
-        } //Kranheit genauer getrachten
+        }
+        //Kranheit genauer betrachten
         else if (action != null && action.equalsIgnoreCase("read_more")) {
-            CL_Krankheit_Akt_Wert lo_gewaehlte_Krankheit = im_krankheit_ueber_name(iv_gewaehltee_kranheit_name, lo_krankheiten);
+            //Suche der Krankheiten über den als Parameter übergebenen Namen
+            CL_Krankheit_Akt_Wert lo_gewaehlte_Krankheit = im_krankheit_ueber_name(iv_gewaehlte_kranheit_name, lo_krankheiten);
+            //Prüfe ob Krankheit gefunden wurde
             if (lo_gewaehlte_Krankheit != null) {
                 lo_genauere_krankheit = lo_gewaehlte_Krankheit;
             } else {
+                //Meldung - Fehler der nur bei manueller URL-Eingabe auftreten kann
                 lv_message = "Fehler!";
             }
             lv_inhalt = im_setze_templateinhalt("Inc_krankheiten.jsp", lv_inhalt);
@@ -244,10 +283,11 @@ public class CL_Controller_Servlet extends HttpServlet {
      *
      * @param pv_symptom_name
      * @param po_symptome
-     * @return
-     * Methode die ein Symptom über dessen Name sucht
-     * Genutzt um bei Button(Del-Symptom), der ein Symptomname mitgibt, diese aus der Liste der gewählten Symptome zu entfernen
-     * Genutzt um bei Button(add), bei dem ein Symptomname ausgelesen wird, diesen der Liste der gewählten Symptome hinzuzufügen
+     * @return Methode die ein Symptom über dessen Name sucht Genutzt um bei
+     * Button(Del-Symptom), der ein Symptomname mitgibt, diese aus der Liste der
+     * gewählten Symptome zu entfernen Genutzt um bei Button(add), bei dem ein
+     * Symptomname ausgelesen wird, diesen der Liste der gewählten Symptome
+     * hinzuzufügen
      */
     protected CL_Symptom im_suche_symptom_ueber_name(String pv_symptom_name, List<CL_Symptom> po_symptome) {
 
@@ -263,9 +303,9 @@ public class CL_Controller_Servlet extends HttpServlet {
      *
      * @param pv_krankheit_name
      * @param po_krankheitsliste
-     * @return
-     * Methode, die eine Krankheit über deren Name sucht
-     * Genutzt um bei Butto(Read-More), der den Krankheitsnamen mitgibt, die gewählte Krankheit zu suchen
+     * @return Methode, die eine Krankheit über deren Name sucht Genutzt um bei
+     * Butto(Read-More), der den Krankheitsnamen mitgibt, die gewählte Krankheit
+     * zu suchen
      */
     protected CL_Krankheit_Akt_Wert im_krankheit_ueber_name(String pv_krankheit_name, List<CL_Krankheit_Akt_Wert> po_krankheitsliste) {
 

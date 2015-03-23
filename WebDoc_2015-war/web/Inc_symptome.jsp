@@ -24,27 +24,33 @@
             <c:forEach var="symptom" items="${context_patient_symptome}">             
                 <form method ="post" action="/WebDoc_2015-war/main?p_action=del_symptom&p_del_symptom=${symptom.getIv_name()}">
                     <li> ${symptom.getIv_name()}
-                        <input type="submit" value="-">   
+                        <input type="image" src="minus-button.png" alt="-">
                     </li>
                 </form>
             </c:forEach>
 
         </ul>
-        <form method = "post" action="/WebDoc_2015-war/main?p_action=add_symptom">
-            <input type=text list=symptome name="input_symptom" >            
-            <datalist id=symptome >
-                <c:forEach var="symptom" items="${context_alle_symptome}" >
-                    <option> ${symptom.getIv_name()}</option>
-                </c:forEach>
-            </datalist>
-            <input type="submit" value="add">
-        </form>
+        <c:if test="${context_patient_symptome.size() < 10}" >
+
+            <form method = "post" action="/WebDoc_2015-war/main?p_action=add_symptom">
+                <input type=text list=symptome name="input_symptom" >            
+                <datalist id=symptome >
+                    <c:forEach var="symptom" items="${context_alle_symptome}" >
+                        <option> ${symptom.getIv_name()}</option>
+                    </c:forEach>
+                </datalist>
+                <input type="submit" value="add">
+            </form>
+
+        </c:if>
+
     </p>
 
-    <a href="main?p_action=suche_krankheiten">
-        <!-- <img src="img/nav_edit.png" alt=""> -->
-        weiter
-    </a>
+    <form method = "post" action="/WebDoc_2015-war/main?p_action=suche_krankheiten">
+
+        <input type ="submit" value ="weiter">
+
+    </form>
 
 </body>
 </html>
