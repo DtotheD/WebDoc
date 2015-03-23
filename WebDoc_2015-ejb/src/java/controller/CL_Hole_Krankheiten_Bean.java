@@ -22,15 +22,13 @@ import model.CL_Krankheit;
  * @author DEKREDAV
  * 18.03.2015
  * Beschreibung:
- * Diese Klasse übernimmt die Auswahl der zu den übergebenen Symptomen passenden Krankheiten
+ * Diese Bean übernimmt die Auswahl der zu den Symptomen passenden Krankheiten
+ * mit ihrer aktuellen Wahrscheinlichkeit
  */
 @Stateless
 @LocalBean
 public class CL_Hole_Krankheiten_Bean {
 
-    /*
-    *   Entity-Manager zum Zugriff auf die Datenbank
-    */
     @PersistenceContext
     private EntityManager io_em;
     
@@ -61,9 +59,11 @@ public class CL_Hole_Krankheiten_Bean {
         return lo_krankheit_akt_wert;
     }
     
-    /*
-    *   private Methode zur Kapselung des Datenbankzugriffes
-    */
+    /**
+     * 
+     * @param po_gewaehlte_Symptome
+     * @return 
+     */
     private List<CL_Bewertetes_Symptom> im_get_passende_Symptome(List<CL_Symptom> po_gewaehlte_Symptome) {
         
         TypedQuery<CL_Bewertetes_Symptom> io_back = io_em.createNamedQuery("CL_Bewertetes_Symptom.findBySymptomList", CL_Bewertetes_Symptom.class)

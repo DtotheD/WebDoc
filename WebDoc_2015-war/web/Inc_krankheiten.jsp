@@ -34,7 +34,7 @@
                                     ${krankheit.getIo_krankheit().getIv_name()}
                                 </td>
                                 <td>
-                                    ${krankheit.getIv_akt_wert_string()} %
+                                    ${krankheit.getIv_akt_wahr_string()} %
                                 </td>
                                 <td>
                                     <form method ="post" action="/WebDoc_2015-war/main?p_action=read_more&p_krankheit=${krankheit.getIo_krankheit().getIv_name()}">

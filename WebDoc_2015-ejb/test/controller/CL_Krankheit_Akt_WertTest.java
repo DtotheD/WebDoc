@@ -109,7 +109,7 @@ public class CL_Krankheit_Akt_WertTest {
         
         double expResult = 0.9;
         
-        double result = instance.im_cal_akt_wert(lo_gewaehlte_symptome);
+        double result = instance.im_cal_akt_wahr(lo_gewaehlte_symptome);
         
         assertEquals(expResult, result, 0.0);
        
