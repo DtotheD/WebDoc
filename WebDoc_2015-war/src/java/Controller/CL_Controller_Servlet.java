@@ -153,6 +153,7 @@ public class CL_Controller_Servlet extends HttpServlet {
 
         //--------------------------------------------------------------------------- 
         //Useractionen bearbeiten
+        
         //DTB anlegen action = "create_dtb":
         if (action != null && action.equalsIgnoreCase("create_dtb")) {
             //Datenbank anlegen
@@ -162,7 +163,7 @@ public class CL_Controller_Servlet extends HttpServlet {
             //! DTB-Zugriff
             lo_symptome = io_symptom_bean.im_getAllSymptoms();
             //Template auswählen
-            lv_inhalt = im_setze_templateinhalt(lv_bisheriger_inhalt, lv_inhalt);
+            lv_inhalt = lv_bisheriger_inhalt;
         }
         //Symptom hinzufügen 
         else if (action != null && action.equalsIgnoreCase("add_symptom")) {
@@ -194,7 +195,7 @@ public class CL_Controller_Servlet extends HttpServlet {
                 lv_message = "Element ist nicht vorhanden";
             }
             //Template auswählen
-            lv_inhalt = im_setze_templateinhalt("Inc_symptome.jsp", lv_inhalt);
+            lv_inhalt =  "Inc_symptome.jsp";
         }
         //Symptom löschen
         else if (action != null && action.equalsIgnoreCase("del_symptom")) {   
@@ -217,14 +218,14 @@ public class CL_Controller_Servlet extends HttpServlet {
         else if (action != null && action.equalsIgnoreCase("suche_krankheiten")) {
             //Suche startet nur falls Symptome ausgewählt wurden
             if (lo_patient_symptome.size() > 0) {
-                //Krankheiten mit den zu den Symptomen passenden Wahrscheinlichkeiten geben lassen
+                //Krankheiten mit den zu den Symptomen passenden Wahrscheinlichkeiten von der Bean geben lassen
                 //! DTB-Zugriff
-                lo_krankheiten = im_get_krankheiten(lo_patient_symptome);
+                lo_krankheiten = new ArrayList<>(io_hole_krankheiten_bean.im_get_passende_Krankheiten(lo_patient_symptome));
                 //Template auf Krankheiten-Übersicht schalten
-                lv_inhalt = im_setze_templateinhalt("Inc_krankheiten.jsp", lv_inhalt);
+                lv_inhalt = "Inc_krankheiten.jsp";
             } else {
                 //Kein Template-Wechsel, da keine Symptome ausgewählt wurden
-                lv_inhalt = im_setze_templateinhalt("Inc_symptome.jsp", lv_inhalt);
+                lv_inhalt = "Inc_symptome.jsp";
                 //Meldung
                 lv_message = "Wählen sie Symptom aus, bevor sie weiter navigieren";
             }
@@ -240,26 +241,26 @@ public class CL_Controller_Servlet extends HttpServlet {
                 //Meldung - Fehler der nur bei manueller URL-Eingabe auftreten kann
                 lv_message = "Fehler!";
             }
-            lv_inhalt = im_setze_templateinhalt("Inc_krankheiten.jsp", lv_inhalt);
-        } //Navigations-Links
+            lv_inhalt = "Inc_krankheiten.jsp";
+        }
+        //Navigations-Button: Symptome
         else if (step == null || step.equalsIgnoreCase("p_step_symptome")) {
-            lv_inhalt = im_setze_templateinhalt("Inc_symptome.jsp", lv_inhalt);
+            //genauer zu betrachtende Krankheit löschen, da das Template mit diesem Verlassen wird
             lo_genauere_krankheit = null;
-        } else if (step.equalsIgnoreCase("p_step_krankheiten")) {
-            if (lo_patient_symptome.size() > 0) {
-                lv_inhalt = im_setze_templateinhalt("Inc_krankheiten.jsp", lv_inhalt);
-            } else {
-                lv_inhalt = im_setze_templateinhalt("Inc_symptome.jsp", lv_inhalt);
-                lv_message = "Wählen sie Symptom aus, bevor sie weiter navigieren";
-            }
-            //Fehlerhafter Step
-        } else if (lv_inhalt.equalsIgnoreCase("")) {
+            //Template auswählen
+            lv_inhalt = "Inc_symptome.jsp";
+        }
+        //Alle anderen URL-Eingaben, also auch fehlerhafte Eingaben:
+        else{
+            //Meldung
             lv_message = "fehlerhfate URL-Parameter";
-            lv_inhalt = im_setze_templateinhalt("Inc_symptome.jsp", lv_inhalt);
+            //Start-Template
+            lv_inhalt = "Inc_symptome.jsp";
         }
 
         //--------------------------------------------------------------------------- 
         //Session-Attribute setzen und weiterleiten
+        
         //Template-Inhalt
         lo_session.setAttribute("context_inhalt", lv_inhalt);
         //Symptom-Liste
@@ -276,21 +277,22 @@ public class CL_Controller_Servlet extends HttpServlet {
         //Weiterleitung
         RequestDispatcher dispatcher = po_request.getRequestDispatcher("Head.jsp");
         dispatcher.forward(po_request, po_response);
-
     }
 
     /**
      *
      * @param pv_symptom_name
      * @param po_symptome
-     * @return Methode die ein Symptom über dessen Name sucht Genutzt um bei
-     * Button(Del-Symptom), der ein Symptomname mitgibt, diese aus der Liste der
-     * gewählten Symptome zu entfernen Genutzt um bei Button(add), bei dem ein
-     * Symptomname ausgelesen wird, diesen der Liste der gewählten Symptome
-     * hinzuzufügen
+     * @return
+     * Methode die ein Symptom über dessen Name sucht.
+     * Genutzt um bei Button(Del-Symptom), der ein Symptomname mitgibt, das
+     * entsprechende Symptom aus der Liste der gewählten Symptome zu entfernen.
+     * Genutzt um bei Button(add), bei dem ein Symptomname ausgelesen wird,
+     * diesen der Liste der gewählten Symptome hinzuzufügen
      */
     protected CL_Symptom im_suche_symptom_ueber_name(String pv_symptom_name, List<CL_Symptom> po_symptome) {
-
+        //Der Name jedes Symptomes der Liste mit dem mitgegebenen Namen vergleichen und bei Übereinstimmung
+        //das Symptom zurück geben. Sonst wird null zurückgegeben.
         for (CL_Symptom lo_symptom : po_symptome) {
             if (lo_symptom.getIv_name().equalsIgnoreCase(pv_symptom_name)) {
                 return lo_symptom;
@@ -303,12 +305,14 @@ public class CL_Controller_Servlet extends HttpServlet {
      *
      * @param pv_krankheit_name
      * @param po_krankheitsliste
-     * @return Methode, die eine Krankheit über deren Name sucht Genutzt um bei
-     * Butto(Read-More), der den Krankheitsnamen mitgibt, die gewählte Krankheit
-     * zu suchen
+     * @return
+     * Methode, die eine Krankheit über deren Name sucht.
+     * Genutzt um bei Butto(Read-More), der den Krankheitsnamen mitgibt,
+     * die entsprechende Krankheit zu wählen.
      */
     protected CL_Krankheit_Akt_Wert im_krankheit_ueber_name(String pv_krankheit_name, List<CL_Krankheit_Akt_Wert> po_krankheitsliste) {
-
+        //Der Name jeder krankheit der Liste mit dem mitgegebenen Namen vergleichen und bei Übereinstimmung
+        //die Krankheit zurück geben. Sonst wird null zurückgegeben.
         for (CL_Krankheit_Akt_Wert lo_krankheit : po_krankheitsliste) {
             if (lo_krankheit.getIo_krankheit().getIv_name().equalsIgnoreCase(pv_krankheit_name)) {
                 return lo_krankheit;
@@ -316,30 +320,6 @@ public class CL_Controller_Servlet extends HttpServlet {
         }
         return null;
     }
-
-    /**
-     *
-     * @param pv_wunsch_inhalt
-     * @param pv_inhalt
-     * @return
-     */
-    protected String im_setze_templateinhalt(String pv_wunsch_inhalt, String pv_inhalt) {
-        if (pv_inhalt == null || pv_inhalt.equalsIgnoreCase("")) {
-            return pv_wunsch_inhalt;
-        }
-        return pv_inhalt;
-    }
-
-    /**
-     *
-     * @param po_gewaehlte_Symptome
-     * @return
-     */
-    protected ArrayList<CL_Krankheit_Akt_Wert> im_get_krankheiten(ArrayList<CL_Symptom> po_gewaehlte_Symptome) {
-
-        return new ArrayList<>(io_hole_krankheiten_bean.im_get_passende_Krankheiten(po_gewaehlte_Symptome));
-    }
-
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -378,5 +358,4 @@ public class CL_Controller_Servlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
 }
