@@ -54,9 +54,17 @@ public class CL_Create_DB_Data_Bean {
 
         CL_Empfehlung lo_empfhelung_1 = new CL_Empfehlung("Gehen Sie zum Arzt!");
         CL_Empfehlung lo_empfhelung_2 = new CL_Empfehlung("Ruhen Sie sich aus!");
+        CL_Empfehlung lo_empfhelung_3 = new CL_Empfehlung("Nehmen Sie viel Flüssigkeit zu sich!");
+        CL_Empfehlung lo_empfhelung_4 = new CL_Empfehlung("Vermeiden Sie stark gewürzte Gerichte!");
+        CL_Empfehlung lo_empfhelung_5 = new CL_Empfehlung("Trinken Sie Kräutertee!");
+        CL_Empfehlung lo_empfhelung_6 = new CL_Empfehlung("Vermeiden Sie Konatk mit anderen Menschem um diese nicht anzustecken!");
 
         io_em.persist(lo_empfhelung_1);
         io_em.persist(lo_empfhelung_2);
+        io_em.persist(lo_empfhelung_3);
+        io_em.persist(lo_empfhelung_4);
+        io_em.persist(lo_empfhelung_5);
+        io_em.persist(lo_empfhelung_6);
 
         io_em.flush();
 
@@ -112,7 +120,7 @@ public class CL_Create_DB_Data_Bean {
         io_em.persist(lo_gewicht_2);
 
 //        Grippe
-        CL_Krankheit lo_grippe = new CL_Krankheit("Hier kommt die Beschreibung", lo_empfhelung_1, 120, "Grippe");
+        CL_Krankheit lo_grippe = new CL_Krankheit(120, "Grippe");
         lo_grippe.addSymptom(lo_husten_9);
         lo_grippe.addSymptom(lo_kopfschmerzen_8);
         lo_grippe.addSymptom(lo_halsschmerzen_7);
@@ -120,10 +128,21 @@ public class CL_Create_DB_Data_Bean {
         lo_grippe.addSymptom(lo_glieder_7);
         lo_grippe.addSymptom(lo_fieber_9);
 
+        lo_grippe.addBeschreibung("Die Influenza, auch „echte“ Grippe oder Virusgrippe genannt, ist eine durch Viren aus den Gattungen Influenzavirus A oder B ausgelöste Infektionskrankheit bei Menschen.");
+        lo_grippe.addBeschreibung("Alltagssprachlich wird die Bezeichnung Grippe häufig auch für grippale Infekte verwendet, bei denen es sich um verschiedene andere, in der Regel deutlich harmloser verlaufende Virusinfektionen handelt.");
+
+        lo_grippe.addEmpfehlung(lo_empfhelung_1);
+        lo_grippe.addEmpfehlung(lo_empfhelung_2);
+        lo_grippe.addEmpfehlung(lo_empfhelung_3);
+        lo_grippe.addEmpfehlung(lo_empfhelung_5);
+        lo_grippe.addEmpfehlung(lo_empfhelung_6);
+        lo_grippe.addEmpfehlung(lo_empfhelung_5);
+        lo_grippe.addEmpfehlung(lo_empfhelung_6);
+
         io_em.persist(lo_grippe);
 
         //Erkältung
-        CL_Krankheit lo_erkaeltung = new CL_Krankheit("Hier kommt die Beschreibung", lo_empfhelung_2, 120,"Erkältung");
+        CL_Krankheit lo_erkaeltung = new CL_Krankheit(120, "Erkältung");
 
         lo_erkaeltung.addSymptom(lo_husten_8);
         lo_erkaeltung.addSymptom(lo_kopfschmerzen_7);
@@ -132,20 +151,39 @@ public class CL_Create_DB_Data_Bean {
         lo_erkaeltung.addSymptom(lo_nase_8);
         lo_erkaeltung.addSymptom(lo_glieder_4);
 
+        lo_erkaeltung.addBeschreibung("Erkältung (österreichisch auch Verkühlung) und grippaler Infekt sind alltagssprachliche, medizinisch nicht scharf definierte Bezeichnungen für eine akute Infektionskrankheit der Schleimhaut von Nase (einschließlich der Nebenhöhlen), Hals oder Bronchien. Die Infektionskrankheit wird überwiegend von sehr unterschiedlichen Viren, manchmal zusätzlich auch von Bakterien verursacht (Sekundärinfektion, in diesem Zusammenhang auch Superinfektion genannt).");
+        lo_erkaeltung.addBeschreibung("Die häufigsten Erkältungsviren gehören zu den Virusgattungen der Rhino-, Entero- und Mastadenoviren oder den Familien der Corona- und Paramyxoviridae.");
+        
+        lo_erkaeltung.addEmpfehlung(lo_empfhelung_2);
+        lo_erkaeltung.addEmpfehlung(lo_empfhelung_3);
+        lo_erkaeltung.addEmpfehlung(lo_empfhelung_5);
+
         //Schilddrüsenüberfunktion
-        CL_Krankheit lo_schild = new CL_Krankheit("Hier kommt die Beschreibung", lo_empfhelung_1, 80, "Schilddrüsenüberfunktion");
+        CL_Krankheit lo_schild = new CL_Krankheit(80, "Schilddrüsenüberfunktion");
 
         lo_schild.addSymptom(lo_bauchschmerzen_2);
         lo_schild.addSymptom(lo_durchfall_9);
         lo_schild.addSymptom(lo_haar_7);
         lo_schild.addSymptom(lo_gewicht_10);
 
+        lo_schild.addBeschreibung("Die Hyperthyreose ist eine krankhafte Überfunktion der Schilddrüse, die sich in einer übermäßigen Produktion von Schilddrüsenhormonen äußert, so dass im Organismus ein entsprechendes Überangebot entsteht.");
+        
+        lo_schild.addEmpfehlung(lo_empfhelung_1);
+
         //Reizdarm
-        CL_Krankheit lo_reiz = new CL_Krankheit("Hier kommt die Beschreibung", lo_empfhelung_2, 60, "Reizdarmsyndrom");
+        CL_Krankheit lo_reiz = new CL_Krankheit(60, "Reizdarmsyndrom");
 
         lo_reiz.addSymptom(lo_bauchschmerzen_9);
         lo_reiz.addSymptom(lo_durchfall_9);
         lo_reiz.addSymptom(lo_gewicht_2);
+
+        lo_reiz.addBeschreibung("In der Medizin (Gastroenterologie) bezeichnet der Begriff Reizdarmsyndrom (RDS) eine Gruppe funktioneller Darmerkrankungen, die eine hohe Prävalenz (Krankheitshäufigkeit in der Bevölkerung) haben und bis zu 50 % der Besuche beim Spezialisten ausmachen.");
+        lo_reiz.addBeschreibung("Das Reizdarmsyndrom kann Symptome aller möglichen Darmerkrankungen nachahmen, ist jedoch, wenn diese Erkrankungen ausgeschlossen sind, ungefährlich.");
+       
+        lo_reiz.addEmpfehlung(lo_empfhelung_1);
+        lo_reiz.addEmpfehlung(lo_empfhelung_2);
+        lo_reiz.addEmpfehlung(lo_empfhelung_3);
+        lo_reiz.addEmpfehlung(lo_empfhelung_4);
 
         io_em.persist(lo_reiz);
         io_em.persist(lo_schild);

@@ -16,7 +16,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
-
 /**
  *
  * @author DEKREDAV
@@ -28,43 +27,63 @@ public class CL_Krankheit implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long iv_id;
-    private String iv_beschreibung;
+    private ArrayList<String> io_beschreibung;
     private String iv_name;
-     
-  
-    @ManyToMany (cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
+
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
     private ArrayList<CL_Bewertetes_Symptom> io_symptome;
-    
-    @ManyToOne
-    private CL_Empfehlung io_empfehlung;
+
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
+    private ArrayList<CL_Empfehlung> io_empfehlungen;
+
     private int iv_max_wert;
 
     public CL_Krankheit() {
     }
 
-    public CL_Krankheit(String iv_beschreibung, CL_Empfehlung io_empfehlung, int iv_max_wert) {
-        this.iv_beschreibung = iv_beschreibung;
+    public CL_Krankheit(String pv_beschreibung, CL_Empfehlung po_empfehlung, int pv_max_wert) {
+        
+        io_beschreibung = new ArrayList<>();
+        io_beschreibung.add(pv_beschreibung);
         this.io_symptome = new ArrayList<>();
-        this.io_empfehlung = io_empfehlung;
-        this.iv_max_wert = iv_max_wert;
+        this.iv_max_wert = pv_max_wert;
+        this.io_empfehlungen = new ArrayList<>();
     }
 
-    public CL_Krankheit(String iv_beschreibung, CL_Empfehlung io_empfehlung, int iv_max_wert, String iv_name) {
-        this.iv_beschreibung = iv_beschreibung;
-        this.iv_name = iv_name;
-        this.io_empfehlung = io_empfehlung;
-        this.iv_max_wert = iv_max_wert;
+    public CL_Krankheit(String pv_beschreibung, CL_Empfehlung po_empfehlung, int pv_max_wert, String pv_name) {
+        io_beschreibung = new ArrayList<>();
+        io_beschreibung.add(pv_beschreibung);
+        this.iv_name = pv_name;
+        this.iv_max_wert = pv_max_wert;
         this.io_symptome = new ArrayList<>();
+        this.io_empfehlungen = new ArrayList<>();
+        addEmpfehlung(po_empfehlung);
     }
-    
-    
-     public void addSymptom(CL_Bewertetes_Symptom io_symptom) {
-      if (!getIo_symptome().contains(io_symptom)) {
-          getIo_symptome().add(io_symptom);
-      }
-      if (!io_symptom.getcL_Krankheits().contains(this)) {
-          io_symptom.getcL_Krankheits().add(this);
-      }
+
+    public CL_Krankheit( int pv_max_wert, String pv_name) {
+        io_beschreibung = new ArrayList<>();;
+        this.iv_name = pv_name;
+        this.iv_max_wert = pv_max_wert;
+        this.io_symptome = new ArrayList<>();
+        this.io_empfehlungen = new ArrayList<>();
+    }
+
+    public void addSymptom(CL_Bewertetes_Symptom po_symptom) {
+        if (!getIo_symptome().contains(po_symptom)) {
+            getIo_symptome().add(po_symptom);
+        }
+        if (!po_symptom.getIo_krankheiten().contains(this)) {
+            po_symptom.getIo_krankheiten().add(this);
+        }
+    }
+
+    public void addEmpfehlung(CL_Empfehlung po_empfehlung) {
+        if (!getIo_empfehlungen().contains(po_empfehlung)) {
+            getIo_empfehlungen().add(po_empfehlung);
+        }
+        if (!po_empfehlung.getIo_krankheiten().contains(this)) {
+            po_empfehlung.getIo_krankheiten().add(this);
+        }
     }
 
     public String getIv_name() {
@@ -75,21 +94,32 @@ public class CL_Krankheit implements Serializable {
         this.iv_name = iv_name;
     }
 
-    
+    public ArrayList<CL_Empfehlung> getIo_empfehlungen() {
+        return io_empfehlungen;
+    }
+
+    public void setIo_empfehlungen(ArrayList<CL_Empfehlung> io_empfehlungen) {
+        this.io_empfehlungen = io_empfehlungen;
+    }
+
     public Long getIv_id() {
         return iv_id;
     }
 
-    public String getIv_beschreibung() {
-        return iv_beschreibung;
+    public ArrayList<String> getIo_beschreibung() {
+        return io_beschreibung;
+    }
+
+    public void setIo_beschreibung(ArrayList<String> io_beschreibung) {
+        this.io_beschreibung = io_beschreibung;
+    }
+    
+    public void addBeschreibung(String pv_beschreibung) {
+        io_beschreibung.add(pv_beschreibung);
     }
 
     public ArrayList<CL_Bewertetes_Symptom> getIo_symptome() {
         return io_symptome;
-    }
-
-    public CL_Empfehlung getIo_empfehlung() {
-        return io_empfehlung;
     }
 
     public int getIv_max_wert() {
@@ -99,17 +129,9 @@ public class CL_Krankheit implements Serializable {
     public void setIv_id(Long iv_id) {
         this.iv_id = iv_id;
     }
-
-    public void setIv_beschreibung(String iv_beschreibung) {
-        this.iv_beschreibung = iv_beschreibung;
-    }
-
+ 
     public void setIo_symptome(ArrayList<CL_Bewertetes_Symptom> io_symptome) {
         this.io_symptome = io_symptome;
-    }
-
-    public void setIo_empfehlung(CL_Empfehlung io_empfehlung) {
-        this.io_empfehlung = io_empfehlung;
     }
 
     public void setIv_max_wert(int iv_max_wert) {

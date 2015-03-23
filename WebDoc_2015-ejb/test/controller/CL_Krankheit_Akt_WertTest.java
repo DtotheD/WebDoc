@@ -49,7 +49,7 @@ public class CL_Krankheit_Akt_WertTest {
      */
     @Test
     public void testIm_cal_akt_wert_1() {
-        System.out.println("im_cal_akt_wert");
+        System.out.println("im_cal_akt_wert_1");
                 
         //Erstellen der benötigten Objekte
         
@@ -122,7 +122,7 @@ public class CL_Krankheit_Akt_WertTest {
      */
     @Test
     public void testIm_cal_akt_wert_2() {
-        System.out.println("im_cal_akt_wert");
+        System.out.println("im_cal_akt_wert_2");
                 
         //Erstellen der benötigten Objekte
         
@@ -165,7 +165,7 @@ public class CL_Krankheit_Akt_WertTest {
         
         double expResult = 0.33;
         
-        double result = instance.im_cal_akt_wert(lo_gewaehlte_symptome);
+        double result = instance.im_cal_akt_wahr(lo_gewaehlte_symptome);
         
         assertEquals(expResult, result, 0.1);
        
@@ -177,7 +177,7 @@ public class CL_Krankheit_Akt_WertTest {
      */
     @Test
     public void testIm_cal_akt_wert_3() {
-        System.out.println("im_cal_akt_wert");
+        System.out.println("im_cal_akt_wert_3");
         
         
         //Erstellen der benötigten Objekte
@@ -219,7 +219,7 @@ public class CL_Krankheit_Akt_WertTest {
         
         double expResult = 0.0;
         
-        double result = instance.im_cal_akt_wert(lo_gewaehlte_symptome);
+        double result = instance.im_cal_akt_wahr(lo_gewaehlte_symptome);
         
         assertEquals(expResult, result, 0.0);
        
@@ -231,7 +231,7 @@ public class CL_Krankheit_Akt_WertTest {
      */
     @Test
     public void testIm_cal_akt_wert_4() {
-        System.out.println("im_cal_akt_wert");
+        System.out.println("im_cal_akt_wert_4");
                 
         //Erstellen der benötigten Objekte
         
@@ -275,7 +275,7 @@ public class CL_Krankheit_Akt_WertTest {
         
         double expResult = 0.45;
         
-        double result = instance.im_cal_akt_wert(lo_gewaehlte_symptome);
+        double result = instance.im_cal_akt_wahr(lo_gewaehlte_symptome);
         
         assertEquals(expResult, result, 0.0);
        

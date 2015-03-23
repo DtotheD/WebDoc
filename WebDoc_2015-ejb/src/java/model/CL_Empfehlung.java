@@ -6,10 +6,13 @@
 package model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 
 /**
  *
@@ -24,12 +27,37 @@ public class CL_Empfehlung implements Serializable {
     private Long iv_id;
 
     private String iv_text;
+    
+    @ManyToMany(mappedBy = "io_empfehlungen")
+    private List<CL_Krankheit> io_krankheiten;
 
     public CL_Empfehlung() {
     }
 
     public CL_Empfehlung(String iv_text) {
         this.iv_text = iv_text;
+        io_krankheiten = new ArrayList<>();
+    }
+    
+    public void addKrankheit(CL_Krankheit po_krankheit) {
+      if (!getIo_krankheiten().contains(po_krankheit)) {
+          getIo_krankheiten().add(po_krankheit);
+      }
+      if (!po_krankheit.getIo_empfehlungen().contains(this)) {
+          po_krankheit.getIo_empfehlungen().add(this);
+      }
+    }
+
+    /**
+     *
+     * @return
+     */
+    public List<CL_Krankheit> getIo_krankheiten() {
+        return io_krankheiten;
+    }
+
+    public void setIo_krankheiten(List<CL_Krankheit> io_krankheiten) {
+        this.io_krankheiten = io_krankheiten;
     }
 
     public Long getIv_id() {

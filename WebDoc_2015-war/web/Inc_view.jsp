@@ -15,25 +15,36 @@
     <body>
         <c:if test="${not empty context_genauere_krankheit}">
             <h1>${context_genauere_krankheit.getIo_krankheit().getIv_name()}</h1>
-            
-            <div>
-                ${context_genauere_krankheit.getIo_krankheit().getIv_beschreibung()}
-            </div>
-            
-            <div>
-               ${context_genauere_krankheit.getIo_krankheit().getIo_empfehlung().getIv_text()}
-            </div>
-            
-            <div>
-                <ul>
-                    <c:forEach var="symptom" items="${context_genauere_krankheit.getIo_krankheit().getIo_symptome()}">
-                        <li>
-                            ${symptom.getIo_Symptom().getIv_name()}
-                        </li>
-                    </c:forEach>
-                </ul>
-            </div>
-        </c:if>
-    </body>
+
+            <p>                                
+                <c:forEach var="beschreibung" items="${context_genauere_krankheit.getIo_krankheit().getIo_beschreibung()}">
+                    ${beschreibung}
+                    </br>
+                </c:forEach>
+            </p>
+
+            <p>
+            <h1> Dr. WebDoc empfiehlt:</h1>
+            <ul>
+            <c:forEach var="empfehlung" items="${context_genauere_krankheit.getIo_krankheit().getIo_empfehlungen()}">
+            <li>
+                ${empfehlung.getIv_text()}
+            </li>
+        </c:forEach>
+            </ul>
+    </p>
+
+    <p>
+    <h1>Bekannte Symptome:</h1>
+    <ul>
+        <c:forEach var="symptom" items="${context_genauere_krankheit.getIo_krankheit().getIo_symptome()}">
+            <li>
+                ${symptom.getIo_Symptom().getIv_name()}
+            </li>
+        </c:forEach>
+    </ul>
+</p>
+</c:if>
+</body>
 </html>
 

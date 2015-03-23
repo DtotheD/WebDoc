@@ -34,20 +34,20 @@ public class CL_Bewertetes_Symptom implements Serializable {
     private int iv_wert;
     
     @ManyToMany
-    private List<CL_Krankheit> io_CL_Krankheits;
+    private List<CL_Krankheit> io_krankheiten;
 
-    public CL_Bewertetes_Symptom(CL_Symptom io_symptom, int iv_wert) {
-        this.io_symptom = io_symptom;
-        this.iv_wert = iv_wert;
-        this.io_CL_Krankheits = new ArrayList<>();
+    public CL_Bewertetes_Symptom(CL_Symptom po_symptom, int pv_wert) {
+        this.io_symptom = po_symptom;
+        this.iv_wert = pv_wert;
+        this.io_krankheiten = new ArrayList<>();
     }
     
-    public void addKrankheit(CL_Krankheit io_krankheit) {
-      if (!getcL_Krankheits().contains(io_krankheit)) {
-          getcL_Krankheits().add(io_krankheit);
+    public void addKrankheit(CL_Krankheit po_krankheit) {
+      if (!getIo_krankheiten().contains(po_krankheit)) {
+          getIo_krankheiten().add(po_krankheit);
       }
-      if (!io_krankheit.getIo_symptome().contains(this)) {
-          io_krankheit.getIo_symptome().add(this);
+      if (!po_krankheit.getIo_symptome().contains(this)) {
+          po_krankheit.getIo_symptome().add(this);
       }
     }
     
@@ -66,8 +66,8 @@ public class CL_Bewertetes_Symptom implements Serializable {
         return iv_wert;
     }
 
-    public List<CL_Krankheit> getcL_Krankheits() {
-        return io_CL_Krankheits;
+    public List<CL_Krankheit> getIo_krankheiten() {
+        return io_krankheiten;
     }
 
     public void setIv_id(Long iv_id) {
@@ -82,8 +82,8 @@ public class CL_Bewertetes_Symptom implements Serializable {
         this.iv_wert = iv_wert;
     }
 
-    public void setcL_Krankheits(List<CL_Krankheit> cL_Krankheits) {
-        this.io_CL_Krankheits = cL_Krankheits;
+    public void setIo_krankheiten(List<CL_Krankheit> io_krankheiten) {
+        this.io_krankheiten = io_krankheiten;
     }
     
     @Override
