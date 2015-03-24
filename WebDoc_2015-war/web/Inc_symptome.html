@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Bootstrap Core CSS -->
+        <link href="css/bootstrap.css" rel="stylesheet">
+
+        <!-- Custom CSS -->
+        <link href="css/bootstrap-theme.css" rel="stylesheet" type="text/css"/>
+        <link href="css/simple-sidebar.css" rel="stylesheet">
+
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>JSP Page</title>
+        <script type="text/javascript">
+
+        </script>
+    </head>
+    <body>
+        <p style="font-size: x-large; color: #737373">Krankheitssymptome</p>
+        <hr style="color:dimgray">
+        <div style="height:20px"></div>
+
+        <p style="font-size: medium">Bitte geben Sie Ihre entsprechenden Krankheitssymptome ein:</p>
+
+        <div style="height:40px"></div>
+
+        <p>
+        <ul style="list-style-type:square">       
+            <form method ="post" action="/WebDoc_2015-war/main?p_action=del_symptom&p_del_symptom=${symptom.getIv_name()}">
+                <li> symptom.getIv_name() &nbsp
+                    <img src="Images/Minus-rot.jpg" alt="" style="width:30px;height:30px"/> 
+                </li>
+            </form>
+        </ul>
+
+        <div style="height:20px"></div>
+
+        <form method = "post" action="/WebDoc_2015-war/main?p_action=add_symptom">
+            <input type=text list=symptome name="input_symptom" > 
+                <datalist id=symptome>
+                    <option class="combobox" style="height: 50px">symptom.getIv_name()</option>
+                </datalist>
+            <button type="button" class="btn btn-default" style="font-size: small">add</button>
+        </form>
+    </p>
+
+    <div style="height:100px"></div>
+
+    <a href="main?p_action=suche_krankheiten">
+        <!-- <img src="img/nav_edit.png" alt=""> -->
+        <button type="button" class="btn btn-default">weiter</button>
+    </a>
+
+</body>
+</html>
