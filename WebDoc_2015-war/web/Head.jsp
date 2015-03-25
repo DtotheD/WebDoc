@@ -35,13 +35,15 @@
 
             </nav>
         </div>
-        <div class="container_left">
-            <div class="col-md-4">
-                <img src="Images/wartezimmer_2_klein.jpg" alt="" style="width:90%;height:auto;opacity:0.6; border-radius: 15px"/>  
+        <div class="inhalt">
+            
+            <div class="inhalt_links">
+                <img src="Images/wartezimmer_2_klein.jpg" alt="" style="width:90%;height:auto;opacity:0.6; border-radius: 15px"/> 
+                
             </div>
-
-            <div class="col-md-8"><jsp:include page="${context_inhalt}"></jsp:include></div>
-
+            
+            <div class="inhalt_rechts"><jsp:include page="${context_inhalt}"></jsp:include></div>
+            
             </div>
             <div class="container_bottom">
 

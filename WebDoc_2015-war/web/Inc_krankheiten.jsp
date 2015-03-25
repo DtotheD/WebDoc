@@ -28,41 +28,47 @@
 
         <div style="height:40px"></div>
 
-        <table>
-            <tr>
-                <td>
 
-                    <table id="krankheiten" class="table">
-                        <c:forEach var="krankheit" items="${context_krankheiten}">
-                            <tr>
-                                <td> 
-                                    ${krankheit.getIo_krankheit().getIv_name()}
-                                </td>
-                                <td>
-                                    ${krankheit.getIv_akt_wahr_string()} %
-                                </td>
-                                <td>
-                                    <form method ="post" action="/WebDoc_2015-war/main?p_action=read_more&p_krankheit=${krankheit.getIo_krankheit().getIv_name()}">
-                                        <input type="submit" class="btn btn-default" style="font-size: xx-small" value=">">
-                                    </form>
-                                </td>
-                            </tr>
-                        </c:forEach>
-                    </table>
-                </td>
-                <td>
-                    <div>
-                        <jsp:include page="Inc_view.jsp"></jsp:include>
+        <div class="Ergebnisse">
+                
+            <div class="Ergebnisse_1">
+                <c:forEach var="krankheit" items="${context_krankheiten}">
+                    <div class="Ergebnisse_Box">
+                        ${krankheit.getIo_krankheit().getIv_name()}
                     </div>
-                </td>
-            </tr>
-        </table>
+                </c:forEach>
+            </div>
+            
+            <div class="Ergebnisse_2">
+                <c:forEach var="krankheit" items="${context_krankheiten}">
+                    <div class="Ergebnisse_Box">
+                        ${krankheit.getIv_akt_wahr_string()} %
+                    </div>
+                </c:forEach>
+            </div>
+            
+            <div class="Ergebnisse_3">
+                <c:forEach var="krankheit" items="${context_krankheiten}">
+                    <div class="Ergebnisse_Box">
+                        <form method ="post" action="/WebDoc_2015-war/main?p_action=read_more&p_krankheit=${krankheit.getIo_krankheit().getIv_name()}">
+                            <input type="submit" class="btn btn-default" style="font-size: xx-small; height: 20px; text-align: center" value=">" >
+                        </form>
+                    </div>
+                </c:forEach>
+            </div>
+            
+            <div class="Ergebnisse_4">
+                <jsp:include page="Inc_view.jsp"></jsp:include>
+            </div>
+        </div>
 
         <div style="height:80px"></div>
-
-        <form method ="post" action="/WebDoc_2015-war/main?p_step=p_step_symptome">
-            <input type="submit" class="btn btn-default" value ="zurück">
-        </form>
+        
+        <div class="button_zurueck">
+            <form method ="post" action="/WebDoc_2015-war/main?p_step=p_step_symptome">
+                <input type="submit" class="btn btn-default" value ="zurück">
+            </form>
+        </div>
 
     </body>
 </html>
