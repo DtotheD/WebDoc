@@ -17,11 +17,17 @@ import javax.persistence.NamedQuery;
  *
  * @author DEKREDAV
  * 
+ * Entität Symptom
+ * 
+ * Symptome bestehen aus einem Namen und einer automatisch generierten ID
+ * Sie werden in der Entität Bewertetes_Symptom genutzt um einer Krankheit ein
+ * Symptom mit bestimmter Bewertung zuzuweisen
  */
 
 @Entity
 @NamedQueries(
 {
+    //Für den Zugriff auf alle Symptome
    @NamedQuery(name = "Symptom.findAll", query = "SELECT r FROM CL_Symptom r")
 })
 
@@ -37,6 +43,7 @@ public class CL_Symptom implements Serializable {
         
     }
     
+    //Standardmethoden: Getter, Setter, equals, hashCode, toString
     public CL_Symptom(String pv_name){
         iv_name = pv_name;
     }

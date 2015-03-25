@@ -9,25 +9,30 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <!-- Bootstrap Core CSS -->
+        <link href="css/bootstrap.css" rel="stylesheet" type="text/css"/>
+
+        <!-- Custom CSS -->
+        <link href="css/bootstrap-theme.css" rel="stylesheet" type="text/css"/>
+        <link href="css/simple-sidebar.css" rel="stylesheet">
+
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>illness</h1>
+        <p style="font-size: x-large; color: #737373">Mögliche Krankheiten</p>
+        <hr style="color:dimgray">
+        <div style="height:20px"></div>
+
+        <p style="font-size: medium">Hier finden Sie die zu Ihren Symptomen passenden Krankheiten mit <br> entsprechender Beschreibung und Wahrscheinlichkeitsangabe.</p>
+
+        <div style="height:40px"></div>
 
         <table>
             <tr>
-                <th>
-                    Krankheiten
-                </th>
-                <th>
-                    Genauer
-                </th>
-            </tr>
-            <tr>
                 <td>
 
-                    <table id="krankheiten">
+                    <table id="krankheiten" class="table">
                         <c:forEach var="krankheit" items="${context_krankheiten}">
                             <tr>
                                 <td> 
@@ -38,7 +43,7 @@
                                 </td>
                                 <td>
                                     <form method ="post" action="/WebDoc_2015-war/main?p_action=read_more&p_krankheit=${krankheit.getIo_krankheit().getIv_name()}">
-                                        <input type="submit" value=">">  
+                                        <input type="submit" class="btn btn-default" style="font-size: xx-small" value=">">
                                     </form>
                                 </td>
                             </tr>
@@ -53,8 +58,10 @@
             </tr>
         </table>
 
+        <div style="height:80px"></div>
+
         <form method ="post" action="/WebDoc_2015-war/main?p_step=p_step_symptome">
-            <input type="submit" value ="zurück">
+            <input type="submit" class="btn btn-default" value ="zurück">
         </form>
 
     </body>

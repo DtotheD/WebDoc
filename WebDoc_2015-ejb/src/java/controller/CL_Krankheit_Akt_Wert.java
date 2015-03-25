@@ -25,7 +25,7 @@ public class CL_Krankheit_Akt_Wert implements Comparable<CL_Krankheit_Akt_Wert> 
     
     //Referenz auf Krankheit-Objekt
     private CL_Krankheit io_krankheit;
-    //Aktuelle Wahrscheinlichkeit als dezimal Wert
+    //Aktuelle Wahrscheinlichkeit als dezimaler Wert
     private double iv_akt_wahrscheinlichkeit;
     
     //Setzt Krankheit und errechnet direkt die aktuelle Wahrscheinlichkeit, anhand der mitgegebenen Symptome
@@ -41,7 +41,7 @@ public class CL_Krankheit_Akt_Wert implements Comparable<CL_Krankheit_Akt_Wert> 
      */
     public final double im_cal_akt_wahr(List<CL_Bewertetes_Symptom> po_gewaehlte_Symptome){
         
-        iv_akt_wahrscheinlichkeit = 0.0 ;
+        double lv_akt_wahrscheinlichkeit = 0.0 ;
         //Symptome zu Krankheit holen
         ArrayList<CL_Bewertetes_Symptom> lo_symptome_list = io_krankheit.getIo_symptome();
         //Alle gewählten Symptome durchlaufen
@@ -49,11 +49,11 @@ public class CL_Krankheit_Akt_Wert implements Comparable<CL_Krankheit_Akt_Wert> 
             //Falls gewähltes Symptom ein Symptom der Krankheit ist            
             if (lo_symptome_list.contains(lo_symptom)){  
                 //Wert um 10 für getroffenes Symptom plus Wert des Symptoms erhöhen
-                iv_akt_wahrscheinlichkeit = iv_akt_wahrscheinlichkeit + 10 + lo_symptom.getIv_wert();
+                lv_akt_wahrscheinlichkeit = lv_akt_wahrscheinlichkeit + 10 + lo_symptom.getIv_wert();
             }
         }                    
         //aktueller Wert durch max Wert = Wahrscheinlcihkeit
-        return iv_akt_wahrscheinlichkeit / io_krankheit.getIv_max_wert();
+        return lv_akt_wahrscheinlichkeit / io_krankheit.getIv_max_wert();
     }
     
     /**

@@ -9,66 +9,58 @@
 <html lang="en">
 
     <head>
-
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="">
-        <meta name="author" content="">
-
-        <title>Simple Sidebar - Start Bootstrap Template</title>
-
         <!-- Bootstrap Core CSS -->
         <link href="css/bootstrap.css" rel="stylesheet">
 
         <!-- Custom CSS -->
         <link href="css/bootstrap-theme.css" rel="stylesheet" type="text/css"/>
         <link href="css/simple-sidebar.css" rel="stylesheet">
-
-        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-        <!--[if lt IE 9]>
-            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-        <![endif]-->
-
+        <title>WebDoc</title>
     </head>
-
     <body>
         <!-- Navbar -->
         <div class="bs-example">
-            <nav role="navigation" class="navbar navbar-default">
+            <nav role="navigation" class="navbar navbar-default" style="border-radius: 3px">
                 <!-- Brand and toggle get grouped for better mobile display -->
 
                 <div class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav navbar-left"></ul>
+                    <ul class="nav navbar-nav navbar-left" style="padding-left: 10px; margin-top: 10px">
+                        <p style="font-size: x-large">Herzlich Willkommen bei WebDoc</p>
+                    </ul>
 
                     <ul class="nav navbar-nav navbar-right">
-                        <h1>WebDoc &nbsp &nbsp </h1>
+
                     </ul>
                 </div>
 
             </nav>
         </div>
-
-        ${context_message}
-
-            <c:if test="${empty context_alle_symptome}">
-                <a href="main?p_action=create_dtb">
-                    <!-- <img src="img/nav_edit.png" alt=""> -->
-                    create DTB
-                </a>
-            </c:if>
-
-        <div class="container_left" style="width: 95%">
+        <div class="container_left">
             <div class="col-md-4">
-                <img src="Images/wartezimmer_2.jpg" alt="" style="width:100%;height:auto;opacity:0.6;"/>  
+                <img src="Images/wartezimmer_2_klein.jpg" alt="" style="width:90%;height:auto;opacity:0.6; border-radius: 15px"/>  
             </div>
 
-            <div class="col-md-8"> <jsp:include page="${context_inhalt}"></jsp:include></div>
+            <div class="col-md-8"><jsp:include page="${context_inhalt}"></jsp:include></div>
 
             </div>
+            <div class="container_bottom">
 
-        
+                <div class="col-md-6" style="text-align: right; margin-top: 15px; margin-bottom: 4px; padding-right: 85px">
+                <c:if test="${not empty context_message}">
+                    <img src="Images/Ausrufezeichen_1.png" alt="" style="width:25px;height:25px"/>
+                    ${context_message}
+                </c:if>
+            </div>
+
+            <div class="col-md-6" style="text-align: right; margin-top: 5px; margin-bottom: 5px">
+                <c:if test="${empty context_alle_symptome}">
+                    <a href="main?p_action=create_dtb">
+                        <!-- <img src="img/nav_edit.png" alt=""> -->
+                        <img src="Images/datenbank-gr.png" alt="" style="width:40px;height:40px"/>
+                    </a>
+                </c:if>
+            </div>
+
+        </div>
     </body>
 </html>

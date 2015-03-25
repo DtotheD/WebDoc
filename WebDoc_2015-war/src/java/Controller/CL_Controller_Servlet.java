@@ -112,7 +112,7 @@ public class CL_Controller_Servlet extends HttpServlet {
         HttpSession lo_session = po_request.getSession(true);
 
         //Template Auswahl - Wenn diese Variable gesetzt ist, wurde bereits Aktion durchgeführt
-        String lv_inhalt = "";
+        String lv_inhalt;
 
         //Standardmeldung Meldung festlegen
         String lv_message = "";
