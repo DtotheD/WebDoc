@@ -17,6 +17,8 @@ import javax.persistence.ManyToMany;
 /**
  *
  * @author DEKREDAV
+ * Entityklasse für Empfehlungen
+ * Empfehlungen werden Krankheiten zugeordnet
  */
 @Entity
 public class CL_Empfehlung implements Serializable {

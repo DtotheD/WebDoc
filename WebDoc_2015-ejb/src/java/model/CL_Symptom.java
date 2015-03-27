@@ -17,7 +17,9 @@ import javax.persistence.NamedQuery;
  *
  * @author DEKREDAV
  * 
- * Entität Symptom
+ * Entität Symptom 
+ * Jedes Smptom hat einen Namen
+ * Symptome werden für bewertete Symptome benötigt
  * 
  * Symptome bestehen aus einem Namen und einer automatisch generierten ID
  * Sie werden in der Entität Bewertetes_Symptom genutzt um einer Krankheit ein

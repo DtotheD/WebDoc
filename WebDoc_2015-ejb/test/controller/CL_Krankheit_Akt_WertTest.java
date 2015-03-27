@@ -21,6 +21,13 @@ import model.CL_Krankheit;
 /**
  *
  * @author DEDEUTIZ
+ * 
+ * Klasse zum Testen der Methode für die Berechung der Wahrscheinlichkeit
+ * Getestet werden 4 Fälle 
+ * 1 Alle Symptome getroffen
+ * 2 Nur Teilmenge getroffen
+ * 3 Mehr ausgewählte Symptome als Krankheit besitzt
+ * 4 keine ausgewählten Symptome
  */
 public class CL_Krankheit_Akt_WertTest {
 

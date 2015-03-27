@@ -18,6 +18,9 @@ import model.CL_Symptom;
 /**
  *
  * @author DEDEUTIZ
+ *
+ * Diese Klasse dient der Befüllung der DB Falls die DB leer ist kann sie durch
+ * das Servlet ausgeführt werdem
  */
 @Stateless(name = "CL_Create_DB_Data_Bean")
 @LocalBean
@@ -29,7 +32,7 @@ public class CL_Create_DB_Data_Bean {
     public void im_create_db() {
 
         io_em.setFlushMode(FlushModeType.AUTO);
-
+//Symptome
         CL_Symptom lo_symptom_1 = new CL_Symptom("Husten");
         CL_Symptom lo_symptom_2 = new CL_Symptom("Fieber");
         CL_Symptom lo_symptom_3 = new CL_Symptom("Kopfschmerzen");
@@ -153,7 +156,7 @@ public class CL_Create_DB_Data_Bean {
 
         lo_erkaeltung.addBeschreibung("Erkältung (österreichisch auch Verkühlung) und grippaler Infekt sind alltagssprachliche, medizinisch nicht scharf definierte Bezeichnungen für eine akute Infektionskrankheit der Schleimhaut von Nase (einschließlich der Nebenhöhlen), Hals oder Bronchien. Die Infektionskrankheit wird überwiegend von sehr unterschiedlichen Viren, manchmal zusätzlich auch von Bakterien verursacht (Sekundärinfektion, in diesem Zusammenhang auch Superinfektion genannt).");
         lo_erkaeltung.addBeschreibung("Die häufigsten Erkältungsviren gehören zu den Virusgattungen der Rhino-, Entero- und Mastadenoviren oder den Familien der Corona- und Paramyxoviridae.");
-        
+
         lo_erkaeltung.addEmpfehlung(lo_empfhelung_2);
         lo_erkaeltung.addEmpfehlung(lo_empfhelung_3);
         lo_erkaeltung.addEmpfehlung(lo_empfhelung_5);
@@ -167,7 +170,7 @@ public class CL_Create_DB_Data_Bean {
         lo_schild.addSymptom(lo_gewicht_10);
 
         lo_schild.addBeschreibung("Die Hyperthyreose ist eine krankhafte Überfunktion der Schilddrüse, die sich in einer übermäßigen Produktion von Schilddrüsenhormonen äußert, so dass im Organismus ein entsprechendes Überangebot entsteht.");
-        
+
         lo_schild.addEmpfehlung(lo_empfhelung_1);
 
         //Reizdarm
@@ -179,7 +182,7 @@ public class CL_Create_DB_Data_Bean {
 
         lo_reiz.addBeschreibung("In der Medizin (Gastroenterologie) bezeichnet der Begriff Reizdarmsyndrom (RDS) eine Gruppe funktioneller Darmerkrankungen, die eine hohe Prävalenz (Krankheitshäufigkeit in der Bevölkerung) haben und bis zu 50 % der Besuche beim Spezialisten ausmachen.");
         lo_reiz.addBeschreibung("Das Reizdarmsyndrom kann Symptome aller möglichen Darmerkrankungen nachahmen, ist jedoch, wenn diese Erkrankungen ausgeschlossen sind, ungefährlich.");
-       
+
         lo_reiz.addEmpfehlung(lo_empfhelung_1);
         lo_reiz.addEmpfehlung(lo_empfhelung_2);
         lo_reiz.addEmpfehlung(lo_empfhelung_3);

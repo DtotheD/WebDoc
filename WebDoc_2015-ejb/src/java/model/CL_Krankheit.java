@@ -19,6 +19,8 @@ import javax.persistence.ManyToOne;
 /**
  *
  * @author DEKREDAV
+ * Entityklasse für Krankheiten
+ * Jede Krankheit hat Empfehlungen und Bewertete Symptome einen Namen und einen Max Wert für die spätere Bewertung
  */
 @Entity
 public class CL_Krankheit implements Serializable {

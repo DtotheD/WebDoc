@@ -15,6 +15,8 @@ import javax.persistence.NamedQuery;
 /**
  *
  * @author DEZAPTHO
+ * Entityklasse für Bewertete Symptome 
+ * Jedes bewertete Symptom enthält ein Symptom und einen Wert der für die spätere Bewertung der Krankheit benötigt wird
  * 
  */
 
