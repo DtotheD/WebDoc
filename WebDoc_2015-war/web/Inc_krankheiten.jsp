@@ -20,9 +20,7 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <p style="font-size: x-large; color: #737373">Mögliche Krankheiten</p>
-        <hr style="color:dimgray">
-        <div style="height:20px"></div>
+        <h3 style="color:dimgray">Mögliche Krankheiten</h3>
 
         <p style="font-size: medium">Hier finden Sie die zu Ihren Symptomen passenden Krankheiten mit <br> entsprechender Beschreibung und Wahrscheinlichkeitsangabe.</p>
 

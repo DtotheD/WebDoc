@@ -21,9 +21,7 @@
     </head>
     <body>
         <c:if test="${not empty context_genauere_krankheit}">
-            <p style="font-size: x-large; color: #737373">${context_genauere_krankheit.getIo_krankheit().getIv_name()}</p>
-
-            <div style="height:20px"></div>
+            <h3 style="color:dimgray">${context_genauere_krankheit.getIo_krankheit().getIv_name()}</h3>
 
             <div>                               
                 <c:forEach var="beschreibung" items="${context_genauere_krankheit.getIo_krankheit().getIo_beschreibung()}">
@@ -35,7 +33,7 @@
             <div style="height:10px"></div>
 
             <div>
-                <h3> Dr. WebDoc empfiehlt:</h3>
+                <h3 style="color:dimgray"> Dr. WebDoc empfiehlt:</h3>
                 <ul style="list-style-type:square">
                     <c:forEach var="empfehlung" items="${context_genauere_krankheit.getIo_krankheit().getIo_empfehlungen()}">
                         <li>
@@ -48,7 +46,7 @@
             <div style="height:10px"></div>
 
             <div>
-                <h3>Bekannte Symptome:</h3>
+                <h3 style="color:dimgray">Bekannte Symptome:</h3>
                 <ul style="list-style-type:square">
                     <c:forEach var="symptom" items="${context_genauere_krankheit.getIo_krankheit().getIo_symptome()}">
                         <li>

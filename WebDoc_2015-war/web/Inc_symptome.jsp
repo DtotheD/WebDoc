@@ -28,39 +28,40 @@
 
         <div style="height:40px"></div>
         <ul style="list-style-type:square"> 
-            <c:forEach var="symptom" items="${context_patient_symptome}">             
-                <form method ="post" action="/WebDoc_2015-war/main?p_action=del_symptom&p_del_symptom=${symptom.getIv_name()}">
-                    <li> ${symptom.getIv_name()} &nbsp
-                        <input type="image" src="Images/Minus-rot.jpg" style="width:30px;height:30px" alt="-">
-                    </li>
-                </form>
-            </c:forEach>
-        </ul>
-
-        <div style="height:20px"></div>
-
-        <c:if test="${context_patient_symptome.size() < 10}" >
-
-            <form method = "post" action="/WebDoc_2015-war/main?p_action=add_symptom">
-                <input type=text list=symptome name="input_symptom" >            
-                <datalist id=symptome >
-                    <c:forEach var="symptom" items="${context_alle_symptome}" >
-                        <option class="combobox" style="height: 50px"> ${symptom.getIv_name()}</option>
-                    </c:forEach>
-                </datalist>
-                <input type="submit" class="btn btn-default" style="font-size: small" value="add">
+            <c:forEach var="symptom" items="${context_patient_symptome}">
+                    <form method ="post" action="/WebDoc_2015-war/main?p_action=del_symptom&p_del_symptom=${symptom.getIv_name()}">
+                <li style=" height: 30px"> 
+                    <div class="Symptom_Text">${symptom.getIv_name()}</div>
+                    <div class="Symptom_Bild"><input type="image" src="Images/Minus-rot.jpg" style="width:20px;height:20px" alt="-"></div>
+                </li>
             </form>
+        </c:forEach>
+    </ul>
 
-        </c:if>
+    <div style="height:20px"></div>
 
-        <div style="height:100px"></div>
+    <c:if test="${context_patient_symptome.size() < 10}" >
 
-        <form method = "post" action="/WebDoc_2015-war/main?p_action=suche_krankheiten">
-
-            <input type ="submit" class="btn btn-default" value ="weiter">
-
+        <form method = "post" action="/WebDoc_2015-war/main?p_action=add_symptom">
+            <input type=text list=symptome name="input_symptom" style="height: 31px; border-radius: 5px">            
+            <datalist id=symptome >
+                <c:forEach var="symptom" items="${context_alle_symptome}" >
+                    <option class="combobox" > ${symptom.getIv_name()}</option>
+                </c:forEach>
+            </datalist>
+            <input type="submit" class="btn btn-default" style="font-size: small" value="hinzufügen">
         </form>
 
-    </body>
+    </c:if>
+
+    <div style="height:100px; bottom: 60px"></div>
+
+    <form method = "post" action="/WebDoc_2015-war/main?p_action=suche_krankheiten">
+
+        <input type ="submit" class="btn btn-default" value ="weiter">
+
+    </form>
+
+</body>
 </html>
 
