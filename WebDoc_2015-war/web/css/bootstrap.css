@@ -1635,7 +1635,7 @@ pre code {
 
 .Symptom_Bild{
     float: left;
-    width: 80%;
+    width: 30%;
 }
 
 .button_zurueck {
@@ -1645,8 +1645,7 @@ pre code {
 }
 
 .container_bottom {
-    background-color: rgba(120,120,120, 1); 
-    
+    background-color: lightgray; 
     width: 100%;
     height: 50px; 
     border-radius: 5px; 

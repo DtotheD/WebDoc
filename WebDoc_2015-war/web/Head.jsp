@@ -47,7 +47,7 @@
             </div>
             <div class="container_bottom">
 
-                <div class="col-md-6" style="text-align: right; margin-top: 15px; margin-bottom: 4px; padding-right: 85px">
+                <div class="col-md-6" style="text-align: left; margin-top: 15px; margin-bottom: 4px; padding-right: 85px">
                 <c:if test="${not empty context_message}">
                     <img src="Images/Ausrufezeichen_1.png" alt="" style="width:25px;height:25px"/>
                     ${context_message}
