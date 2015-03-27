@@ -21,7 +21,7 @@ import model.CL_Krankheit;
  * Es wird das Interface comparable implementiert um Listen dieser Klasse direkt nach
  * ihrer Wahrscheinlichkeit zu sortieren ohne die Sortierung explizit zu implementieren.
  */
-public class CL_Krankheit_Akt_Wert implements Comparable<CL_Krankheit_Akt_Wert> {
+public class CL_Krankheit_Akt_Wahr implements Comparable<CL_Krankheit_Akt_Wahr> {
     
     //Referenz auf Krankheit-Objekt
     private CL_Krankheit io_krankheit;
@@ -29,7 +29,7 @@ public class CL_Krankheit_Akt_Wert implements Comparable<CL_Krankheit_Akt_Wert> 
     private double iv_akt_wahrscheinlichkeit;
     
     //Setzt Krankheit und errechnet direkt die aktuelle Wahrscheinlichkeit, anhand der mitgegebenen Symptome
-    public CL_Krankheit_Akt_Wert(List<CL_Bewertetes_Symptom> po_gewaehlte_Symptome, CL_Krankheit po_krankheit){
+    public CL_Krankheit_Akt_Wahr(List<CL_Bewertetes_Symptom> po_gewaehlte_Symptome, CL_Krankheit po_krankheit){
         io_krankheit = po_krankheit;
         iv_akt_wahrscheinlichkeit = im_cal_akt_wahr(po_gewaehlte_Symptome);
     }
@@ -75,7 +75,7 @@ public class CL_Krankheit_Akt_Wert implements Comparable<CL_Krankheit_Akt_Wert> 
      * anhand ihrer Wahrscheinlichkeit verglichen werden
      */
     @Override
-    public int compareTo(CL_Krankheit_Akt_Wert po_krankheit_akt_wert){
+    public int compareTo(CL_Krankheit_Akt_Wahr po_krankheit_akt_wert){
         
         //Die Werte sind gleich
         if(po_krankheit_akt_wert.getIv_akt_wahrscheinlichkeit() == this.iv_akt_wahrscheinlichkeit)

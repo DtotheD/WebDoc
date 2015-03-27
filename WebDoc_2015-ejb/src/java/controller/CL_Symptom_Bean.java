@@ -32,7 +32,8 @@ public class CL_Symptom_Bean {
      * Liest alle Symptome aus der Datenbank aus.
      */
     public List<CL_Symptom> im_getAllSymptoms() {
-
+        
+        //Datenbankzugriff über Query "Symptom.findAll" ohne Parameter
         List<CL_Symptom> roles = io_em.createNamedQuery("Symptom.findAll", CL_Symptom.class).getResultList();
         return roles;
     }

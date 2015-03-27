@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.ejb.EJB;
 import model.CL_Symptom;
-import controller.CL_Krankheit_Akt_Wert;
+import controller.CL_Krankheit_Akt_Wahr;
 import controller.CL_Symptom_Bean;
 import controller.CL_Create_DB_Data_Bean;
 import controller.CL_Hole_Krankheiten_Bean;
@@ -137,10 +137,10 @@ public class CL_Controller_Servlet extends HttpServlet {
         String lv_bisheriger_inhalt = (String) lo_session.getAttribute("context_inhalt");
 
         //Krankheitsliste auslesen
-        ArrayList<CL_Krankheit_Akt_Wert> lo_krankheiten = (ArrayList<CL_Krankheit_Akt_Wert>) lo_session.getAttribute("context_krankheiten");
+        ArrayList<CL_Krankheit_Akt_Wahr> lo_krankheiten = (ArrayList<CL_Krankheit_Akt_Wahr>) lo_session.getAttribute("context_krankheiten");
 
         //Genauer zu betrachtende Krankheit auslesen
-        CL_Krankheit_Akt_Wert lo_genauere_krankheit = (CL_Krankheit_Akt_Wert) lo_session.getAttribute("context_genauere_krankheit");
+        CL_Krankheit_Akt_Wahr lo_genauere_krankheit = (CL_Krankheit_Akt_Wahr) lo_session.getAttribute("context_genauere_krankheit");
 
         // URL-Parameter auslesen
         String step = po_request.getParameter("p_step");
@@ -233,7 +233,7 @@ public class CL_Controller_Servlet extends HttpServlet {
         //Kranheit genauer betrachten
         else if (action != null && action.equalsIgnoreCase("read_more")) {
             //Suche der Krankheiten über den als Parameter übergebenen Namen
-            CL_Krankheit_Akt_Wert lo_gewaehlte_Krankheit = im_krankheit_ueber_name(iv_gewaehlte_kranheit_name, lo_krankheiten);
+            CL_Krankheit_Akt_Wahr lo_gewaehlte_Krankheit = im_krankheit_ueber_name(iv_gewaehlte_kranheit_name, lo_krankheiten);
             //Prüfe ob Krankheit gefunden wurde
             if (lo_gewaehlte_Krankheit != null) {
                 lo_genauere_krankheit = lo_gewaehlte_Krankheit;
@@ -310,10 +310,10 @@ public class CL_Controller_Servlet extends HttpServlet {
      * Genutzt um bei Butto(Read-More), der den Krankheitsnamen mitgibt,
      * die entsprechende Krankheit zu wählen.
      */
-    protected CL_Krankheit_Akt_Wert im_krankheit_ueber_name(String pv_krankheit_name, List<CL_Krankheit_Akt_Wert> po_krankheitsliste) {
+    protected CL_Krankheit_Akt_Wahr im_krankheit_ueber_name(String pv_krankheit_name, List<CL_Krankheit_Akt_Wahr> po_krankheitsliste) {
         //Der Name jeder krankheit der Liste mit dem mitgegebenen Namen vergleichen und bei Übereinstimmung
         //die Krankheit zurück geben. Sonst wird null zurückgegeben.
-        for (CL_Krankheit_Akt_Wert lo_krankheit : po_krankheitsliste) {
+        for (CL_Krankheit_Akt_Wahr lo_krankheit : po_krankheitsliste) {
             if (lo_krankheit.getIo_krankheit().getIv_name().equalsIgnoreCase(pv_krankheit_name)) {
                 return lo_krankheit;
             }

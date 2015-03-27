@@ -103,9 +103,9 @@ public class CL_Krankheit_Akt_WertTest {
         lo_gewaehlte_symptome.add(lo_glieder_7);
         lo_gewaehlte_symptome.add(lo_fieber_9);
 
-        CL_Krankheit_Akt_Wert lo_akt_wert_krankheit = new CL_Krankheit_Akt_Wert(lo_gewaehlte_symptome, lo_grippe);
+        CL_Krankheit_Akt_Wahr lo_akt_wert_krankheit = new CL_Krankheit_Akt_Wahr(lo_gewaehlte_symptome, lo_grippe);
       
-        CL_Krankheit_Akt_Wert instance = lo_akt_wert_krankheit;
+        CL_Krankheit_Akt_Wahr instance = lo_akt_wert_krankheit;
         
         double expResult = 0.9;
         
@@ -159,9 +159,9 @@ public class CL_Krankheit_Akt_WertTest {
 
         lo_gewaehlte_symptome.add(lo_kopfschmerzen_8);
 
-        CL_Krankheit_Akt_Wert lo_akt_wert_krankheit = new CL_Krankheit_Akt_Wert(lo_gewaehlte_symptome, lo_erkaeltung);
+        CL_Krankheit_Akt_Wahr lo_akt_wert_krankheit = new CL_Krankheit_Akt_Wahr(lo_gewaehlte_symptome, lo_erkaeltung);
       
-        CL_Krankheit_Akt_Wert instance = lo_akt_wert_krankheit;
+        CL_Krankheit_Akt_Wahr instance = lo_akt_wert_krankheit;
         
         double expResult = 0.33;
         
@@ -213,9 +213,9 @@ public class CL_Krankheit_Akt_WertTest {
 
         ArrayList<CL_Bewertetes_Symptom> lo_gewaehlte_symptome = new ArrayList<>();
 
-        CL_Krankheit_Akt_Wert lo_akt_wert_krankheit = new CL_Krankheit_Akt_Wert(lo_gewaehlte_symptome, lo_grippe);
+        CL_Krankheit_Akt_Wahr lo_akt_wert_krankheit = new CL_Krankheit_Akt_Wahr(lo_gewaehlte_symptome, lo_grippe);
       
-        CL_Krankheit_Akt_Wert instance = lo_akt_wert_krankheit;
+        CL_Krankheit_Akt_Wahr instance = lo_akt_wert_krankheit;
         
         double expResult = 0.0;
         
@@ -269,9 +269,9 @@ public class CL_Krankheit_Akt_WertTest {
         lo_gewaehlte_symptome.add(lo_kopfschmerzen_8);
         lo_gewaehlte_symptome.add(lo_halsschmerzen_7);
 
-        CL_Krankheit_Akt_Wert lo_akt_wert_krankheit = new CL_Krankheit_Akt_Wert(lo_gewaehlte_symptome, lo_grippe);
+        CL_Krankheit_Akt_Wahr lo_akt_wert_krankheit = new CL_Krankheit_Akt_Wahr(lo_gewaehlte_symptome, lo_grippe);
       
-        CL_Krankheit_Akt_Wert instance = lo_akt_wert_krankheit;
+        CL_Krankheit_Akt_Wahr instance = lo_akt_wert_krankheit;
         
         double expResult = 0.45;
         
