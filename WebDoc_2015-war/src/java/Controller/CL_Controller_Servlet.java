@@ -52,8 +52,6 @@ import controller.CL_Hole_Krankheiten_Bean;
  *  gespeichert. Über diese wird auf Namen, Beschreibung und Empfehlung zugegriffen
  *
  * Abgefragte Anfrage-Parameter:
- * p_step:
- *  Gibt an wohin navigiert werden soll (Welchen Inhalt das Template haben soll).
  * p_action:
  *  Gibt an welche Aktion ausgeführt werden soll.
  * p_del_symptom:
@@ -143,8 +141,7 @@ public class CL_Controller_Servlet extends HttpServlet {
         CL_Krankheit_Akt_Wahr lo_genauere_krankheit = (CL_Krankheit_Akt_Wahr) lo_session.getAttribute("context_genauere_krankheit");
 
         // URL-Parameter auslesen
-        String step = po_request.getParameter("p_step");
-        String action = po_request.getParameter("p_action");
+        String lv_action = po_request.getParameter("p_action");
         String lv_geloeschtes_symptom_name = po_request.getParameter("p_del_symptom");
         String iv_gewaehlte_kranheit_name = po_request.getParameter("p_krankheit");
 
@@ -155,7 +152,7 @@ public class CL_Controller_Servlet extends HttpServlet {
         //Useractionen bearbeiten
         
         //DTB anlegen action = "create_dtb":
-        if (action != null && action.equalsIgnoreCase("create_dtb")) {
+        if (lv_action != null && lv_action.equalsIgnoreCase("create_dtb")) {
             //Datenbank anlegen
             //! DTB-Zugriff
             io_create_db_data_bean.im_create_db();
@@ -166,7 +163,7 @@ public class CL_Controller_Servlet extends HttpServlet {
             lv_inhalt = lv_bisheriger_inhalt;
         }
         //Symptom hinzufügen 
-        else if (action != null && action.equalsIgnoreCase("add_symptom")) {
+        else if (lv_action != null && lv_action.equalsIgnoreCase("add_symptom")) {
             // Symptom über Symptomname suchen
             CL_Symptom lo_neues_Symptom = im_suche_symptom_ueber_name(lv_gewaehlte_symptom_name, lo_symptome);
             //prüfen, ob Symptom gefunden wurde
@@ -198,7 +195,7 @@ public class CL_Controller_Servlet extends HttpServlet {
             lv_inhalt =  "Inc_symptome.jsp";
         }
         //Symptom löschen
-        else if (action != null && action.equalsIgnoreCase("del_symptom")) {   
+        else if (lv_action != null && lv_action.equalsIgnoreCase("del_symptom")) {   
             //Symptom über Symptomname suchen
             CL_Symptom lo_del_Symptom = im_suche_symptom_ueber_name(lv_geloeschtes_symptom_name, lo_patient_symptome); 
             //prüfen ob Symptom gefunden wurde
@@ -215,7 +212,7 @@ public class CL_Controller_Servlet extends HttpServlet {
             lv_inhalt = lv_bisheriger_inhalt;
         }
         //Aus Symptomen Krankheiten finden
-        else if (action != null && action.equalsIgnoreCase("suche_krankheiten")) {
+        else if (lv_action != null && lv_action.equalsIgnoreCase("suche_krankheiten")) {
             //Suche startet nur falls Symptome ausgewählt wurden
             if (lo_patient_symptome.size() > 0) {
                 //Krankheiten mit den zu den Symptomen passenden Wahrscheinlichkeiten von der Bean geben lassen
@@ -231,7 +228,7 @@ public class CL_Controller_Servlet extends HttpServlet {
             }
         }
         //Kranheit genauer betrachten
-        else if (action != null && action.equalsIgnoreCase("read_more")) {
+        else if (lv_action != null && lv_action.equalsIgnoreCase("read_more")) {
             //Suche der Krankheiten über den als Parameter übergebenen Namen
             CL_Krankheit_Akt_Wahr lo_gewaehlte_Krankheit = im_krankheit_ueber_name(iv_gewaehlte_kranheit_name, lo_krankheiten);
             //Prüfe ob Krankheit gefunden wurde
@@ -244,7 +241,7 @@ public class CL_Controller_Servlet extends HttpServlet {
             lv_inhalt = "Inc_krankheiten.jsp";
         }
         //Navigations-Button: Symptome
-        else if (step == null || step.equalsIgnoreCase("p_step_symptome")) {
+        else if (lv_action == null || lv_action.equalsIgnoreCase("to_symptome")) {
             //genauer zu betrachtende Krankheit löschen, da das Template mit diesem Verlassen wird
             lo_genauere_krankheit = null;
             //Template auswählen

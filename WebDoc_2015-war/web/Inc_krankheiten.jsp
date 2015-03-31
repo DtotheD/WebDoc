@@ -63,7 +63,7 @@
         <div style="height:80px"></div>
         
         <div class="button_zurueck">
-            <form method ="post" action="/WebDoc_2015-war/main?p_step=p_step_symptome">
+            <form method ="post" action="/WebDoc_2015-war/main?p_action=to_symptome">
                 <input type="submit" class="btn btn-default" value ="zurück">
             </form>
         </div>
