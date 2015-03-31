@@ -56,7 +56,7 @@
 
         <div style="height:100px; bottom: 60px"></div>
 
-        <c:if test="${context_patient_symptome.size() > 1}" >
+        <c:if test="${context_patient_symptome.size() > 0}" >
 
             <form method = "post" action="/WebDoc_2015-war/main?p_action=suche_krankheiten">
 
