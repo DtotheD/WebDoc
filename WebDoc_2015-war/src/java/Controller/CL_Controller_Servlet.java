@@ -205,10 +205,10 @@ public class CL_Controller_Servlet extends HttpServlet {
                 //Meldung
                 lv_message = "Symptom gelöscht";
             } else {
-                //Meldung
+                //Meldung - kann nur bei manueller URL-Eingabe auftreten
                 lv_message = "Fehler!";
             }
-            //Template auswählen
+            //auf aktueller Seite bleiben
             lv_inhalt = lv_bisheriger_inhalt;
         }
         //Aus Symptomen Krankheiten finden
@@ -233,12 +233,14 @@ public class CL_Controller_Servlet extends HttpServlet {
             CL_Krankheit_Akt_Wahr lo_gewaehlte_Krankheit = im_krankheit_ueber_name(iv_gewaehlte_kranheit_name, lo_krankheiten);
             //Prüfe ob Krankheit gefunden wurde
             if (lo_gewaehlte_Krankheit != null) {
+                //genauer zu betrachtende Krankheit setzen und auf Seite bleiben
                 lo_genauere_krankheit = lo_gewaehlte_Krankheit;
+                lv_inhalt = "Inc_krankheiten.jsp";
             } else {
-                //Meldung - Fehler der nur bei manueller URL-Eingabe auftreten kann
+                //Meldung - Fehler der nur bei manueller URL-Eingabe auftreten kann - aktuelle Seite beibehalten
                 lv_message = "Fehler!";
-            }
-            lv_inhalt = "Inc_krankheiten.jsp";
+                lv_inhalt = lv_bisheriger_inhalt;
+            }   
         }
         //Navigations-Button: Symptome
         else if (lv_action == null || lv_action.equalsIgnoreCase("to_symptome")) {
